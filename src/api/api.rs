@@ -1,40 +1,40 @@
-use reqwest;
-use serde_json::{Value};
+// use reqwest;
+// use serde_json::{Value};
 
-use crate::data::podcast;
+// use crate::data::podcast;
 
 
-fn build_request(terms: &str, url: Option<String>) -> String {
-    let number_of_search_results: i8 = 2;
-    let result: String;
-    if url.is_none() {
-        result = format!("https://itunes.apple.com/search?term={}&entity=podcast&limit={}", terms, number_of_search_results);
-    } else {
-        result = url.unwrap();
-    }
-    result
-}
+// fn build_request(terms: &str, url: Option<String>) -> String {
+//     let number_of_search_results: i8 = 2;
+//     let result: String;
+//     if url.is_none() {
+//         result = format!("https://itunes.apple.com/search?term={}&entity=podcast&limit={}", terms, number_of_search_results);
+//     } else {
+//         result = url.unwrap();
+//     }
+//     result
+// }
 
-#[tokio::main]
-pub async fn search(_terms: &str) -> Result<Value, Box<dyn std::error::Error>> {
-    let client = reqwest::Client::builder()
-        .build()?;
+// #[tokio::main]
+// pub async fn search(_terms: &str) -> Result<Value, Box<dyn std::error::Error>> {
+//     let client = reqwest::Client::builder()
+//         .build()?;
 
-    let url = build_request(_terms, None);
+//     let url = build_request(_terms, None);
 
-    let res = client
-        .get(url)
-        .send()
-        .await?
-        .text()
-        .await?;
+//     let res = client
+//         .get(url)
+//         .send()
+//         .await?
+//         .text()
+//         .await?;
 
-    let p: Value = serde_json::from_str(&res[..])?;
+//     let p: Value = serde_json::from_str(&res[..])?;
 
-    // println!("{}", p["results"][0]);
+//     // println!("{}", p["results"][0]);
 
-    Ok(p)
-}
+//     Ok(p)
+// }
 
 
 // #[cfg(test)]
