@@ -28,8 +28,11 @@ fn read_categories(conn: Connection) -> Result<Vec<Category>, Error> {
 
 fn update_category_by_id(conn: Connection, id: i8, name: String) -> Result<usize, Error> {
     let result = conn.execute("UPDATE categories SET name=(?1) where id=(?2)", params![name, id])?;
-    // Ok(temp)
-    // let result: bool = true;
+    Ok(result)
+}
+
+fn delete_category_by_id(conn: Connection, id: i8) -> Result<usize, Error> {
+    let result = conn.execute("DELETE FROM categories where id=(?1)", params![id])?;
     Ok(result)
 }
 
@@ -110,6 +113,13 @@ mod tests {
     fn test_update_category_by_id() {
         let _conn = TestContext::new();
         let res = update_category_by_id(_conn.conn, 1, String::from("News-new")).unwrap();
+        assert_eq!(res, 1);
+    }
+
+    #[test]
+    fn test_delete_category_by_id() {
+        let _conn = TestContext::new();
+        let res = delete_category_by_id(_conn.conn, 1).unwrap();
         assert_eq!(res, 1);
     }
 }

@@ -9,6 +9,7 @@ mod menu {
 mod data {
     pub mod data;
     pub mod category;
+    pub mod podcast;
 }
 
 use rusqlite::{ Connection, Error, Result, params };
