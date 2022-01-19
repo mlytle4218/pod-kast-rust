@@ -10,7 +10,7 @@ CREATE TABLE podcasts (
 	name VARCHAR(250), 
 	url VARCHAR(250), 
 	audio VARCHAR(250), 
-	video VARCHAR(250), category varchar(250), 
+	video VARCHAR(250),
 	category_id INTEGER, veiwed Integer,
 	PRIMARY KEY (podcast_id), 
 	FOREIGN KEY(category_id) REFERENCES categories (category_id)

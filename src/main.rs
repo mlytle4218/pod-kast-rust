@@ -7,7 +7,7 @@ mod menu {
 }
 
 mod data {
-    pub mod data;
+    // pub mod data;
     pub mod category;
     pub mod podcast;
     pub mod episode;
@@ -15,5 +15,10 @@ mod data {
 }
 
 fn main()  {
-    
+    let result = api::api::search("News").unwrap();
+    // match api::api::search("News"){
+    //     Ok(result) => println!("{:?}", result),
+    //     Err(err) => println!("{}", err)
+    // }
+    println!("{:?}", result);
 }
