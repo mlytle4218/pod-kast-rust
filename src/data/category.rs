@@ -1,9 +1,9 @@
 use rusqlite::{params, Connection, Error, Result};
 
 #[derive(Debug)]
-struct Category {
-    id: i32,
-    name: String,
+pub struct Category {
+    pub id: i32,
+    pub name: String,
 }
 impl Category {
     pub fn new() -> Category {

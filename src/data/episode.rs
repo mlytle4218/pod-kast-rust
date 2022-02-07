@@ -5,12 +5,12 @@ use super::podcast::Podcast;
 
 #[derive(Debug)]
 pub struct Episode {
-    pub id: i32,
+    pub id: i64,
     pub title: String,
     pub published: DateTime<Utc>,
     pub summary: String,
     pub length: i32,
-    pub audio: i8,
+    pub audio: String,
     pub url: String,
     pub downloaded: i8,
     pub podcast_id: i16,
@@ -23,18 +23,19 @@ impl Episode {
             published: Utc::now(),
             summary: String::from("nada"),
             length: 3600,
-            audio: 1,
+            audio: String::from("audio/mpeg"),
             url: String::from("nada"),
             downloaded: 0,
             podcast_id: 1,
         }
     }
 
-    fn create_episode(&self, conn: Connection) -> Result<usize, Error> {
+    fn create_episode(&mut self, conn: Connection) -> Result<usize, Error> {
         let result = conn.execute(
             "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
             params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
         )?;
+        self.id = conn.last_insert_rowid();
         Ok(result)
     }
 
@@ -67,7 +68,7 @@ impl Episode {
             published: Utc::now(),
             summary: String::from("Stuff about Episode 1"),
             length: 3600,
-            audio: 1, //true
+            audio: String::from("audio/mpeg"), //true
             url: String::from("https://something.com/epi1"),
             downloaded: 0, //false
             podcast_id: 1,
@@ -122,7 +123,7 @@ mod tests {
                 published: Utc::now(),
                 summary: String::from("Stuff about Episode 1"),
                 length: 3600,
-                audio: 1, //true
+                audio: String::from("audio/mpeg"), //true
                 url: String::from("https://something.com/epi1"),
                 downloaded: 0, //false
                 podcast_id: 1,
@@ -149,13 +150,13 @@ mod tests {
     #[test]
     fn test_create_episode() {
         let _conn = LocalTestContext::new();
-        let epi = Episode {
-            id: 2,
+        let mut epi = Episode {
+            id: 0,
             title: String::from("Episode 2"),
             published: Utc::now(),
             summary: String::from("Stuff about Episode 2"),
             length: 3600,
-            audio: 1, //true
+            audio: String::from("audio/mpeg"), //true
             url: String::from("https://something.com/epi2"),
             downloaded: 0, //false
             podcast_id: 1,
@@ -182,7 +183,7 @@ mod tests {
             published: Utc::now(),
             summary: String::from("Stuff about Episode 2"),
             length: 3600,
-            audio: 1, //true
+            audio: String::from("audio/mpeg"), //true
             url: String::from("https://something.com/epi2"),
             downloaded: 0, //false
             podcast_id: 1,
@@ -200,7 +201,7 @@ mod tests {
             published: Utc::now(),
             summary: String::from("Stuff about Episode 2"),
             length: 3600,
-            audio: 1, //true
+            audio: String::from("audio/mpeg"), //true
             url: String::from("https://something.com/epi2"),
             downloaded: 0, //false
             podcast_id: 1,

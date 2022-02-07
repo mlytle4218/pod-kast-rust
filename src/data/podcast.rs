@@ -5,7 +5,7 @@ use super::episode::Episode;
 
 #[derive(Debug)]
 pub struct Podcast {
-    pub id: i32,
+    pub id: i64,
     pub name: String,
     pub url: String,
     pub audio: String,
@@ -24,11 +24,12 @@ impl Podcast {
         }
     }
 
-    fn create_podcast(&self, conn: Connection) -> Result<usize, Error> {
-        let result = conn.execute(
+    fn create_podcast(&mut self, conn: Connection) -> Result<usize, Error> {
+        let mut result = conn.execute(
             "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
             params![self.name, self.url, self.audio, self.video],
         )?;
+        self.id  = conn.last_insert_rowid();
         Ok(result)
     }
 
@@ -103,7 +104,7 @@ mod tests {
                 published: Utc::now(),
                 summary: String::from("Stuff about Episode 1"),
                 length: 3600,
-                audio: 1, //true
+                audio: String::from("audio/mpeg"), //true
                 url: String::from("https://something.com/epi1"),
                 downloaded: 0, //false
                 podcast_id: 1,
@@ -130,7 +131,7 @@ mod tests {
     #[test]
     fn test_create_podcast() {
         let _conn = LocalTestContext::new();
-        let pod = Podcast {
+        let mut pod = Podcast {
             id: 0,
             name: String::from("Podcast2 2"),
             url: String::from("https://somthing2.com"),
