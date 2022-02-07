@@ -7,6 +7,7 @@ mod menu {
     pub mod podcast_menu;
     pub mod screen;
     pub mod simple_menu;
+    pub mod category_menu;
 }
 
 mod data {
@@ -23,7 +24,7 @@ mod config {
 use home;
 
 use std::fs;
-use std::io::{self, Read, Write};
+use std::io::{self, Read, Write, BufRead};
 use std::path::PathBuf;
 
 use api::api::AppleSearch;
@@ -40,7 +41,7 @@ fn main() {
     let screen = Screen::new();
     let main_menu = create_main_menu();
     let simple_menu = SimpleMenu::new(screen, main_menu);
-    simple_menu.show();
+    simple_menu.show(&mut io::stdin(), &mut io::stdout());
 
     // let mut line = String::new();
     // print!("Choice: ");
@@ -113,13 +114,48 @@ fn create_main_menu() -> Vec<MenuEntry> {
         description: String::from("Add new category"),
         f: trial,
     });
-
     entries.push(MenuEntry {
         description: String::from("Edit category"),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("Delete category"),
+        f: trial,
+    });
+        entries.push(MenuEntry {
+        description: String::from("Add new podcast"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("Edit podcast"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("delete podcast"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("choose episodes to download"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("start downloads"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("search for podcasts"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("delete from download queue"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("update all podcasts"),
+        f: trial,
+    });
+    entries.push(MenuEntry {
+        description: String::from("archive"),
         f: trial,
     });
 
