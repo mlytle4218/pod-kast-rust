@@ -41,8 +41,12 @@ fn main() {
     let screen = Screen::new();
     let main_menu = create_main_menu();
     let simple_menu = SimpleMenu::new(screen, main_menu);
-    simple_menu.show(&mut io::stdin(), &mut io::stdout());
-
+    let bob = simple_menu.show( &mut io::stdout()).unwrap();
+    
+    let stdio = io::stdin();
+    let input = stdio.lock();
+    let steve = simple_menu.prompt(input, &mut io::stdout()).unwrap();
+    // let ralph = simple_menu.prompt(input, &mut io::stdout(), &bob);
     // let mut line = String::new();
     // print!("Choice: ");
     // io::stdout().flush().unwrap();

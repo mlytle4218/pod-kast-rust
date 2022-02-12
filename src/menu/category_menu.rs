@@ -37,8 +37,10 @@ impl CategoryMenu {
             output.write("Choice: ".as_bytes())?;
             // print!("Choice: ");
             io::stdout().flush().unwrap();
+
+            let mut stdin = io::stdin(); // We get `Stdin` here.
     
-            input.read_line(&mut line).unwrap();
+            stdin.read_line(&mut line).unwrap();
             match line.trim().parse::<i32>() {
                 Ok(val2) => {
                     if val2 <= count {
