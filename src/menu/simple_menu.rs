@@ -9,6 +9,7 @@ pub struct SimpleMenu {
     index: usize,
 }
 
+
 impl SimpleMenu {
     pub fn new(screen: Screen, entries: Vec<MenuEntry>) -> SimpleMenu {
         SimpleMenu {
@@ -17,12 +18,16 @@ impl SimpleMenu {
             index: 0,
         }
     }
+    pub fn add(&mut self, entry: MenuEntry) -> std::io::Result<usize> {
+        self.entries.push(entry);
+        Ok(self.entries.len())
+    }
 
     pub fn retrieve(&self, choice: String) {
 
     }
     
-    pub fn prompt<R, W>(&self, mut input: R, mut output: W) -> std::io::Result<String> 
+    pub fn prompt2<R, W>(&self, mut input: R, mut output: W) -> std::io::Result<String> 
     where 
         R: BufRead,
         W: Write
@@ -49,10 +54,30 @@ impl SimpleMenu {
         Ok(result)
     }
 
+
+    pub fn prompt<R, W>(&self, mut input: R, mut output: W) -> fn()
+    where 
+        R: BufRead,
+        W: Write
+        {
+        loop {
+            let mut line = String::new();
+            output.write("Choice: ".as_bytes()).unwrap();
+            io::stdout().flush().unwrap();
+            input.read_line(&mut line).unwrap();
+            for entry in &self.entries {
+                if (line.trim() == entry.reference) {
+                    return entry.f
+                }
+            }
+        };
+    }
+
+
     pub fn show(&self, output: &mut impl Write)  -> std::io::Result<i32>  {
         let count = self.entries.len();
         for i in 0..count {
-            let out = self.entries[i].to_string(i + 1) +"\n";
+            let out = self.entries[i].to_string() +"\n";
             output.write(out.as_bytes())?;
         }
         Ok(count as i32)
@@ -63,8 +88,9 @@ impl SimpleMenu {
 mod tests {
     use super::*;
 
-    fn trial(input: String) -> String {
-        input
+    fn trial() {
+    // fn trial(input: String) -> String {
+        println!("trial func");
     }
     
 
@@ -76,16 +102,18 @@ mod tests {
 
     entries.push(MenuEntry {
         description: String::from("Add new category"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("Edit category"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     let simple_menu = SimpleMenu::new(screen, entries);
 
     let mut output: Vec<u8> = Vec::new();
-    simple_menu.prompt(&mut "5\n1\n".as_bytes(), &mut output).unwrap();
+    simple_menu.prompt(&mut "5\n1\n".as_bytes(), &mut output);
     assert_eq!(&output, b"Choice: Choice: ");
 
 
@@ -101,10 +129,12 @@ mod tests {
 
     entries.push(MenuEntry {
         description: String::from("Add new category"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("Edit category"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     let simple_menu = SimpleMenu::new(screen, entries);

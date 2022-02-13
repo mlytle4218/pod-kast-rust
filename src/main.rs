@@ -45,7 +45,9 @@ fn main() {
     
     let stdio = io::stdin();
     let input = stdio.lock();
-    let steve = simple_menu.prompt(input, &mut io::stdout()).unwrap();
+    let steve = simple_menu.prompt(input, &mut io::stdout());
+    steve();
+    // let steve = simple_menu.prompt2(input, &mut io::stdout()).unwrap();
     // let ralph = simple_menu.prompt(input, &mut io::stdout(), &bob);
     // let mut line = String::new();
     // print!("Choice: ");
@@ -107,8 +109,8 @@ fn main() {
     // }
 }
 
-fn trial(input: String) -> String {
-    input
+fn trial() {
+    println!("trial function");
 }
 
 fn create_main_menu() -> Vec<MenuEntry> {
@@ -116,50 +118,68 @@ fn create_main_menu() -> Vec<MenuEntry> {
 
     entries.push(MenuEntry {
         description: String::from("Add new category"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("Edit category"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("Delete category"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
         entries.push(MenuEntry {
         description: String::from("Add new podcast"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("Edit podcast"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("delete podcast"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("choose episodes to download"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("start downloads"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("search for podcasts"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("delete from download queue"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("update all podcasts"),
+        reference: (entries.len() + 1).to_string(),
         f: trial,
     });
     entries.push(MenuEntry {
         description: String::from("archive"),
+        reference: (entries.len() + 1).to_string(),
+        f: trial,
+    });
+
+    entries.push(MenuEntry {
+        description: String::from("quit"),
+        reference: "q".to_owned(),
         f: trial,
     });
 
