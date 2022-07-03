@@ -39,14 +39,19 @@ use menu::simple_menu::SimpleMenu;
 
 fn main() {
     let screen = Screen::new();
-    let main_menu = create_main_menu();
-    let simple_menu = SimpleMenu::new(screen, main_menu);
+    // let main_menu = create_main_menu();
+    let simple_menu = SimpleMenu::new(screen, create_main_menu());
+    // let simple_menu = SimpleMenu::new(screen, main_menu);
     let bob = simple_menu.show( &mut io::stdout()).unwrap();
     
     let stdio = io::stdin();
     let input = stdio.lock();
     let steve = simple_menu.prompt(input, &mut io::stdout());
     steve();
+    let config = config::config::Config::new();
+
+
+
     // let steve = simple_menu.prompt2(input, &mut io::stdout()).unwrap();
     // let ralph = simple_menu.prompt(input, &mut io::stdout(), &bob);
     // let mut line = String::new();

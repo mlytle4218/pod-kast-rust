@@ -14,7 +14,11 @@ pub struct Config {
 pub struct Database {
     pub sqlite_file: String
 }
-
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Category {
+    pub id: i32,
+    pub name: String,
+}
 impl Config {
 
     pub fn new() -> Config {
@@ -26,22 +30,22 @@ impl Config {
             config_file: String::from("pod-kast-config"),
             database: db,
         };
-        if con.configExists() {
-            con = con.loadConfig();
+        if con.config_exists() {
+            con = con.load_config();
         } else {
             match fs::create_dir_all(&con.asset_location){
-                Ok(_)  =>{Config::saveConfig(&con).unwrap();},
+                Ok(_)  =>{Config::save_config(&con).unwrap();},
                 Err(_) => {}
             }            
         };
         con
     }
-    fn configExists(&self) -> bool {
-        let user: String = whoami::username();
+    fn config_exists(&self) -> bool {
+        // let user: String = whoami::username();
         let res = format!("{}/{}", self.asset_location, self.config_file);
         fs::metadata(res).is_ok()
     }
-    pub fn saveConfig(&self) -> std::io::Result<()> {
+    pub fn save_config(&self) -> std::io::Result<()> {
         let toml = toml::to_string(self).unwrap();
         let res = format!("{}/{}", self.asset_location, self.config_file);
         fs::write(res, toml)?;
@@ -49,7 +53,7 @@ impl Config {
     }
 
 
-    fn loadConfig(&self) -> Config {
+    fn load_config(&self) -> Config {
         let res = format!("{}/{}", self.asset_location, self.config_file);
         let data = fs::read_to_string(res).unwrap();
         let config: Config = toml::from_str(&data).unwrap();
