@@ -1,5 +1,7 @@
 use rusqlite::{params, Connection, Error, Result};
 
+use log::info;
+
 #[derive(Debug)]
 pub struct Category {
     pub id: i32,
@@ -12,14 +14,20 @@ impl Category {
             name: String::from("nada"),
         }
     }
-    fn create_category(&self, conn: Connection) -> Result<usize, Error> {
+    pub fn to_string(&self) -> String {
+        format!("category name and id {} {}",self.name, self.id)
+    }
+    pub fn create_category(&self, conn: Connection) -> Result<usize, Error> {
+        info!("create_catrgory");
         let result = conn.execute(
-            "INSERT INTO categories (name) VALUES (?1)",
+            "INSERT INTO categories (category) VALUES (?1)",
             params![self.name],
         )?;
+        info!("****");
+        info!("{}",result);
         Ok(result)
     }
-    fn read_categories(&self, conn: Connection) -> Result<Vec<Category>, Error> {
+    pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, Error> {
         let mut stmt = conn.prepare("SELECT * FROM categories;")?;
         let cat_iter = stmt.query_map([], |row| {
             Ok(Category {
@@ -34,9 +42,9 @@ impl Category {
         Ok(results)
     }
 
-    fn update_category(&self, conn: Connection) -> Result<usize, Error> {
+    pub fn update_category(&self, conn: &Connection) -> Result<usize, Error> {
         let result = conn.execute(
-            "UPDATE categories SET name=(?1) where category_id=(?2)",
+            "UPDATE categories SET category=(?1) where category_id=(?2)",
             params![self.name, self.id],
         )?;
         Ok(result)

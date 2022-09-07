@@ -1,7 +1,7 @@
 use termsize;
 
 pub struct Screen {
-    row_size: u16,
+    pub row_size: u16,
     col_size: u16
 }
 

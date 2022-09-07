@@ -4,7 +4,8 @@ pub struct MenuEntry {
     pub description: String,
     pub reference: String,
     // pub f: fn(String) -> String
-    pub f: fn()
+    pub f: fn(),
+    pub show: bool
 }
 
 impl MenuEntry {
