@@ -27,6 +27,7 @@ impl Category {
         info!("{}",result);
         Ok(result)
     }
+    // pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, ReadlineError> {
     pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, Error> {
         let mut stmt = conn.prepare("SELECT * FROM categories;")?;
         let cat_iter = stmt.query_map([], |row| {
@@ -41,6 +42,26 @@ impl Category {
         }
         Ok(results)
     }
+    pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Category, Error> {
+        // pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Vec<Category>, Error> {
+        let mut result = conn.prepare(
+            "SELECT * FROM categories where category_id=:id"
+        )?;
+        let cat_iter = result.query_map(&[(":id", &id)], |row| {
+            Ok(Category {
+                id: row.get(0)?,
+                name: row.get(1)?,
+            })
+        })?;
+        let mut results: Category = Category::new();
+        for category in cat_iter {
+            let temp = category.unwrap();
+            results.id = temp.id;
+            results.name =  temp.name;
+        }
+        Ok(results)
+
+    }
 
     pub fn update_category(&self, conn: &Connection) -> Result<usize, Error> {
         let result = conn.execute(
@@ -50,7 +71,7 @@ impl Category {
         Ok(result)
     }
 
-    fn delete_category(&self, conn: Connection) -> Result<usize, Error> {
+    pub fn delete_category(&self, conn: Connection) -> Result<usize, Error> {
         let result = conn.execute("DELETE FROM categories where category_id=(?1)", params![self.id])?;
         Ok(result)
     }

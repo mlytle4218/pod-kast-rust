@@ -11,6 +11,7 @@ pub struct Podcast {
     pub audio: String,
     pub video: String,
     pub category_id: i32,
+    pub collection_id: i32
 }
 impl Podcast {
     pub fn new() -> Podcast {
@@ -21,6 +22,7 @@ impl Podcast {
             audio: String::from("nada"),
             video: String::from("nada"),
             category_id: 1,
+            collection_id: 1
         }
     }
 
@@ -43,6 +45,7 @@ impl Podcast {
                 audio: row.get(3)?,
                 video: row.get(4)?,
                 category_id: row.get(5)?,
+                collection_id: row.get(6)?
             })
         })?;
         let mut results: Vec<Podcast> = Vec::new();

@@ -1,0 +1,64 @@
+2023-05-10 22:41:01 - INFO: enter_search_terms
+2023-05-10 22:41:02 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-05-10 22:41:02 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-05-10 22:41:02 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-05-10 22:41:02 - TRACE: signal: Want
+2023-05-10 22:41:02 - TRACE: signal found waiting giver, notifying
+2023-05-10 22:41:02 - TRACE: poll_want: taker wants!
+2023-05-10 22:41:02 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=cnn&entity=podcast&limit=50
+2023-05-10 22:41:02 - TRACE: signal: Want
+2023-05-10 22:41:02 - TRACE: signal found waiting giver, notifying
+2023-05-10 22:41:02 - TRACE: signal: Want
+2023-05-10 22:41:02 - TRACE: poll_want: taker wants!
+2023-05-10 22:41:02 - TRACE: signal: Want
+2023-05-10 22:41:02 - TRACE: deregistering event source from poller
+2023-05-10 22:41:02 - TRACE: signal: Closed
+2023-05-10 22:41:02 - INFO: Display pods
+2023-05-10 22:41:04 - INFO: udders
+2023-05-10 22:41:04 - INFO: has a dash
+2023-05-10 22:41:04 - INFO: 1
+2023-05-10 22:41:04 - INFO: 2
+2023-05-10 22:41:04 - INFO: 3
+2023-05-10 22:41:04 - INFO: 4
+2023-05-10 22:41:04 - INFO: 5
+2023-05-10 22:41:04 - INFO: Display pods
+2023-05-10 22:41:05 - INFO: Podcast { id: 0, name: "CNN 10 (video)", url: "http://rss.cnn.com/services/podcasting/cnn10/rss.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 179950332 }
+2023-05-10 22:41:05 - INFO: Podcast { id: 0, name: "The Axe Files with David Axelrod", url: "https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/a5445dcc-ae1f-488d-941b-ab850106d3b6/ffd283fe-1043-4829-a279-ab850106d3d2/podcast.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1043593599 }
+2023-05-10 22:41:05 - INFO: Podcast { id: 0, name: "CNN Tonight", url: "https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/48404811-1da5-45d3-9b98-ab86010e97af/67b4af9c-7179-4e4f-9b9d-ab86010e97b3/podcast.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1393858741 }
+2023-05-10 22:41:05 - INFO: Podcast { id: 0, name: "Anderson Cooper 360", url: "https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/a6c57f01-d29f-4556-be4b-ab86002f5bc5/f3bbd658-5edf-479a-9aa7-ab86002f5bd7/podcast.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 425179503 }
+2023-05-10 22:41:05 - INFO: Podcast { id: 0, name: "Chasing Life", url: "https://www.omnycontent.com/d/playlist/d83f52e4-2455-47f4-982e-ab790120b954/5487743a-9ee0-4820-bf17-ab86012793f9/9d09a860-4011-4c6e-8f47-ab8601279402/podcast.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1501029683 }
+2023-05-10 22:41:05 - INFO: Choice
+2023-05-10 22:41:05 - INFO: prompt3
+2023-05-10 22:41:05 - INFO: prompt3-2
+2023-05-10 22:41:05 - INFO: prompt3-3
+2023-05-10 22:41:45 - INFO: quitting
+2023-05-10 23:49:01 - INFO: logging started
+2023-05-10 23:49:01 - INFO: Choice
+2023-05-10 23:49:01 - INFO: prompt3
+2023-05-10 23:49:01 - INFO: prompt3-2
+2023-05-10 23:49:01 - INFO: prompt3-3
+2023-05-11 00:02:44 - INFO: quitting
+2023-05-11 00:05:01 - INFO: logging started
+2023-05-11 00:05:01 - INFO: Choice
+2023-05-11 00:05:01 - INFO: prompt3
+2023-05-11 00:05:01 - INFO: prompt3-2
+2023-05-11 00:05:01 - INFO: prompt3-3
+2023-05-11 00:05:03 - INFO: quitting
+2023-05-11 00:30:51 - INFO: logging started
+2023-05-11 00:30:51 - INFO: Choice
+2023-05-11 00:30:51 - INFO: prompt3
+2023-05-11 00:30:51 - INFO: prompt3-2
+2023-05-11 00:30:51 - INFO: prompt3-3
+2023-05-11 00:31:52 - INFO: quitting
+2023-05-11 00:35:45 - INFO: logging started
+2023-05-11 00:35:45 - INFO: Choice
+2023-05-11 00:35:45 - INFO: prompt3
+2023-05-11 00:35:45 - INFO: prompt3-2
+2023-05-11 00:35:45 - INFO: prompt3-3
+2023-05-11 00:35:48 - INFO: quitting
+2023-05-11 04:33:03 - INFO: logging started
+2023-05-11 04:33:03 - INFO: Choice
+2023-05-11 04:33:03 - INFO: prompt3
+2023-05-11 04:33:03 - INFO: prompt3-2
+2023-05-11 04:33:03 - INFO: prompt3-3
+2023-05-11 04:33:05 - INFO: quitting

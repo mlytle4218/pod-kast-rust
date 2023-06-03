@@ -17,6 +17,7 @@ pub struct ItuneResult {
 struct PodcastResult {
 	collectionName: String,
 	feedUrl: String,
+	collectionId: i32
 }
 
 pub struct AppleSearch {
@@ -59,6 +60,7 @@ impl AppleSearch {
 				audio: String::from("/home/marc/audio"),
 				video: String::from("/home/marc/video"),
 				category_id: 1,
+				collection_id: itune_result.collectionId
 			};
 			podcast_vec.push(temp);
 		}

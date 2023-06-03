@@ -88,7 +88,7 @@ impl SimpleMenu {
             io::stdout().flush().unwrap();
             input.read_line(&mut line).unwrap();
             for entry in &self.entries {
-                if (line.trim() == entry.reference) {
+                if line.trim() == entry.reference {
                     (entry.f)();
                 }
                 self.show(&mut output);
