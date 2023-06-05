@@ -62,3 +62,275 @@
 2023-05-11 04:33:03 - INFO: prompt3-2
 2023-05-11 04:33:03 - INFO: prompt3-3
 2023-05-11 04:33:05 - INFO: quitting
+2023-06-03 22:53:34 - INFO: logging started
+2023-06-03 22:53:34 - INFO: Choice
+2023-06-03 22:53:34 - INFO: prompt3
+2023-06-03 22:53:34 - INFO: prompt3-2
+2023-06-03 22:53:34 - INFO: prompt3-3
+2023-06-03 22:53:45 - INFO: quitting
+2023-06-04 01:16:26 - INFO: logging started
+2023-06-04 01:16:26 - INFO: Choice
+2023-06-04 01:16:26 - INFO: prompt3
+2023-06-04 01:16:26 - INFO: prompt3-2
+2023-06-04 01:16:26 - INFO: prompt3-3
+2023-06-04 01:16:39 - INFO: quitting
+2023-06-04 01:19:18 - INFO: logging started
+2023-06-04 01:19:18 - INFO: Choice
+2023-06-04 01:19:18 - INFO: prompt3
+2023-06-04 01:19:18 - INFO: prompt3-2
+2023-06-04 01:19:18 - INFO: prompt3-3
+2023-06-04 01:19:20 - INFO: quitting
+2023-06-04 01:19:43 - INFO: logging started
+2023-06-04 01:19:43 - INFO: Choice
+2023-06-04 01:19:43 - INFO: prompt3
+2023-06-04 01:19:43 - INFO: prompt3-2
+2023-06-04 01:19:43 - INFO: prompt3-3
+2023-06-04 01:19:44 - INFO: enter_search_terms
+2023-06-04 01:19:46 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-04 01:19:46 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-04 01:19:46 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-04 01:19:46 - TRACE: signal: Want
+2023-06-04 01:19:46 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:19:46 - TRACE: poll_want: taker wants!
+2023-06-04 01:19:47 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=blue+dog&entity=podcast&limit=50
+2023-06-04 01:19:47 - TRACE: signal: Want
+2023-06-04 01:19:47 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:19:47 - TRACE: signal: Want
+2023-06-04 01:19:47 - TRACE: poll_want: taker wants!
+2023-06-04 01:19:47 - TRACE: signal: Want
+2023-06-04 01:19:47 - TRACE: deregistering event source from poller
+2023-06-04 01:19:47 - TRACE: signal: Closed
+2023-06-04 01:19:47 - INFO: Display pods
+2023-06-04 01:20:45 - INFO: udders
+2023-06-04 01:20:45 - ERROR: q\ is not a valid number.
+2023-06-04 01:20:47 - INFO: Display pods
+2023-06-04 01:20:48 - INFO: Choice
+2023-06-04 01:20:48 - INFO: prompt3
+2023-06-04 01:20:48 - INFO: prompt3-2
+2023-06-04 01:20:48 - INFO: prompt3-3
+2023-06-04 01:20:50 - INFO: quitting
+2023-06-04 01:20:59 - INFO: logging started
+2023-06-04 01:20:59 - INFO: Choice
+2023-06-04 01:20:59 - INFO: prompt3
+2023-06-04 01:20:59 - INFO: prompt3-2
+2023-06-04 01:20:59 - INFO: prompt3-3
+2023-06-04 01:21:03 - INFO: enter_search_terms
+2023-06-04 01:21:11 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-04 01:21:11 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-04 01:21:11 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-04 01:21:11 - TRACE: signal: Want
+2023-06-04 01:21:11 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:21:11 - TRACE: poll_want: taker wants!
+2023-06-04 01:21:11 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+fox&entity=podcast&limit=50
+2023-06-04 01:21:11 - TRACE: signal: Want
+2023-06-04 01:21:11 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:21:11 - TRACE: signal: Want
+2023-06-04 01:21:11 - TRACE: poll_want: taker wants!
+2023-06-04 01:21:11 - TRACE: signal: Want
+2023-06-04 01:21:11 - TRACE: deregistering event source from poller
+2023-06-04 01:21:11 - TRACE: signal: Closed
+2023-06-04 01:21:11 - INFO: Display pods
+2023-06-04 01:22:30 - INFO: Display pods
+2023-06-04 01:22:32 - INFO: Display pods
+2023-06-04 01:22:33 - INFO: Display pods
+2023-06-04 01:22:34 - INFO: Display pods
+2023-06-04 01:22:35 - INFO: Display pods
+2023-06-04 01:22:36 - INFO: Display pods
+2023-06-04 01:22:38 - INFO: udders
+2023-06-04 01:22:38 - INFO: Display pods
+2023-06-04 01:22:40 - INFO: Podcast { id: 0, name: "The RedFox Podcast", url: "https://feed.podbean.com/redfoxpod/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1506058955 }
+2023-06-04 01:22:40 - INFO: Choice
+2023-06-04 01:22:40 - INFO: prompt3
+2023-06-04 01:22:40 - INFO: prompt3-2
+2023-06-04 01:22:40 - INFO: prompt3-3
+2023-06-04 01:23:19 - INFO: enter_search_terms
+2023-06-04 01:23:22 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-04 01:23:22 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-04 01:23:22 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-04 01:23:22 - TRACE: signal: Want
+2023-06-04 01:23:22 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:23:22 - TRACE: poll_want: taker wants!
+2023-06-04 01:23:23 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog+&entity=podcast&limit=50
+2023-06-04 01:23:23 - TRACE: signal: Want
+2023-06-04 01:23:23 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:23:23 - TRACE: signal: Want
+2023-06-04 01:23:23 - TRACE: poll_want: taker wants!
+2023-06-04 01:23:23 - TRACE: signal: Want
+2023-06-04 01:23:23 - TRACE: deregistering event source from poller
+2023-06-04 01:23:23 - TRACE: signal: Closed
+2023-06-04 01:23:23 - INFO: Display pods
+2023-06-04 01:23:26 - INFO: udders
+2023-06-04 01:23:26 - INFO: has a dash
+2023-06-04 01:23:26 - INFO: 1
+2023-06-04 01:23:26 - INFO: 2
+2023-06-04 01:23:26 - INFO: 3
+2023-06-04 01:23:26 - INFO: 4
+2023-06-04 01:23:26 - INFO: 5
+2023-06-04 01:23:26 - INFO: Display pods
+2023-06-04 01:30:56 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-04 01:30:56 - INFO: Podcast { id: 0, name: "For the Love of Dog", url: "https://feeds.buzzsprout.com/277637.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1459057481 }
+2023-06-04 01:30:56 - INFO: Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1486233083 }
+2023-06-04 01:30:56 - INFO: Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1200114482 }
+2023-06-04 01:30:56 - INFO: Podcast { id: 0, name: "Reservoir Red Dogs", url: "https://feeds.soundcloud.com/users/soundcloud:users:339777231/sounds.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1300193907 }
+2023-06-04 01:30:56 - INFO: Choice
+2023-06-04 01:30:56 - INFO: prompt3
+2023-06-04 01:30:56 - INFO: prompt3-2
+2023-06-04 01:30:56 - INFO: prompt3-3
+2023-06-04 01:30:57 - INFO: quitting
+2023-06-04 01:31:05 - INFO: logging started
+2023-06-04 01:31:05 - INFO: Choice
+2023-06-04 01:31:05 - INFO: prompt3
+2023-06-04 01:31:05 - INFO: prompt3-2
+2023-06-04 01:31:05 - INFO: prompt3-3
+2023-06-04 01:31:12 - INFO: enter_search_terms
+2023-06-04 01:31:15 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-04 01:31:15 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-04 01:31:15 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-04 01:31:15 - TRACE: signal: Want
+2023-06-04 01:31:15 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:31:15 - TRACE: poll_want: taker wants!
+2023-06-04 01:31:15 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-04 01:31:15 - TRACE: signal: Want
+2023-06-04 01:31:15 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:31:15 - TRACE: signal: Want
+2023-06-04 01:31:15 - TRACE: poll_want: taker wants!
+2023-06-04 01:31:15 - TRACE: signal: Want
+2023-06-04 01:31:15 - TRACE: deregistering event source from poller
+2023-06-04 01:31:15 - TRACE: signal: Closed
+2023-06-04 01:31:15 - INFO: Display pods
+2023-06-04 01:31:18 - INFO: udders
+2023-06-04 01:31:18 - INFO: has a dash
+2023-06-04 01:31:18 - INFO: 1
+2023-06-04 01:31:18 - INFO: 2
+2023-06-04 01:31:18 - INFO: 3
+2023-06-04 01:31:18 - INFO: 4
+2023-06-04 01:31:18 - INFO: 5
+2023-06-04 01:31:18 - INFO: Display pods
+2023-06-04 01:31:20 - INFO: Ok(chosen
+2023-06-04 01:31:20 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-04 01:31:20 - INFO: Podcast { id: 0, name: "For the Love of Dog", url: "https://feeds.buzzsprout.com/277637.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1459057481 }
+2023-06-04 01:31:20 - INFO: Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1486233083 }
+2023-06-04 01:31:20 - INFO: Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1200114482 }
+2023-06-04 01:31:20 - INFO: Podcast { id: 0, name: "Reservoir Red Dogs", url: "https://feeds.soundcloud.com/users/soundcloud:users:339777231/sounds.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1300193907 }
+2023-06-04 01:31:20 - INFO: Choice
+2023-06-04 01:31:20 - INFO: prompt3
+2023-06-04 01:31:20 - INFO: prompt3-2
+2023-06-04 01:31:20 - INFO: prompt3-3
+2023-06-04 01:31:36 - INFO: quitting
+2023-06-04 01:34:58 - INFO: logging started
+2023-06-04 01:34:58 - INFO: Choice
+2023-06-04 01:34:58 - INFO: prompt3
+2023-06-04 01:34:58 - INFO: prompt3-2
+2023-06-04 01:34:58 - INFO: prompt3-3
+2023-06-04 01:34:59 - INFO: enter_search_terms
+2023-06-04 01:35:02 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-04 01:35:02 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-04 01:35:03 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-04 01:35:03 - TRACE: signal: Want
+2023-06-04 01:35:03 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:35:03 - TRACE: poll_want: taker wants!
+2023-06-04 01:35:03 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-04 01:35:03 - TRACE: signal: Want
+2023-06-04 01:35:03 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:35:03 - TRACE: signal: Want
+2023-06-04 01:35:03 - TRACE: poll_want: taker wants!
+2023-06-04 01:35:03 - TRACE: signal: Want
+2023-06-04 01:35:03 - TRACE: deregistering event source from poller
+2023-06-04 01:35:03 - TRACE: signal: Closed
+2023-06-04 01:35:03 - INFO: Display pods
+2023-06-04 01:35:05 - INFO: udders
+2023-06-04 01:35:05 - INFO: has a dash
+2023-06-04 01:35:05 - INFO: 1
+2023-06-04 01:35:05 - INFO: 2
+2023-06-04 01:35:05 - INFO: 3
+2023-06-04 01:35:05 - INFO: 4
+2023-06-04 01:35:05 - INFO: 5
+2023-06-04 01:35:05 - INFO: Display pods
+2023-06-04 01:35:06 - INFO: Ok(chosen
+2023-06-04 01:35:06 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-04 01:35:06 - INFO: Podcast returned Podcast { id: 0, name: "For the Love of Dog", url: "https://feeds.buzzsprout.com/277637.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1459057481 }
+2023-06-04 01:35:06 - INFO: Podcast returned Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1486233083 }
+2023-06-04 01:35:06 - INFO: Podcast returned Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1200114482 }
+2023-06-04 01:35:06 - INFO: Podcast returned Podcast { id: 0, name: "Reservoir Red Dogs", url: "https://feeds.soundcloud.com/users/soundcloud:users:339777231/sounds.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1300193907 }
+2023-06-04 01:35:06 - INFO: Choice
+2023-06-04 01:35:06 - INFO: prompt3
+2023-06-04 01:35:06 - INFO: prompt3-2
+2023-06-04 01:35:06 - INFO: prompt3-3
+2023-06-04 01:35:12 - INFO: quitting
+2023-06-04 01:46:49 - INFO: logging started
+2023-06-04 01:46:49 - INFO: Choice
+2023-06-04 01:46:49 - INFO: prompt3
+2023-06-04 01:46:49 - INFO: prompt3-2
+2023-06-04 01:46:49 - INFO: prompt3-3
+2023-06-04 01:46:51 - INFO: enter_search_terms
+2023-06-04 01:46:56 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-04 01:46:56 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-04 01:46:56 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-04 01:46:56 - TRACE: signal: Want
+2023-06-04 01:46:56 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:46:56 - TRACE: poll_want: taker wants!
+2023-06-04 01:46:56 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-04 01:46:56 - TRACE: signal: Want
+2023-06-04 01:46:56 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:46:56 - TRACE: signal: Want
+2023-06-04 01:46:56 - TRACE: poll_want: taker wants!
+2023-06-04 01:46:56 - TRACE: deregistering event source from poller
+2023-06-04 01:46:56 - TRACE: signal: Closed
+2023-06-04 01:46:56 - INFO: Display pods
+2023-06-04 01:46:58 - INFO: udders
+2023-06-04 01:46:58 - INFO: has a dash
+2023-06-04 01:46:58 - INFO: 1
+2023-06-04 01:46:58 - INFO: 2
+2023-06-04 01:46:58 - INFO: 3
+2023-06-04 01:46:58 - INFO: 4
+2023-06-04 01:46:58 - INFO: 5
+2023-06-04 01:46:58 - INFO: Display pods
+2023-06-04 01:47:00 - INFO: Ok(chosen
+2023-06-04 01:47:00 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-04 01:47:00 - INFO: Podcast returned Podcast { id: 0, name: "For the Love of Dog", url: "https://feeds.buzzsprout.com/277637.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1459057481 }
+2023-06-04 01:47:00 - INFO: Podcast returned Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1486233083 }
+2023-06-04 01:47:00 - INFO: Podcast returned Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1200114482 }
+2023-06-04 01:47:00 - INFO: Podcast returned Podcast { id: 0, name: "Reservoir Red Dogs", url: "https://feeds.soundcloud.com/users/soundcloud:users:339777231/sounds.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1300193907 }
+2023-06-04 01:47:00 - INFO: Choice
+2023-06-04 01:47:00 - INFO: prompt3
+2023-06-04 01:47:00 - INFO: prompt3-2
+2023-06-04 01:47:00 - INFO: prompt3-3
+2023-06-04 01:47:06 - INFO: quitting
+2023-06-04 01:52:49 - INFO: logging started
+2023-06-04 01:52:49 - INFO: Choice
+2023-06-04 01:52:49 - INFO: prompt3
+2023-06-04 01:52:49 - INFO: prompt3-2
+2023-06-04 01:52:49 - INFO: prompt3-3
+2023-06-04 01:52:50 - INFO: enter_search_terms
+2023-06-04 01:52:53 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-04 01:52:53 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-04 01:52:53 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-04 01:52:53 - TRACE: signal: Want
+2023-06-04 01:52:53 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:52:53 - TRACE: poll_want: taker wants!
+2023-06-04 01:52:53 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-04 01:52:53 - TRACE: signal: Want
+2023-06-04 01:52:53 - TRACE: signal found waiting giver, notifying
+2023-06-04 01:52:53 - TRACE: signal: Want
+2023-06-04 01:52:53 - TRACE: poll_want: taker wants!
+2023-06-04 01:52:53 - TRACE: signal: Want
+2023-06-04 01:52:53 - TRACE: deregistering event source from poller
+2023-06-04 01:52:53 - TRACE: signal: Closed
+2023-06-04 01:52:53 - INFO: Display pods
+2023-06-04 01:52:55 - INFO: udders
+2023-06-04 01:52:55 - INFO: has a dash
+2023-06-04 01:52:55 - INFO: 1
+2023-06-04 01:52:55 - INFO: 2
+2023-06-04 01:52:55 - INFO: 3
+2023-06-04 01:52:55 - INFO: 4
+2023-06-04 01:52:55 - INFO: Display pods
+2023-06-04 01:52:57 - INFO: Ok(chosen
+2023-06-04 01:52:57 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-04 01:52:57 - INFO: Podcast returned Podcast { id: 0, name: "For the Love of Dog", url: "https://feeds.buzzsprout.com/277637.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1459057481 }
+2023-06-04 01:52:57 - INFO: Podcast returned Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1486233083 }
+2023-06-04 01:52:57 - INFO: Podcast returned Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1200114482 }
+2023-06-04 01:52:57 - INFO: Choice
+2023-06-04 01:52:57 - INFO: prompt3
+2023-06-04 01:52:57 - INFO: prompt3-2
+2023-06-04 01:52:57 - INFO: prompt3-3
+2023-06-04 01:54:39 - INFO: quitting

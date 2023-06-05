@@ -54,10 +54,10 @@ use rusqlite::{Error};
 use std::collections::HashSet;
 
 fn main() {
-    // systemd_journal_logger::init().unwrap();
-    // log::set_max_level(LevelFilter::Info);
+    systemd_journal_logger::init().unwrap();
+    log::set_max_level(LevelFilter::Info);
     
-    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    // log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
     info!("logging started");
     let screen = Screen::new();
     // let main_menu = create_main_menu();
@@ -76,8 +76,8 @@ fn main() {
         reference: (entries.len() + 1).to_string(),
         // f: cat_name.create_new_category,
         // f: category_menu.create_new_category(),
-        // f: create_new_category,
-        f: CategoryMenu::create_new_category(&category_menu),
+        f: create_new_category,
+        // f: CategoryMenu::create_new_category(&category_menu),
         show: true
     });
     entries.push(MenuEntry {
@@ -92,7 +92,7 @@ fn main() {
         f: delete_category,
         show: true
     });
-        entries.push(MenuEntry {
+    entries.push(MenuEntry {
         description: String::from("Add new podcast"),
         reference: (entries.len() + 1).to_string(),
         f: trial,
@@ -107,7 +107,7 @@ fn main() {
     entries.push(MenuEntry {
         description: String::from("Delete podcast"),
         reference: (entries.len() + 1).to_string(),
-        f: trial,
+        f: delete_podcast,
         show: true
     });
     entries.push(MenuEntry {
@@ -395,14 +395,24 @@ fn search() {
     let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),50);
     let results = search.search();
     match results {
-        Ok(res) =>{
+        Ok(mut res) =>{
             // info!("{:?}", results)
             match display_pods(&res) {
                 Ok(chosen) =>{
+                    info!("Ok(chosen");
                     let mut v: Vec<&u16> = chosen.iter().collect();
                     v.sort();
                     for each in v {
-                        info!("{:?}",res[*each as usize]);
+                        info!("Podcast returned {:?}",res[*each as usize]);
+                        match res[*each as usize].save_existing() {
+                            Ok(tmp) => {
+                                info!("Ok tmp: {}", tmp);
+                            },
+                            Err(e) => {
+                                error!("{}", e);
+                            }
+                        }
+                        
                     }
                 },
                 Err(_) => {
@@ -415,6 +425,18 @@ fn search() {
     // let choices = display_pods(&results);
     // info!("search {:?}", results);
     // info!("search choices {:?}", choices);
+}
+
+fn delete_podcast() {
+    let tempPod: Podcast = Podcast::new();
+    match tempPod.read_all_podcasts() {
+        Ok(tmp ) => {
+            info!("hey dick");
+        },
+        Err(e) =>{
+            error!("{}", e);
+        }
+    }
 }
 
 fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
@@ -592,88 +614,88 @@ fn quit() {
     process::exit(1);
 }
 
-fn create_main_menu() -> Vec<MenuEntry> {
-    let mut entries: Vec<MenuEntry> = Vec::new();
+// fn create_main_menu() -> Vec<MenuEntry> {
+//     let mut entries: Vec<MenuEntry> = Vec::new();
 
-    entries.push(MenuEntry {
-        description: String::from("Add new category"),
-        reference: (entries.len() + 1).to_string(),
-        f: create_new_category,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("Edit category"),
-        reference: (entries.len() + 1).to_string(),
-        f: edit_category,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("Delete category"),
-        reference: (entries.len() + 1).to_string(),
-        f: delete_category,
-        show: true
-    });
-        entries.push(MenuEntry {
-        description: String::from("Add new podcast"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("Edit podcast"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("Delete podcast"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("Choose episodes to download"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("Start downloads"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("Search for podcasts"),
-        reference: (entries.len() + 1).to_string(),
-        f: search,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("delete from download queue"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("update all podcasts"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
-    entries.push(MenuEntry {
-        description: String::from("archive"),
-        reference: (entries.len() + 1).to_string(),
-        f: trial,
-        show: true
-    });
+//     entries.push(MenuEntry {
+//         description: String::from("Add new category"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: create_new_category,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("Edit category"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: edit_category,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("Delete category"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: delete_category,
+//         show: true
+//     });
+//         entries.push(MenuEntry {
+//         description: String::from("Add new podcast"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("Edit podcast"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("Delete podcast"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("Choose episodes to download"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("Start downloads"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("Search for podcasts"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: search,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("delete from download queue"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("update all podcasts"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
+//     entries.push(MenuEntry {
+//         description: String::from("archive"),
+//         reference: (entries.len() + 1).to_string(),
+//         f: trial,
+//         show: true
+//     });
 
-    entries.push(MenuEntry {
-        description: String::from("quit"),
-        reference: "q".to_owned(),
-        f: quit,
-        show: false
-    });
+//     entries.push(MenuEntry {
+//         description: String::from("quit"),
+//         reference: "q".to_owned(),
+//         f: quit,
+//         show: false
+//     });
 
-    entries
-}
+//     entries
+// }

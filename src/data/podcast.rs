@@ -1,5 +1,6 @@
 use chrono::{Utc};
 use rusqlite::{params, Connection, Error, Result};
+use log::{debug, error, log_enabled, info, Level};
 
 use super::episode::Episode;
 
@@ -15,6 +16,7 @@ pub struct Podcast {
 }
 impl Podcast {
     pub fn new() -> Podcast {
+        info!("New Podcast!");
         Podcast {
             id: 0,
             name: String::from("nada"),
@@ -26,13 +28,45 @@ impl Podcast {
         }
     }
 
-    fn create_podcast(&mut self, conn: Connection) -> Result<usize, Error> {
+    pub fn save_existing(&mut self) -> Result<usize, Error> {
+        let db: super::data::DB = super::data::DB::new(super::super::config::config::Config::new());
+        let conn: Connection = db.connect_to_database();
+        let mut result: usize = conn.execute(
+            "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
+            params![self.name, self.url, self.audio, self.video],
+        )?;
+        self.id  = conn.last_insert_rowid();
+        Ok(result)
+    }
+
+    pub fn create_podcast(&mut self, conn: Connection) -> Result<usize, Error> {
         let mut result = conn.execute(
             "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
             params![self.name, self.url, self.audio, self.video],
         )?;
         self.id  = conn.last_insert_rowid();
         Ok(result)
+    }
+    pub fn read_all_podcasts(&self) ->Result<Vec<Podcast>, Error>  {
+        let db: super::data::DB = super::data::DB::new(super::super::config::config::Config::new());
+        let conn: Connection = db.connect_to_database();
+        let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
+        let pod_iter = stmt.query_map([], |row| {
+            Ok(Podcast {
+                id: row.get(0)?,
+                name: row.get(1)?,
+                url: row.get(2)?,
+                audio: row.get(3)?,
+                video: row.get(4)?,
+                category_id: row.get(5)?,
+                collection_id: row.get(6)?
+            })
+        })?;
+        let mut results: Vec<Podcast> = Vec::new();
+        for category in pod_iter {
+            results.push(category.unwrap());
+        }
+        Ok(results)
     }
 
     fn read_podcasts(&self, conn: Connection) -> Result<Vec<Podcast>, Error> {
