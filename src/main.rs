@@ -54,10 +54,10 @@ use rusqlite::{Error};
 use std::collections::HashSet;
 
 fn main() {
-    systemd_journal_logger::init().unwrap();
-    log::set_max_level(LevelFilter::Info);
+    // systemd_journal_logger::init().unwrap();
+    // log::set_max_level(LevelFilter::Info);
     
-    // log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
     info!("logging started");
     let screen = Screen::new();
     // let main_menu = create_main_menu();
@@ -355,12 +355,13 @@ fn edit_category() {
 
     match result {
         Ok(index) => {
+            info!("index :{:?}", index);
             match index.trim().parse::<usize>() {
                 Ok(idx) => {
-                    info!("ok");
-                    info!("{}",idx);
+                    // info!("ok");
+                    // info!("{}",idx);
                     // info!("{}", cats.unwrap()[idx-1].id);
-                    info!("{}",cat.id);
+                    // info!("{}",cat.id);
                     cat.id = cats.unwrap()[idx-1].id;
                     let res2 = cat.read_category_by_id(&conn, idx);
                     match res2 {
@@ -372,7 +373,13 @@ fn edit_category() {
                                 let update = cat.update_category(&conn);
                                 match update {
                                     Ok(_) => {},
+                                    // Err(_) => { error_message("Could not update the Category.")}
                                     Err(_) => { error_message("Could not update the Category.")}
+
+                                    // match index.trim() {
+                                    //     "q" => {},
+                                    //     _err => error_message(&format!("edit_category() error is {}", e))
+                                    // }
                                 }
                             } else {
                                 // nothing was entered - don't update
@@ -382,7 +389,13 @@ fn edit_category() {
                     }
 
                 },
-                Err(e) =>  error_message(&format!("edit_category() error is {}", e))
+                Err(e) =>  {
+                    match index.as_str() {
+                        "q" => {},
+                        _ => error_message(&format!("2edit_category() error is {:?}", index))
+
+                    }
+                }
             }
             // info!("index is {}", index.trim().parse::<i32>().unwrap() -1)
         },
@@ -430,8 +443,35 @@ fn search() {
 fn delete_podcast() {
     let tempPod: Podcast = Podcast::new();
     match tempPod.read_all_podcasts() {
-        Ok(tmp ) => {
-            info!("hey dick");
+        Ok(mut tmp ) => {
+            match display_pods(&tmp) {
+                Ok(chosen) => {
+                    info!("delete_podcast chosen.len(): {}", chosen.len());
+                    if chosen.len() > 0 {
+                        let mut v: Vec<&u16> = chosen.iter().collect();
+                        v.sort();
+                        info!("delete_podcast v: {:?}", v);
+                        for each in v {
+                            info!("each: {}", (*each as usize)-1);
+                            info!("Podcast returned {:?}",tmp[(*each as usize)-1]);
+                            match tmp[(*each as usize)-1].delete_existing() {
+                                Ok(tmp) => {
+                                    info!("Ok tmp: {:?}", tmp);
+                                },
+                                Err(e) => {
+                                    error!("{}", e);
+                                }
+                            }
+                            
+                        }
+                    } else {
+                        // quit without choosing
+                    }
+                },
+                Err(e) => {
+                    error!("{}", e);
+                }
+            }
         },
         Err(e) =>{
             error!("{}", e);
@@ -443,6 +483,10 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
     let mut results: HashSet<u16> = HashSet::new();
+    if pods.len() == 0 {
+        error_message(format!("No Podcasts to display.").as_str());
+        return Ok(results)
+    }
     // info!("pods[0]: {:?}", pods[0]);
     let display_size: u16 = screen.row_size -1;
     // info!("display_size:{}", display_size);
@@ -461,6 +505,10 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
         info!("Display pods");
         let start = page_iter*display_size;
         let mut end = 0;
+        info!("(page_iter+1)*display_size)-1 < (pods_len as u16) - 1");
+        info!("(page_iter+1)*display_size)-1: {}", ((page_iter+1)*display_size)-1);
+        info!("(pods_len as u16) - 1: {}",(pods_len as u16) - 1);
+
 
         if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
             end = ((page_iter+1)*display_size)-1;
@@ -499,7 +547,7 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
                 continue
             },
             _ => {
-                info!("udders");
+                info!("display_pods not q, n, or p");
                 let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
                 for each in all {
                     // info!("{}",each);
@@ -574,6 +622,31 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
 
 // }
 // fn display_cats(cats: &Result<Vec<Category>>) -> Result<std::string::String> {
+// fn display_cats_for_new_podcast(cats: &Vec<Category>) -> Result<String, Error> {
+//         let cats_len: i32 = cats.len() as i32; 
+//         for (i, ct) in cats.iter().enumerate() {
+//             println!("{}. {}",(i+1),ct.name);
+//         }
+//         let mut line = String::new();
+//         print!("Choice: ");
+//         io::stdout().flush().unwrap();
+//         std::io::stdin().read_line(&mut line).unwrap();
+//         match line.trim().parse::<i32>() {
+//             Ok(val) => {
+//                 if val <= cats_len  && val > 0 {
+//                     return Ok(val.to_string())
+//                 } else {
+//                     return Err(Error::InvalidQuery:rusqlite::Error)
+//                 }
+//             }
+//             Err(e) => {
+//                 match line.trim() {
+//                     "q" | "n" => Ok("".to_string()),
+//                     _err => Ok("".to_string())
+//                 }
+//             }
+//         }
+//     }
 fn display_cats2(cats: &Result<Vec<Category>, Error>) -> Result<std::string::String, Error> {
     // fn display_cats(cats: &Result<Vec<Category>, rusqlite::Error>) -> Result<std::string::String, io::Error> {
     
@@ -598,7 +671,7 @@ fn display_cats2(cats: &Result<Vec<Category>, Error>) -> Result<std::string::Str
             }
             Err(_) => {
                 match line.trim() {
-                    "q" | "n" => break Ok("".to_string()),
+                    "q" | "n" => break Ok("q".to_string()),
                     // "q" | "n" => return Ok(String::from(line.trim())),
                     _err => {}
                 }

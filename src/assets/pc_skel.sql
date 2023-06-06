@@ -11,7 +11,9 @@ CREATE TABLE podcasts (
 	url VARCHAR(250), 
 	audio VARCHAR(250), 
 	video VARCHAR(250),
-	category_id INTEGER, veiwed Integer,
+	category_id INTEGER,
+	collection_id INTEGER,
+	viewed Integer,
 	PRIMARY KEY (podcast_id), 
 	FOREIGN KEY(category_id) REFERENCES categories (category_id)
 );
@@ -24,7 +26,8 @@ CREATE TABLE episodes (
 	audio INTEGER, 
 	url VARCHAR(250), 
 	downloaded INTEGER, 
-	podcast_id INTEGER, veiwed Integer, 
+	podcast_id INTEGER,
+	viewed Integer, 
 	PRIMARY KEY (episode_id), 
 	FOREIGN KEY(podcast_id) REFERENCES podcasts (podcast_id)
 );

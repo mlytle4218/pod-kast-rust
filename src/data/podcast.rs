@@ -3,6 +3,10 @@ use rusqlite::{params, Connection, Error, Result};
 use log::{debug, error, log_enabled, info, Level};
 
 use super::episode::Episode;
+use super::category::Category;
+use super::super::config::config::Config;
+use super::data::DB;
+use std::io::{self, Read, Write, BufRead};
 
 #[derive(Debug)]
 pub struct Podcast {
@@ -23,19 +27,92 @@ impl Podcast {
             url: String::from("nada"),
             audio: String::from("nada"),
             video: String::from("nada"),
-            category_id: 1,
+            category_id: -1,
             collection_id: 1
         }
     }
 
     pub fn save_existing(&mut self) -> Result<usize, Error> {
-        let db: super::data::DB = super::data::DB::new(super::super::config::config::Config::new());
+        let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
+        info!("self.category_id: {}", self.category_id);
+        if self.category_id == -1 {
+            info!("self.category_id == -1");
+            // let cats: Vec<Category> = Category::read_all_categories();
+            let temp_cat: Category = Category::new();
+            match temp_cat.read_all_categories() {
+                Ok(cats) =>{
+                    let cats_len: usize = cats.len(); 
+                    info!("{:?}", cats);
+                    println!("\x1B[2J\x1B[1;1H");
+                    println!("Set Category for {}", self.name);
+                    for (i, ct) in cats.iter().enumerate() {
+                        println!("{}. {}",(i+1),ct.name);
+                    }
+                    
+                    info!("update new podcast category id");
+                    let mut line = String::new();
+                    print!("{}: ", "Choose from existing Categories");
+                    io::stdout().flush().unwrap();
+                    std::io::stdin().read_line(&mut line).unwrap();
+                    line.pop();
+                    match line.trim().parse::<usize>() {
+                        // "q" => continue,
+
+
+                        Ok(val) => {
+                            if val <= cats_len  && val > 0 {
+                                self.category_id = val as i32;
+                                info!("{:?}", self);
+                                // info!("{:?}", self.update_existing());
+                            }
+                        }
+                        Err(_) => {
+                            match line.trim() {
+                                "q" => {},
+                                _err => {}
+                            }
+                        }
+
+                    }
+                    info!("chosen category: {}", line);
+                },
+                Err(e) => {
+                    error!("{}", e)
+                }
+            }
+
+
+        }
         let mut result: usize = conn.execute(
-            "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
-            params![self.name, self.url, self.audio, self.video],
+            "INSERT INTO podcasts (name, url, audio, video, category_id, collection_id, viewed) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7)",
+            params![self.name, self.url, self.audio, self.video, self.category_id, self.collection_id, 0],
         )?;
         self.id  = conn.last_insert_rowid();
+        conn.close();
+        Ok(result)
+        // Ok(1 as usize)
+    }
+
+    pub fn delete_existing(&mut self) -> Result<(), Error> {
+        let db: DB = DB::new(Config::new());
+        let mut conn: Connection = db.connect_to_database();
+        let tx = conn.transaction()?;
+        tx.execute("DELETE FROM episodes where podcast_id=(?1);", params![self.id])?;
+        tx.execute("DELETE FROM podcasts where podcast_id=(?1);", params![self.id])?;
+        let result  = tx.commit().unwrap();
+        conn.close();
+        Ok(result)
+    }
+
+    fn update_existing(&mut self) -> Result<(usize), Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let result = conn.execute(
+            "UPDATE podcasts SET name=(?1), url=(?2), audio=(?3), video=(?4), category_id=(?5) where podcast_id=(?6)",
+            params![self.name, self.url, self.audio, self.video, self.category_id, self.id],
+        )?;
+        conn.close();
         Ok(result)
     }
 
@@ -44,7 +121,6 @@ impl Podcast {
             "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
             params![self.name, self.url, self.audio, self.video],
         )?;
-        self.id  = conn.last_insert_rowid();
         Ok(result)
     }
     pub fn read_all_podcasts(&self) ->Result<Vec<Podcast>, Error>  {

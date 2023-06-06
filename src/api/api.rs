@@ -59,7 +59,7 @@ impl AppleSearch {
 				url: itune_result.feedUrl,
 				audio: String::from("/home/marc/audio"),
 				video: String::from("/home/marc/video"),
-				category_id: 1,
+				category_id: -1,
 				collection_id: itune_result.collectionId
 			};
 			podcast_vec.push(temp);

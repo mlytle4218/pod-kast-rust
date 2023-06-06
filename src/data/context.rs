@@ -38,7 +38,8 @@ impl TestContext {
                 audio INTEGER, 
                 url VARCHAR(250), 
                 downloaded INTEGER, 
-                podcast_id INTEGER, veiwed Integer, 
+                podcast_id INTEGER, 
+                viewed Integer, 
                 PRIMARY KEY (episode_id), 
                 FOREIGN KEY(podcast_id) REFERENCES podcasts (podcast_id)
             )",

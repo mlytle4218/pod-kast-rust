@@ -334,3 +334,1699 @@
 2023-06-04 01:52:57 - INFO: prompt3-2
 2023-06-04 01:52:57 - INFO: prompt3-3
 2023-06-04 01:54:39 - INFO: quitting
+2023-06-05 15:58:56 - INFO: logging started
+2023-06-05 15:58:56 - INFO: Choice
+2023-06-05 15:58:56 - INFO: prompt3
+2023-06-05 15:58:56 - INFO: prompt3-2
+2023-06-05 15:58:56 - INFO: prompt3-3
+2023-06-05 16:13:39 - INFO: quitting
+2023-06-05 16:18:54 - INFO: logging started
+2023-06-05 16:18:54 - INFO: Choice
+2023-06-05 16:18:54 - INFO: prompt3
+2023-06-05 16:18:54 - INFO: prompt3-2
+2023-06-05 16:18:54 - INFO: prompt3-3
+2023-06-05 16:18:56 - INFO: quitting
+2023-06-05 16:19:37 - INFO: logging started
+2023-06-05 16:19:37 - INFO: Choice
+2023-06-05 16:19:37 - INFO: prompt3
+2023-06-05 16:19:37 - INFO: prompt3-2
+2023-06-05 16:19:37 - INFO: prompt3-3
+2023-06-05 16:19:40 - INFO: New Podcast!
+2023-06-05 16:19:40 - INFO: hey dick
+2023-06-05 16:19:40 - INFO: Choice
+2023-06-05 16:19:40 - INFO: prompt3
+2023-06-05 16:19:40 - INFO: prompt3-2
+2023-06-05 16:19:40 - INFO: prompt3-3
+2023-06-05 16:20:00 - INFO: quitting
+2023-06-05 16:27:24 - INFO: logging started
+2023-06-05 16:27:24 - INFO: Choice
+2023-06-05 16:27:24 - INFO: prompt3
+2023-06-05 16:27:24 - INFO: prompt3-2
+2023-06-05 16:27:24 - INFO: prompt3-3
+2023-06-05 16:27:31 - INFO: enter_search_terms
+2023-06-05 16:27:34 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 16:27:34 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 16:27:34 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 16:27:34 - TRACE: signal: Want
+2023-06-05 16:27:34 - TRACE: signal found waiting giver, notifying
+2023-06-05 16:27:34 - TRACE: poll_want: taker wants!
+2023-06-05 16:27:34 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 16:27:34 - TRACE: signal: Want
+2023-06-05 16:27:34 - TRACE: signal found waiting giver, notifying
+2023-06-05 16:27:34 - TRACE: signal: Want
+2023-06-05 16:27:34 - TRACE: poll_want: taker wants!
+2023-06-05 16:27:34 - TRACE: signal: Want
+2023-06-05 16:27:34 - TRACE: deregistering event source from poller
+2023-06-05 16:27:34 - TRACE: signal: Closed
+2023-06-05 16:27:34 - INFO: Display pods
+2023-06-05 16:27:36 - INFO: udders
+2023-06-05 16:27:36 - INFO: has a dash
+2023-06-05 16:27:36 - INFO: 1
+2023-06-05 16:27:36 - INFO: 2
+2023-06-05 16:27:36 - INFO: 3
+2023-06-05 16:27:36 - INFO: 4
+2023-06-05 16:27:36 - INFO: 5
+2023-06-05 16:27:36 - INFO: Display pods
+2023-06-05 16:27:40 - INFO: udders
+2023-06-05 16:27:40 - INFO: has a dash
+2023-06-05 16:27:40 - INFO: 9
+2023-06-05 16:27:40 - INFO: 10
+2023-06-05 16:27:40 - INFO: Display pods
+2023-06-05 16:27:46 - INFO: udders
+2023-06-05 16:27:46 - INFO: has a dash
+2023-06-05 16:27:46 - INFO: 13
+2023-06-05 16:27:46 - INFO: 14
+2023-06-05 16:27:46 - INFO: 15
+2023-06-05 16:27:46 - INFO: Display pods
+2023-06-05 16:27:47 - INFO: Ok(chosen
+2023-06-05 16:27:47 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "For the Love of Dog", url: "https://feeds.buzzsprout.com/277637.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1459057481 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1486233083 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1200114482 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "Reservoir Red Dogs", url: "https://feeds.soundcloud.com/users/soundcloud:users:339777231/sounds.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1300193907 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Radio Singapore", url: "https://rss.podomatic.net/rss/reddotradio.podomatic.com/rss2.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 585983595 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Podject", url: "https://feed.podbean.com/reddotpodject/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1412913102 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "The Red Dot Show", url: "https://anchor.fm/s/1ec35398/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1510551404 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "The Red Dot Players Present", url: "https://feed.podbean.com/jeremybeaulne/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1560598838 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Podcast returned Podcast { id: 0, name: "Podcast P", url: "https://anchor.fm/s/24f74990/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1517318165 }
+2023-06-05 16:27:48 - INFO: Ok tmp: 1
+2023-06-05 16:27:48 - INFO: Choice
+2023-06-05 16:27:48 - INFO: prompt3
+2023-06-05 16:27:48 - INFO: prompt3-2
+2023-06-05 16:27:48 - INFO: prompt3-3
+2023-06-05 16:27:51 - INFO: New Podcast!
+2023-06-05 20:21:41 - INFO: logging started
+2023-06-05 20:21:41 - INFO: Choice
+2023-06-05 20:21:41 - INFO: prompt3
+2023-06-05 20:21:41 - INFO: prompt3-2
+2023-06-05 20:21:41 - INFO: prompt3-3
+2023-06-05 20:21:46 - INFO: enter_search_terms
+2023-06-05 20:21:48 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 20:21:49 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 20:21:49 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 20:21:49 - TRACE: signal: Want
+2023-06-05 20:21:49 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:21:49 - TRACE: poll_want: taker wants!
+2023-06-05 20:21:49 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 20:21:49 - TRACE: signal: Want
+2023-06-05 20:21:49 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:21:49 - TRACE: signal: Want
+2023-06-05 20:21:49 - TRACE: poll_want: taker wants!
+2023-06-05 20:21:49 - TRACE: signal: Want
+2023-06-05 20:21:49 - TRACE: deregistering event source from poller
+2023-06-05 20:21:49 - TRACE: signal: Closed
+2023-06-05 20:21:49 - INFO: Display pods
+2023-06-05 20:21:50 - INFO: udders
+2023-06-05 20:21:50 - INFO: Display pods
+2023-06-05 20:21:52 - INFO: Ok(chosen
+2023-06-05 20:21:52 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-05 20:21:52 - INFO: Ok tmp: 1
+2023-06-05 20:21:52 - INFO: Choice
+2023-06-05 20:21:52 - INFO: prompt3
+2023-06-05 20:21:52 - INFO: prompt3-2
+2023-06-05 20:21:52 - INFO: prompt3-3
+2023-06-05 20:22:43 - INFO: quitting
+2023-06-05 20:38:33 - INFO: logging started
+2023-06-05 20:38:33 - INFO: Choice
+2023-06-05 20:38:33 - INFO: prompt3
+2023-06-05 20:38:33 - INFO: prompt3-2
+2023-06-05 20:38:33 - INFO: prompt3-3
+2023-06-05 20:38:35 - INFO: enter_search_terms
+2023-06-05 20:38:37 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 20:38:37 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 20:38:37 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 20:38:37 - TRACE: signal: Want
+2023-06-05 20:38:37 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:38:37 - TRACE: poll_want: taker wants!
+2023-06-05 20:38:37 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 20:38:37 - TRACE: signal: Want
+2023-06-05 20:38:37 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:38:37 - TRACE: signal: Want
+2023-06-05 20:38:37 - TRACE: poll_want: taker wants!
+2023-06-05 20:38:37 - TRACE: signal: Want
+2023-06-05 20:38:37 - TRACE: deregistering event source from poller
+2023-06-05 20:38:37 - TRACE: signal: Closed
+2023-06-05 20:38:37 - INFO: Display pods
+2023-06-05 20:38:38 - INFO: udders
+2023-06-05 20:38:38 - INFO: Display pods
+2023-06-05 20:38:39 - INFO: Ok(chosen
+2023-06-05 20:38:39 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-05 20:38:39 - INFO: Ok tmp: 1
+2023-06-05 20:38:39 - INFO: Choice
+2023-06-05 20:38:39 - INFO: prompt3
+2023-06-05 20:38:39 - INFO: prompt3-2
+2023-06-05 20:38:39 - INFO: prompt3-3
+2023-06-05 20:40:37 - INFO: quitting
+2023-06-05 20:40:52 - INFO: logging started
+2023-06-05 20:40:52 - INFO: Choice
+2023-06-05 20:40:52 - INFO: prompt3
+2023-06-05 20:40:52 - INFO: prompt3-2
+2023-06-05 20:40:52 - INFO: prompt3-3
+2023-06-05 20:40:54 - INFO: enter_search_terms
+2023-06-05 20:40:56 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 20:40:56 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 20:40:56 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 20:40:56 - TRACE: signal: Want
+2023-06-05 20:40:56 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:40:56 - TRACE: poll_want: taker wants!
+2023-06-05 20:40:56 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 20:40:56 - TRACE: signal: Want
+2023-06-05 20:40:56 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:40:56 - TRACE: signal: Want
+2023-06-05 20:40:56 - TRACE: poll_want: taker wants!
+2023-06-05 20:40:56 - TRACE: signal: Want
+2023-06-05 20:40:56 - TRACE: deregistering event source from poller
+2023-06-05 20:40:56 - TRACE: signal: Closed
+2023-06-05 20:40:56 - INFO: Display pods
+2023-06-05 20:40:57 - INFO: udders
+2023-06-05 20:40:57 - INFO: Display pods
+2023-06-05 20:40:59 - INFO: Ok(chosen
+2023-06-05 20:40:59 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 1627808515 }
+2023-06-05 20:40:59 - INFO: self.category_id: 1
+2023-06-05 20:40:59 - INFO: Ok tmp: 1
+2023-06-05 20:40:59 - INFO: Choice
+2023-06-05 20:40:59 - INFO: prompt3
+2023-06-05 20:40:59 - INFO: prompt3-2
+2023-06-05 20:40:59 - INFO: prompt3-3
+2023-06-05 20:41:37 - INFO: quitting
+2023-06-05 20:42:30 - INFO: logging started
+2023-06-05 20:42:30 - INFO: Choice
+2023-06-05 20:42:30 - INFO: prompt3
+2023-06-05 20:42:30 - INFO: prompt3-2
+2023-06-05 20:42:30 - INFO: prompt3-3
+2023-06-05 20:42:35 - INFO: enter_search_terms
+2023-06-05 20:42:37 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 20:42:37 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 20:42:37 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 20:42:37 - TRACE: signal: Want
+2023-06-05 20:42:37 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:42:37 - TRACE: poll_want: taker wants!
+2023-06-05 20:42:38 - TRACE: signal: Want
+2023-06-05 20:42:38 - TRACE: signal: Want
+2023-06-05 20:42:38 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+deg&entity=podcast&limit=50
+2023-06-05 20:42:38 - TRACE: poll_want: taker wants!
+2023-06-05 20:42:38 - TRACE: signal: Want
+2023-06-05 20:42:38 - TRACE: deregistering event source from poller
+2023-06-05 20:42:38 - TRACE: signal: Closed
+2023-06-05 20:42:38 - INFO: Display pods
+2023-06-05 20:42:43 - INFO: logging started
+2023-06-05 20:42:43 - INFO: Choice
+2023-06-05 20:42:43 - INFO: prompt3
+2023-06-05 20:42:43 - INFO: prompt3-2
+2023-06-05 20:42:43 - INFO: prompt3-3
+2023-06-05 20:42:45 - INFO: enter_search_terms
+2023-06-05 20:42:47 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 20:42:47 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 20:42:47 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 20:42:47 - TRACE: signal: Want
+2023-06-05 20:42:47 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:42:47 - TRACE: poll_want: taker wants!
+2023-06-05 20:42:47 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 20:42:47 - TRACE: signal: Want
+2023-06-05 20:42:47 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:42:47 - TRACE: signal: Want
+2023-06-05 20:42:47 - TRACE: poll_want: taker wants!
+2023-06-05 20:42:47 - TRACE: signal: Want
+2023-06-05 20:42:47 - TRACE: deregistering event source from poller
+2023-06-05 20:42:47 - TRACE: signal: Closed
+2023-06-05 20:42:47 - INFO: Display pods
+2023-06-05 20:42:49 - INFO: udders
+2023-06-05 20:42:49 - INFO: Display pods
+2023-06-05 20:42:52 - INFO: Ok(chosen
+2023-06-05 20:42:52 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Radio Singapore", url: "https://rss.podomatic.net/rss/reddotradio.podomatic.com/rss2.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 585983595 }
+2023-06-05 20:42:52 - INFO: self.category_id: 1
+2023-06-05 20:42:52 - INFO: Ok tmp: 1
+2023-06-05 20:42:52 - INFO: Choice
+2023-06-05 20:42:52 - INFO: prompt3
+2023-06-05 20:42:52 - INFO: prompt3-2
+2023-06-05 20:42:52 - INFO: prompt3-3
+2023-06-05 20:44:30 - INFO: quitting
+2023-06-05 20:44:45 - INFO: logging started
+2023-06-05 20:44:45 - INFO: Choice
+2023-06-05 20:44:45 - INFO: prompt3
+2023-06-05 20:44:45 - INFO: prompt3-2
+2023-06-05 20:44:45 - INFO: prompt3-3
+2023-06-05 20:44:48 - INFO: enter_search_terms
+2023-06-05 20:44:50 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 20:44:50 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 20:44:50 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 20:44:50 - TRACE: signal: Want
+2023-06-05 20:44:50 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:44:50 - TRACE: poll_want: taker wants!
+2023-06-05 20:44:50 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 20:44:50 - TRACE: signal: Want
+2023-06-05 20:44:50 - TRACE: signal found waiting giver, notifying
+2023-06-05 20:44:50 - TRACE: signal: Want
+2023-06-05 20:44:50 - TRACE: poll_want: taker wants!
+2023-06-05 20:44:50 - TRACE: signal: Want
+2023-06-05 20:44:50 - TRACE: deregistering event source from poller
+2023-06-05 20:44:50 - TRACE: signal: Closed
+2023-06-05 20:44:50 - INFO: Display pods
+2023-06-05 20:44:53 - INFO: udders
+2023-06-05 20:44:53 - INFO: Display pods
+2023-06-05 20:44:54 - INFO: Ok(chosen
+2023-06-05 20:44:54 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 20:44:54 - INFO: self.category_id: -1
+2023-06-05 20:44:54 - INFO: self.category_id == -1
+2023-06-05 20:44:54 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 20:44:54 - INFO: Ok tmp: 1
+2023-06-05 20:44:54 - INFO: Choice
+2023-06-05 20:44:54 - INFO: prompt3
+2023-06-05 20:44:54 - INFO: prompt3-2
+2023-06-05 20:44:54 - INFO: prompt3-3
+2023-06-05 20:49:20 - INFO: quitting
+2023-06-05 21:03:09 - INFO: logging started
+2023-06-05 21:03:09 - INFO: Choice
+2023-06-05 21:03:09 - INFO: prompt3
+2023-06-05 21:03:09 - INFO: prompt3-2
+2023-06-05 21:03:09 - INFO: prompt3-3
+2023-06-05 21:03:11 - INFO: enter_search_terms
+2023-06-05 21:03:13 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:03:13 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:03:14 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:03:14 - TRACE: signal: Want
+2023-06-05 21:03:14 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:03:14 - TRACE: poll_want: taker wants!
+2023-06-05 21:03:14 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:03:14 - TRACE: signal: Want
+2023-06-05 21:03:14 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:03:14 - TRACE: signal: Want
+2023-06-05 21:03:14 - TRACE: poll_want: taker wants!
+2023-06-05 21:03:14 - TRACE: signal: Want
+2023-06-05 21:03:14 - TRACE: deregistering event source from poller
+2023-06-05 21:03:14 - TRACE: signal: Closed
+2023-06-05 21:03:14 - INFO: Display pods
+2023-06-05 21:03:16 - INFO: Ok(chosen
+2023-06-05 21:03:16 - INFO: Choice
+2023-06-05 21:03:16 - INFO: prompt3
+2023-06-05 21:03:16 - INFO: prompt3-2
+2023-06-05 21:03:16 - INFO: prompt3-3
+2023-06-05 21:03:52 - INFO: quitting
+2023-06-05 21:03:53 - INFO: logging started
+2023-06-05 21:03:53 - INFO: Choice
+2023-06-05 21:03:53 - INFO: prompt3
+2023-06-05 21:03:53 - INFO: prompt3-2
+2023-06-05 21:03:53 - INFO: prompt3-3
+2023-06-05 21:03:54 - INFO: enter_search_terms
+2023-06-05 21:03:59 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:03:59 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:03:59 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:03:59 - TRACE: signal: Want
+2023-06-05 21:03:59 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:03:59 - TRACE: poll_want: taker wants!
+2023-06-05 21:03:59 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:03:59 - TRACE: signal: Want
+2023-06-05 21:03:59 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:03:59 - TRACE: signal: Want
+2023-06-05 21:03:59 - TRACE: poll_want: taker wants!
+2023-06-05 21:03:59 - TRACE: signal: Want
+2023-06-05 21:03:59 - TRACE: deregistering event source from poller
+2023-06-05 21:03:59 - TRACE: signal: Closed
+2023-06-05 21:03:59 - INFO: Display pods
+2023-06-05 21:04:05 - INFO: display_pods not q, n, or p
+2023-06-05 21:04:05 - INFO: Display pods
+2023-06-05 21:04:07 - INFO: Ok(chosen
+2023-06-05 21:04:07 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:04:07 - INFO: self.category_id: -1
+2023-06-05 21:04:07 - INFO: self.category_id == -1
+2023-06-05 21:04:07 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:04:07 - INFO: update new podcast category id
+2023-06-05 21:04:19 - INFO: chosen category: q
+2023-06-05 21:04:19 - INFO: Ok tmp: 1
+2023-06-05 21:04:19 - INFO: Choice
+2023-06-05 21:04:19 - INFO: prompt3
+2023-06-05 21:04:19 - INFO: prompt3-2
+2023-06-05 21:04:19 - INFO: prompt3-3
+2023-06-05 21:04:23 - INFO: quitting
+2023-06-05 21:05:41 - INFO: logging started
+2023-06-05 21:05:41 - INFO: Choice
+2023-06-05 21:05:41 - INFO: prompt3
+2023-06-05 21:05:41 - INFO: prompt3-2
+2023-06-05 21:05:41 - INFO: prompt3-3
+2023-06-05 21:05:43 - INFO: enter_search_terms
+2023-06-05 21:05:45 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:05:45 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:05:45 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:05:45 - TRACE: signal: Want
+2023-06-05 21:05:45 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:05:45 - TRACE: poll_want: taker wants!
+2023-06-05 21:05:45 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:05:45 - TRACE: signal: Want
+2023-06-05 21:05:45 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:05:45 - TRACE: signal: Want
+2023-06-05 21:05:45 - TRACE: poll_want: taker wants!
+2023-06-05 21:05:45 - TRACE: signal: Want
+2023-06-05 21:05:45 - TRACE: deregistering event source from poller
+2023-06-05 21:05:45 - TRACE: signal: Closed
+2023-06-05 21:05:45 - INFO: Display pods
+2023-06-05 21:05:48 - INFO: display_pods not q, n, or p
+2023-06-05 21:05:48 - INFO: Display pods
+2023-06-05 21:05:49 - INFO: Ok(chosen
+2023-06-05 21:05:49 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:05:49 - INFO: self.category_id: -1
+2023-06-05 21:05:49 - INFO: self.category_id == -1
+2023-06-05 21:05:49 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:05:49 - INFO: update new podcast category id
+2023-06-05 21:17:45 - INFO: chosen category: q
+2023-06-05 21:17:45 - INFO: Ok tmp: 1
+2023-06-05 21:17:45 - INFO: Choice
+2023-06-05 21:17:45 - INFO: prompt3
+2023-06-05 21:17:45 - INFO: prompt3-2
+2023-06-05 21:17:45 - INFO: prompt3-3
+2023-06-05 21:17:46 - INFO: quitting
+2023-06-05 21:19:10 - INFO: logging started
+2023-06-05 21:19:10 - INFO: Choice
+2023-06-05 21:19:10 - INFO: prompt3
+2023-06-05 21:19:10 - INFO: prompt3-2
+2023-06-05 21:19:10 - INFO: prompt3-3
+2023-06-05 21:19:11 - INFO: enter_search_terms
+2023-06-05 21:19:14 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:19:14 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:19:14 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:19:14 - TRACE: signal: Want
+2023-06-05 21:19:14 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:19:14 - TRACE: poll_want: taker wants!
+2023-06-05 21:19:14 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:19:14 - TRACE: signal: Want
+2023-06-05 21:19:14 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:19:14 - TRACE: signal: Want
+2023-06-05 21:19:14 - TRACE: poll_want: taker wants!
+2023-06-05 21:19:14 - TRACE: deregistering event source from poller
+2023-06-05 21:19:14 - TRACE: signal: Closed
+2023-06-05 21:19:14 - INFO: Display pods
+2023-06-05 21:19:16 - INFO: display_pods not q, n, or p
+2023-06-05 21:19:16 - INFO: Display pods
+2023-06-05 21:19:18 - INFO: Ok(chosen
+2023-06-05 21:19:18 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:19:18 - INFO: self.category_id: -1
+2023-06-05 21:19:18 - INFO: self.category_id == -1
+2023-06-05 21:19:18 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:19:18 - INFO: update new podcast category id
+2023-06-05 21:19:23 - INFO: chosen category: 1
+2023-06-05 21:19:23 - INFO: Ok tmp: 1
+2023-06-05 21:19:23 - INFO: Choice
+2023-06-05 21:19:23 - INFO: prompt3
+2023-06-05 21:19:23 - INFO: prompt3-2
+2023-06-05 21:19:23 - INFO: prompt3-3
+2023-06-05 21:19:56 - INFO: quitting
+2023-06-05 21:20:10 - INFO: logging started
+2023-06-05 21:20:10 - INFO: Choice
+2023-06-05 21:20:10 - INFO: prompt3
+2023-06-05 21:20:10 - INFO: prompt3-2
+2023-06-05 21:20:10 - INFO: prompt3-3
+2023-06-05 21:20:12 - INFO: enter_search_terms
+2023-06-05 21:20:14 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:20:14 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:20:14 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:20:14 - TRACE: signal: Want
+2023-06-05 21:20:14 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:20:14 - TRACE: poll_want: taker wants!
+2023-06-05 21:20:15 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:20:15 - TRACE: signal: Want
+2023-06-05 21:20:15 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:20:15 - TRACE: signal: Want
+2023-06-05 21:20:15 - TRACE: poll_want: taker wants!
+2023-06-05 21:20:15 - TRACE: signal: Want
+2023-06-05 21:20:15 - TRACE: deregistering event source from poller
+2023-06-05 21:20:15 - TRACE: signal: Closed
+2023-06-05 21:20:15 - INFO: Display pods
+2023-06-05 21:20:16 - INFO: display_pods not q, n, or p
+2023-06-05 21:20:16 - INFO: Display pods
+2023-06-05 21:20:17 - INFO: Ok(chosen
+2023-06-05 21:20:17 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:20:17 - INFO: self.category_id: -1
+2023-06-05 21:20:17 - INFO: self.category_id == -1
+2023-06-05 21:20:17 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:20:17 - INFO: update new podcast category id
+2023-06-05 21:20:22 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 21:20:22 - INFO: chosen category: 2
+2023-06-05 21:20:22 - INFO: Ok tmp: 1
+2023-06-05 21:20:22 - INFO: Choice
+2023-06-05 21:20:22 - INFO: prompt3
+2023-06-05 21:20:22 - INFO: prompt3-2
+2023-06-05 21:20:22 - INFO: prompt3-3
+2023-06-05 21:21:59 - INFO: quitting
+2023-06-05 21:24:54 - INFO: logging started
+2023-06-05 21:24:54 - INFO: Choice
+2023-06-05 21:24:54 - INFO: prompt3
+2023-06-05 21:24:54 - INFO: prompt3-2
+2023-06-05 21:24:54 - INFO: prompt3-3
+2023-06-05 21:25:04 - INFO: enter_search_terms
+2023-06-05 21:25:07 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:25:07 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:25:07 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:25:07 - TRACE: signal: Want
+2023-06-05 21:25:07 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:25:07 - TRACE: poll_want: taker wants!
+2023-06-05 21:25:07 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:25:07 - TRACE: signal: Want
+2023-06-05 21:25:07 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:25:07 - TRACE: signal: Want
+2023-06-05 21:25:07 - TRACE: poll_want: taker wants!
+2023-06-05 21:25:07 - TRACE: signal: Want
+2023-06-05 21:25:07 - TRACE: deregistering event source from poller
+2023-06-05 21:25:07 - TRACE: signal: Closed
+2023-06-05 21:25:07 - INFO: Display pods
+2023-06-05 21:25:08 - INFO: display_pods not q, n, or p
+2023-06-05 21:25:08 - INFO: Display pods
+2023-06-05 21:25:10 - INFO: Ok(chosen
+2023-06-05 21:25:10 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:25:10 - INFO: self.category_id: -1
+2023-06-05 21:25:10 - INFO: self.category_id == -1
+2023-06-05 21:25:10 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:25:10 - INFO: update new podcast category id
+2023-06-05 21:25:19 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 21:25:19 - INFO: Ok(0)
+2023-06-05 21:25:19 - INFO: chosen category: 2
+2023-06-05 21:25:19 - INFO: Ok tmp: 1
+2023-06-05 21:25:19 - INFO: Choice
+2023-06-05 21:25:19 - INFO: prompt3
+2023-06-05 21:25:19 - INFO: prompt3-2
+2023-06-05 21:25:19 - INFO: prompt3-3
+2023-06-05 21:25:39 - INFO: quitting
+2023-06-05 21:26:27 - INFO: logging started
+2023-06-05 21:26:27 - INFO: Choice
+2023-06-05 21:26:27 - INFO: prompt3
+2023-06-05 21:26:27 - INFO: prompt3-2
+2023-06-05 21:26:27 - INFO: prompt3-3
+2023-06-05 21:26:30 - INFO: enter_search_terms
+2023-06-05 21:26:33 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:26:33 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:26:33 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:26:33 - TRACE: signal: Want
+2023-06-05 21:26:33 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:26:33 - TRACE: poll_want: taker wants!
+2023-06-05 21:26:33 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:26:33 - TRACE: signal: Want
+2023-06-05 21:26:33 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:26:33 - TRACE: signal: Want
+2023-06-05 21:26:33 - TRACE: poll_want: taker wants!
+2023-06-05 21:26:33 - TRACE: signal: Want
+2023-06-05 21:26:33 - TRACE: deregistering event source from poller
+2023-06-05 21:26:33 - TRACE: signal: Closed
+2023-06-05 21:26:33 - INFO: Display pods
+2023-06-05 21:26:34 - INFO: display_pods not q, n, or p
+2023-06-05 21:26:34 - INFO: Display pods
+2023-06-05 21:26:35 - INFO: Ok(chosen
+2023-06-05 21:26:35 - INFO: Podcast returned Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1486233083 }
+2023-06-05 21:26:35 - INFO: self.category_id: -1
+2023-06-05 21:26:35 - INFO: self.category_id == -1
+2023-06-05 21:26:35 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:26:35 - INFO: update new podcast category id
+2023-06-05 21:26:37 - INFO: Podcast { id: 0, name: "Red Dog", url: "https://anchor.fm/s/ff675fc/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1486233083 }
+2023-06-05 21:26:37 - INFO: Ok(0)
+2023-06-05 21:26:37 - INFO: chosen category: 2
+2023-06-05 21:26:37 - INFO: Ok tmp: 1
+2023-06-05 21:26:37 - INFO: Choice
+2023-06-05 21:26:37 - INFO: prompt3
+2023-06-05 21:26:37 - INFO: prompt3-2
+2023-06-05 21:26:37 - INFO: prompt3-3
+2023-06-05 21:26:44 - INFO: New Podcast!
+2023-06-05 21:26:44 - INFO: hey dick
+2023-06-05 21:26:44 - INFO: Display pods
+2023-06-05 21:30:31 - INFO: logging started
+2023-06-05 21:30:31 - INFO: Choice
+2023-06-05 21:30:31 - INFO: prompt3
+2023-06-05 21:30:31 - INFO: prompt3-2
+2023-06-05 21:30:31 - INFO: prompt3-3
+2023-06-05 21:30:32 - INFO: enter_search_terms
+2023-06-05 21:30:35 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:30:35 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:30:35 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:30:35 - TRACE: signal: Want
+2023-06-05 21:30:35 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:30:35 - TRACE: poll_want: taker wants!
+2023-06-05 21:30:35 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:30:35 - TRACE: signal: Want
+2023-06-05 21:30:35 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:30:35 - TRACE: signal: Want
+2023-06-05 21:30:35 - TRACE: poll_want: taker wants!
+2023-06-05 21:30:35 - TRACE: signal: Want
+2023-06-05 21:30:35 - TRACE: deregistering event source from poller
+2023-06-05 21:30:35 - TRACE: signal: Closed
+2023-06-05 21:30:35 - INFO: Display pods
+2023-06-05 21:30:37 - INFO: display_pods not q, n, or p
+2023-06-05 21:30:37 - INFO: Display pods
+2023-06-05 21:30:38 - INFO: Ok(chosen
+2023-06-05 21:30:38 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:30:38 - INFO: self.category_id: -1
+2023-06-05 21:30:38 - INFO: self.category_id == -1
+2023-06-05 21:30:38 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:30:38 - INFO: update new podcast category id
+2023-06-05 21:30:40 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 21:30:40 - INFO: chosen category: 2
+2023-06-05 21:30:40 - INFO: Ok tmp: 1
+2023-06-05 21:30:40 - INFO: Choice
+2023-06-05 21:30:40 - INFO: prompt3
+2023-06-05 21:30:40 - INFO: prompt3-2
+2023-06-05 21:30:40 - INFO: prompt3-3
+2023-06-05 21:30:51 - INFO: display_cats
+2023-06-05 21:30:55 - ERROR: delete_category() error is cannot parse integer from empty string
+2023-06-05 21:30:55 - INFO: Choice
+2023-06-05 21:30:55 - INFO: prompt3
+2023-06-05 21:30:55 - INFO: prompt3-2
+2023-06-05 21:30:55 - INFO: prompt3-3
+2023-06-05 21:31:00 - INFO: New Podcast!
+2023-06-05 21:44:33 - INFO: logging started
+2023-06-05 21:44:33 - INFO: Choice
+2023-06-05 21:44:33 - INFO: prompt3
+2023-06-05 21:44:33 - INFO: prompt3-2
+2023-06-05 21:44:33 - INFO: prompt3-3
+2023-06-05 21:44:37 - INFO: enter_search_terms
+2023-06-05 21:44:39 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:44:39 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:44:39 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:44:39 - TRACE: signal: Want
+2023-06-05 21:44:39 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:44:39 - TRACE: poll_want: taker wants!
+2023-06-05 21:44:39 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:44:39 - TRACE: signal: Want
+2023-06-05 21:44:39 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:44:39 - TRACE: signal: Want
+2023-06-05 21:44:39 - TRACE: poll_want: taker wants!
+2023-06-05 21:44:39 - TRACE: signal: Want
+2023-06-05 21:44:39 - TRACE: deregistering event source from poller
+2023-06-05 21:44:39 - TRACE: signal: Closed
+2023-06-05 21:44:39 - INFO: Display pods
+2023-06-05 21:44:41 - INFO: display_pods not q, n, or p
+2023-06-05 21:44:41 - INFO: Display pods
+2023-06-05 21:44:43 - INFO: Ok(chosen
+2023-06-05 21:44:43 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:44:43 - INFO: self.category_id: -1
+2023-06-05 21:44:43 - INFO: self.category_id == -1
+2023-06-05 21:44:43 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:44:43 - INFO: update new podcast category id
+2023-06-05 21:44:44 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 21:44:44 - INFO: chosen category: 2
+2023-06-05 21:44:44 - ERROR: 6 values for 5 columns
+2023-06-05 21:44:44 - INFO: Choice
+2023-06-05 21:44:44 - INFO: prompt3
+2023-06-05 21:44:44 - INFO: prompt3-2
+2023-06-05 21:44:44 - INFO: prompt3-3
+2023-06-05 21:44:49 - INFO: New Podcast!
+2023-06-05 21:44:49 - INFO: hey dick
+2023-06-05 21:44:49 - INFO: Display pods
+2023-06-05 21:48:18 - INFO: logging started
+2023-06-05 21:48:18 - INFO: Choice
+2023-06-05 21:48:18 - INFO: prompt3
+2023-06-05 21:48:18 - INFO: prompt3-2
+2023-06-05 21:48:18 - INFO: prompt3-3
+2023-06-05 21:48:20 - INFO: enter_search_terms
+2023-06-05 21:48:22 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:48:22 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:48:22 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:48:22 - TRACE: signal: Want
+2023-06-05 21:48:22 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:48:22 - TRACE: poll_want: taker wants!
+2023-06-05 21:48:23 - TRACE: signal: Want
+2023-06-05 21:48:23 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dof&entity=podcast&limit=50
+2023-06-05 21:48:23 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:48:23 - TRACE: signal: Want
+2023-06-05 21:48:23 - TRACE: poll_want: taker wants!
+2023-06-05 21:48:23 - TRACE: signal: Want
+2023-06-05 21:48:23 - TRACE: deregistering event source from poller
+2023-06-05 21:48:23 - TRACE: signal: Closed
+2023-06-05 21:48:23 - INFO: Display pods
+2023-06-05 21:48:23 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:48:23 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:48:31 - INFO: logging started
+2023-06-05 21:48:31 - INFO: Choice
+2023-06-05 21:48:31 - INFO: prompt3
+2023-06-05 21:48:31 - INFO: prompt3-2
+2023-06-05 21:48:31 - INFO: prompt3-3
+2023-06-05 21:48:33 - INFO: enter_search_terms
+2023-06-05 21:48:36 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:48:36 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:48:36 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:48:36 - TRACE: signal: Want
+2023-06-05 21:48:36 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:48:36 - TRACE: poll_want: taker wants!
+2023-06-05 21:48:36 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:48:36 - TRACE: signal: Want
+2023-06-05 21:48:36 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:48:36 - TRACE: signal: Want
+2023-06-05 21:48:36 - TRACE: poll_want: taker wants!
+2023-06-05 21:48:36 - TRACE: signal: Want
+2023-06-05 21:48:36 - TRACE: deregistering event source from poller
+2023-06-05 21:48:36 - TRACE: signal: Closed
+2023-06-05 21:48:36 - INFO: Display pods
+2023-06-05 21:48:36 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:48:36 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:48:36 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:48:38 - INFO: display_pods not q, n, or p
+2023-06-05 21:48:38 - INFO: Display pods
+2023-06-05 21:48:38 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:48:38 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:48:38 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:48:39 - INFO: Ok(chosen
+2023-06-05 21:48:39 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 21:48:39 - INFO: self.category_id: -1
+2023-06-05 21:48:39 - INFO: self.category_id == -1
+2023-06-05 21:48:39 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:48:39 - INFO: update new podcast category id
+2023-06-05 21:48:42 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 21:48:42 - INFO: chosen category: 2
+2023-06-05 21:48:42 - ERROR: 6 values for 5 columns
+2023-06-05 21:48:42 - INFO: Choice
+2023-06-05 21:48:42 - INFO: prompt3
+2023-06-05 21:48:42 - INFO: prompt3-2
+2023-06-05 21:48:42 - INFO: prompt3-3
+2023-06-05 21:49:21 - INFO: New Podcast!
+2023-06-05 21:49:21 - INFO: hey dick
+2023-06-05 21:49:21 - INFO: Display pods
+2023-06-05 21:49:21 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:49:21 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:50:24 - INFO: logging started
+2023-06-05 21:50:24 - INFO: Choice
+2023-06-05 21:50:24 - INFO: prompt3
+2023-06-05 21:50:24 - INFO: prompt3-2
+2023-06-05 21:50:24 - INFO: prompt3-3
+2023-06-05 21:50:26 - INFO: enter_search_terms
+2023-06-05 21:50:29 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:50:29 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:50:29 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:50:29 - TRACE: signal: Want
+2023-06-05 21:50:29 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:50:29 - TRACE: poll_want: taker wants!
+2023-06-05 21:50:29 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:50:29 - TRACE: signal: Want
+2023-06-05 21:50:29 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:50:29 - TRACE: signal: Want
+2023-06-05 21:50:29 - TRACE: poll_want: taker wants!
+2023-06-05 21:50:29 - TRACE: signal: Want
+2023-06-05 21:50:29 - TRACE: deregistering event source from poller
+2023-06-05 21:50:29 - TRACE: signal: Closed
+2023-06-05 21:50:29 - INFO: Display pods
+2023-06-05 21:50:29 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:50:29 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:50:29 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:50:31 - INFO: display_pods not q, n, or p
+2023-06-05 21:50:31 - INFO: Display pods
+2023-06-05 21:50:31 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:50:31 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:50:31 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:50:38 - INFO: Ok(chosen
+2023-06-05 21:50:38 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Radio Singapore", url: "https://rss.podomatic.net/rss/reddotradio.podomatic.com/rss2.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 585983595 }
+2023-06-05 21:50:38 - INFO: self.category_id: -1
+2023-06-05 21:50:38 - INFO: self.category_id == -1
+2023-06-05 21:50:38 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:50:38 - INFO: update new podcast category id
+2023-06-05 21:50:40 - INFO: Podcast { id: 0, name: "Red Dot Radio Singapore", url: "https://rss.podomatic.net/rss/reddotradio.podomatic.com/rss2.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 1, collection_id: 585983595 }
+2023-06-05 21:50:40 - INFO: chosen category: 1
+2023-06-05 21:50:40 - ERROR: 6 values for 5 columns
+2023-06-05 21:50:40 - INFO: Choice
+2023-06-05 21:50:40 - INFO: prompt3
+2023-06-05 21:50:40 - INFO: prompt3-2
+2023-06-05 21:50:40 - INFO: prompt3-3
+2023-06-05 21:50:42 - INFO: New Podcast!
+2023-06-05 21:50:42 - INFO: hey dick
+2023-06-05 21:50:42 - INFO: Display pods
+2023-06-05 21:50:42 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:50:42 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:53:10 - INFO: logging started
+2023-06-05 21:53:10 - INFO: Choice
+2023-06-05 21:53:10 - INFO: prompt3
+2023-06-05 21:53:10 - INFO: prompt3-2
+2023-06-05 21:53:10 - INFO: prompt3-3
+2023-06-05 21:53:13 - INFO: enter_search_terms
+2023-06-05 21:53:15 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:53:15 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:53:15 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:53:16 - TRACE: signal: Want
+2023-06-05 21:53:16 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:53:16 - TRACE: poll_want: taker wants!
+2023-06-05 21:53:16 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:53:16 - TRACE: signal: Want
+2023-06-05 21:53:16 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:53:16 - TRACE: signal: Want
+2023-06-05 21:53:16 - TRACE: poll_want: taker wants!
+2023-06-05 21:53:16 - TRACE: signal: Want
+2023-06-05 21:53:16 - TRACE: deregistering event source from poller
+2023-06-05 21:53:16 - TRACE: signal: Closed
+2023-06-05 21:53:16 - INFO: Display pods
+2023-06-05 21:53:16 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:53:16 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:53:16 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:53:18 - INFO: display_pods not q, n, or p
+2023-06-05 21:53:18 - INFO: Display pods
+2023-06-05 21:53:18 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:53:18 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:53:18 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:53:19 - INFO: Ok(chosen
+2023-06-05 21:53:19 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Radio Inc.", url: "https://feeds.buzzsprout.com/1941171.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1610487618 }
+2023-06-05 21:53:19 - INFO: self.category_id: -1
+2023-06-05 21:53:19 - INFO: self.category_id == -1
+2023-06-05 21:53:19 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:53:19 - INFO: update new podcast category id
+2023-06-05 21:53:24 - INFO: Podcast { id: 0, name: "Red Dot Radio Inc.", url: "https://feeds.buzzsprout.com/1941171.rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1610487618 }
+2023-06-05 21:53:24 - INFO: chosen category: 2
+2023-06-05 21:53:24 - ERROR: 6 values for 5 columns
+2023-06-05 21:53:24 - INFO: Choice
+2023-06-05 21:53:24 - INFO: prompt3
+2023-06-05 21:53:24 - INFO: prompt3-2
+2023-06-05 21:53:24 - INFO: prompt3-3
+2023-06-05 21:53:48 - INFO: quitting
+2023-06-05 21:54:05 - INFO: logging started
+2023-06-05 21:54:05 - INFO: Choice
+2023-06-05 21:54:05 - INFO: prompt3
+2023-06-05 21:54:05 - INFO: prompt3-2
+2023-06-05 21:54:05 - INFO: prompt3-3
+2023-06-05 21:54:06 - INFO: enter_search_terms
+2023-06-05 21:54:09 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 21:54:09 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 21:54:09 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 21:54:09 - TRACE: signal: Want
+2023-06-05 21:54:09 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:54:09 - TRACE: poll_want: taker wants!
+2023-06-05 21:54:09 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 21:54:09 - TRACE: signal: Want
+2023-06-05 21:54:09 - TRACE: signal found waiting giver, notifying
+2023-06-05 21:54:09 - TRACE: signal: Want
+2023-06-05 21:54:09 - TRACE: poll_want: taker wants!
+2023-06-05 21:54:09 - TRACE: signal: Want
+2023-06-05 21:54:09 - TRACE: deregistering event source from poller
+2023-06-05 21:54:09 - TRACE: signal: Closed
+2023-06-05 21:54:09 - INFO: Display pods
+2023-06-05 21:54:09 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:54:09 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:54:09 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:54:11 - INFO: display_pods not q, n, or p
+2023-06-05 21:54:11 - INFO: Display pods
+2023-06-05 21:54:11 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 21:54:11 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 21:54:11 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 21:54:12 - INFO: Ok(chosen
+2023-06-05 21:54:12 - INFO: Podcast returned Podcast { id: 0, name: "Red Dog: Meet the Filmmaker", url: "http://itstreaming.apple.com/podcasts/filmmaker_au/red_dog/red_dog.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 482211003 }
+2023-06-05 21:54:12 - INFO: self.category_id: -1
+2023-06-05 21:54:12 - INFO: self.category_id == -1
+2023-06-05 21:54:12 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "eeeeeee" }]
+2023-06-05 21:54:12 - INFO: update new podcast category id
+2023-06-05 21:54:13 - INFO: Podcast { id: 0, name: "Red Dog: Meet the Filmmaker", url: "http://itstreaming.apple.com/podcasts/filmmaker_au/red_dog/red_dog.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 482211003 }
+2023-06-05 21:54:13 - INFO: chosen category: 2
+2023-06-05 21:54:13 - INFO: Ok tmp: 1
+2023-06-05 21:54:13 - INFO: Choice
+2023-06-05 21:54:13 - INFO: prompt3
+2023-06-05 21:54:13 - INFO: prompt3-2
+2023-06-05 21:54:13 - INFO: prompt3-3
+2023-06-05 21:54:19 - INFO: New Podcast!
+2023-06-05 21:57:10 - INFO: logging started
+2023-06-05 21:57:10 - INFO: Choice
+2023-06-05 21:57:10 - INFO: prompt3
+2023-06-05 21:57:10 - INFO: prompt3-2
+2023-06-05 21:57:10 - INFO: prompt3-3
+2023-06-05 21:59:06 - INFO: logging started
+2023-06-05 21:59:06 - INFO: Choice
+2023-06-05 21:59:06 - INFO: prompt3
+2023-06-05 21:59:06 - INFO: prompt3-2
+2023-06-05 21:59:06 - INFO: prompt3-3
+2023-06-05 21:59:08 - INFO: create_new_cateory
+2023-06-05 21:59:12 - INFO: create_catrgory
+2023-06-05 21:59:12 - INFO: ****
+2023-06-05 21:59:12 - INFO: 1
+2023-06-05 21:59:12 - INFO: temp
+2023-06-05 21:59:12 - INFO: 1
+2023-06-05 21:59:14 - INFO: Choice
+2023-06-05 21:59:14 - INFO: prompt3
+2023-06-05 21:59:14 - INFO: prompt3-2
+2023-06-05 21:59:14 - INFO: prompt3-3
+2023-06-05 21:59:16 - INFO: display_cats
+2023-06-05 21:59:19 - ERROR: edit_category() error is cannot parse integer from empty string
+2023-06-05 21:59:26 - INFO: Choice
+2023-06-05 21:59:26 - INFO: prompt3
+2023-06-05 21:59:26 - INFO: prompt3-2
+2023-06-05 21:59:26 - INFO: prompt3-3
+2023-06-05 21:59:30 - INFO: display_cats
+2023-06-05 21:59:32 - ERROR: edit_category() error is cannot parse integer from empty string
+2023-06-05 21:59:34 - INFO: Choice
+2023-06-05 21:59:34 - INFO: prompt3
+2023-06-05 21:59:34 - INFO: prompt3-2
+2023-06-05 21:59:34 - INFO: prompt3-3
+2023-06-05 22:02:41 - INFO: quitting
+2023-06-05 22:06:47 - INFO: logging started
+2023-06-05 22:06:47 - INFO: Choice
+2023-06-05 22:06:47 - INFO: prompt3
+2023-06-05 22:06:47 - INFO: prompt3-2
+2023-06-05 22:06:47 - INFO: prompt3-3
+2023-06-05 22:07:56 - INFO: display_cats
+2023-06-05 22:07:58 - ERROR: edit_category() error is cannot parse integer from empty string
+2023-06-05 22:12:16 - INFO: Choice
+2023-06-05 22:12:16 - INFO: prompt3
+2023-06-05 22:12:16 - INFO: prompt3-2
+2023-06-05 22:12:16 - INFO: prompt3-3
+2023-06-05 22:12:18 - INFO: quitting
+2023-06-05 22:16:20 - INFO: logging started
+2023-06-05 22:16:20 - INFO: Choice
+2023-06-05 22:16:20 - INFO: prompt3
+2023-06-05 22:16:20 - INFO: prompt3-2
+2023-06-05 22:16:20 - INFO: prompt3-3
+2023-06-05 22:16:24 - INFO: display_cats
+2023-06-05 22:17:06 - ERROR: edit_category() error is cannot parse integer from empty string
+2023-06-05 22:17:57 - INFO: Choice
+2023-06-05 22:17:57 - INFO: prompt3
+2023-06-05 22:17:57 - INFO: prompt3-2
+2023-06-05 22:17:57 - INFO: prompt3-3
+2023-06-05 22:17:58 - INFO: quitting
+2023-06-05 22:18:12 - INFO: logging started
+2023-06-05 22:18:12 - INFO: Choice
+2023-06-05 22:18:12 - INFO: prompt3
+2023-06-05 22:18:12 - INFO: prompt3-2
+2023-06-05 22:18:12 - INFO: prompt3-3
+2023-06-05 22:18:26 - INFO: display_cats
+2023-06-05 22:18:28 - ERROR: 2edit_category() error is cannot parse integer from empty string
+2023-06-05 22:19:31 - INFO: Choice
+2023-06-05 22:19:31 - INFO: prompt3
+2023-06-05 22:19:31 - INFO: prompt3-2
+2023-06-05 22:19:31 - INFO: prompt3-3
+2023-06-05 22:19:32 - INFO: quitting
+2023-06-05 22:20:09 - INFO: logging started
+2023-06-05 22:20:09 - INFO: Choice
+2023-06-05 22:20:09 - INFO: prompt3
+2023-06-05 22:20:09 - INFO: prompt3-2
+2023-06-05 22:20:09 - INFO: prompt3-3
+2023-06-05 22:20:14 - INFO: display_cats
+2023-06-05 22:20:17 - ERROR: 2edit_category() error is cannot parse integer from empty string
+2023-06-05 22:21:09 - INFO: Choice
+2023-06-05 22:21:09 - INFO: prompt3
+2023-06-05 22:21:09 - INFO: prompt3-2
+2023-06-05 22:21:09 - INFO: prompt3-3
+2023-06-05 22:21:10 - INFO: quitting
+2023-06-05 22:25:13 - INFO: logging started
+2023-06-05 22:25:13 - INFO: Choice
+2023-06-05 22:25:13 - INFO: prompt3
+2023-06-05 22:25:13 - INFO: prompt3-2
+2023-06-05 22:25:13 - INFO: prompt3-3
+2023-06-05 22:25:16 - INFO: display_cats
+2023-06-05 22:25:19 - ERROR: 2edit_category() error is cannot parse integer from empty string
+2023-06-05 22:25:27 - INFO: Choice
+2023-06-05 22:25:27 - INFO: prompt3
+2023-06-05 22:25:27 - INFO: prompt3-2
+2023-06-05 22:25:27 - INFO: prompt3-3
+2023-06-05 22:26:33 - INFO: quitting
+2023-06-05 22:27:18 - INFO: logging started
+2023-06-05 22:27:18 - INFO: Choice
+2023-06-05 22:27:18 - INFO: prompt3
+2023-06-05 22:27:18 - INFO: prompt3-2
+2023-06-05 22:27:18 - INFO: prompt3-3
+2023-06-05 22:27:27 - INFO: display_cats
+2023-06-05 22:27:30 - ERROR: 2edit_category() error is cannot parse integer from empty string
+2023-06-05 22:31:12 - INFO: Choice
+2023-06-05 22:31:12 - INFO: prompt3
+2023-06-05 22:31:12 - INFO: prompt3-2
+2023-06-05 22:31:12 - INFO: prompt3-3
+2023-06-05 22:31:15 - INFO: quitting
+2023-06-05 22:31:47 - INFO: logging started
+2023-06-05 22:31:47 - INFO: Choice
+2023-06-05 22:31:47 - INFO: prompt3
+2023-06-05 22:31:47 - INFO: prompt3-2
+2023-06-05 22:31:47 - INFO: prompt3-3
+2023-06-05 22:31:50 - INFO: display_cats
+2023-06-05 22:31:52 - ERROR: 2edit_category() error is cannot parse integer from empty string
+2023-06-05 22:32:04 - INFO: Choice
+2023-06-05 22:32:04 - INFO: prompt3
+2023-06-05 22:32:04 - INFO: prompt3-2
+2023-06-05 22:32:04 - INFO: prompt3-3
+2023-06-05 22:32:05 - INFO: quitting
+2023-06-05 22:32:44 - INFO: logging started
+2023-06-05 22:32:44 - INFO: Choice
+2023-06-05 22:32:44 - INFO: prompt3
+2023-06-05 22:32:44 - INFO: prompt3-2
+2023-06-05 22:32:44 - INFO: prompt3-3
+2023-06-05 22:32:46 - INFO: display_cats
+2023-06-05 22:32:48 - ERROR: 2edit_category() error is cannot parse integer from empty string
+2023-06-05 22:43:11 - INFO: Choice
+2023-06-05 22:43:11 - INFO: prompt3
+2023-06-05 22:43:11 - INFO: prompt3-2
+2023-06-05 22:43:11 - INFO: prompt3-3
+2023-06-05 22:43:12 - INFO: quitting
+2023-06-05 22:43:26 - INFO: logging started
+2023-06-05 22:43:26 - INFO: Choice
+2023-06-05 22:43:26 - INFO: prompt3
+2023-06-05 22:43:26 - INFO: prompt3-2
+2023-06-05 22:43:26 - INFO: prompt3-3
+2023-06-05 22:43:29 - INFO: display_cats
+2023-06-05 22:43:31 - ERROR: 2edit_category() error is 
+2023-06-05 22:44:31 - INFO: Choice
+2023-06-05 22:44:31 - INFO: prompt3
+2023-06-05 22:44:31 - INFO: prompt3-2
+2023-06-05 22:44:31 - INFO: prompt3-3
+2023-06-05 22:44:31 - INFO: quitting
+2023-06-05 22:45:47 - INFO: logging started
+2023-06-05 22:45:47 - INFO: Choice
+2023-06-05 22:45:47 - INFO: prompt3
+2023-06-05 22:45:47 - INFO: prompt3-2
+2023-06-05 22:45:47 - INFO: prompt3-3
+2023-06-05 22:45:50 - INFO: display_cats
+2023-06-05 22:45:52 - ERROR: 2edit_category() error is ""
+2023-06-05 22:46:12 - INFO: Choice
+2023-06-05 22:46:12 - INFO: prompt3
+2023-06-05 22:46:12 - INFO: prompt3-2
+2023-06-05 22:46:12 - INFO: prompt3-3
+2023-06-05 22:46:13 - INFO: display_cats
+2023-06-05 22:46:14 - INFO: temp_cat.id:2
+2023-06-05 22:46:14 - DEBUG: VEOF: KeyEvent(Char('D'), CTRL)
+2023-06-05 22:46:14 - DEBUG: VINTR: KeyEvent(Char('C'), CTRL)
+2023-06-05 22:46:14 - DEBUG: VQUIT: KeyEvent(Char('\\'), CTRL)
+2023-06-05 22:46:14 - DEBUG: VSUSP: KeyEvent(Char('Z'), CTRL)
+2023-06-05 22:46:14 - DEBUG: Changeset::delete(0, "")
+2023-06-05 22:46:14 - DEBUG: Changeset::insert_str(0, "fffff")
+2023-06-05 22:46:14 - DEBUG: old layout: Layout { prompt_size: Position { col: 0, row: 0 }, default_prompt: false, cursor: Position { col: 0, row: 0 }, end: Position { col: 0, row: 0 } }
+2023-06-05 22:46:14 - DEBUG: new layout: Layout { prompt_size: Position { col: 24, row: 0 }, default_prompt: true, cursor: Position { col: 29, row: 0 }, end: Position { col: 29, row: 0 } }
+2023-06-05 22:46:15 - DEBUG: c: '\u{7f}' => key: KeyEvent(Backspace, NONE)
+2023-06-05 22:46:15 - DEBUG: Emacs command: Kill(BackwardChar(1))
+2023-06-05 22:46:15 - DEBUG: Changeset::delete(4, "f")
+2023-06-05 22:46:15 - DEBUG: old layout: Layout { prompt_size: Position { col: 24, row: 0 }, default_prompt: true, cursor: Position { col: 29, row: 0 }, end: Position { col: 29, row: 0 } }
+2023-06-05 22:46:15 - DEBUG: new layout: Layout { prompt_size: Position { col: 24, row: 0 }, default_prompt: true, cursor: Position { col: 28, row: 0 }, end: Position { col: 28, row: 0 } }
+2023-06-05 22:46:15 - DEBUG: c: '\r' => key: KeyEvent(Enter, NONE)
+2023-06-05 22:46:15 - DEBUG: Emacs command: AcceptOrInsertLine { accept_in_the_middle: true }
+2023-06-05 22:46:15 - INFO: Choice
+2023-06-05 22:46:15 - INFO: prompt3
+2023-06-05 22:46:15 - INFO: prompt3-2
+2023-06-05 22:46:15 - INFO: prompt3-3
+2023-06-05 22:46:17 - INFO: display_cats
+2023-06-05 22:46:45 - ERROR: 2edit_category() error is ""
+2023-06-05 22:47:13 - INFO: Choice
+2023-06-05 22:47:13 - INFO: prompt3
+2023-06-05 22:47:13 - INFO: prompt3-2
+2023-06-05 22:47:13 - INFO: prompt3-3
+2023-06-05 22:47:16 - INFO: quitting
+2023-06-05 22:49:18 - INFO: logging started
+2023-06-05 22:49:18 - INFO: Choice
+2023-06-05 22:49:18 - INFO: prompt3
+2023-06-05 22:49:18 - INFO: prompt3-2
+2023-06-05 22:49:18 - INFO: prompt3-3
+2023-06-05 22:49:20 - INFO: display_cats
+2023-06-05 22:49:22 - INFO: temp_cat.id:2
+2023-06-05 22:49:22 - DEBUG: VEOF: KeyEvent(Char('D'), CTRL)
+2023-06-05 22:49:22 - DEBUG: VINTR: KeyEvent(Char('C'), CTRL)
+2023-06-05 22:49:22 - DEBUG: VQUIT: KeyEvent(Char('\\'), CTRL)
+2023-06-05 22:49:22 - DEBUG: VSUSP: KeyEvent(Char('Z'), CTRL)
+2023-06-05 22:49:22 - DEBUG: Changeset::delete(0, "")
+2023-06-05 22:49:22 - DEBUG: Changeset::insert_str(0, "ffff")
+2023-06-05 22:49:22 - DEBUG: old layout: Layout { prompt_size: Position { col: 0, row: 0 }, default_prompt: false, cursor: Position { col: 0, row: 0 }, end: Position { col: 0, row: 0 } }
+2023-06-05 22:49:22 - DEBUG: new layout: Layout { prompt_size: Position { col: 24, row: 0 }, default_prompt: true, cursor: Position { col: 28, row: 0 }, end: Position { col: 28, row: 0 } }
+2023-06-05 22:49:23 - DEBUG: c: 'f' => key: KeyEvent(Char('f'), NONE)
+2023-06-05 22:49:23 - DEBUG: Emacs command: SelfInsert(1, 'f')
+2023-06-05 22:49:23 - DEBUG: Changeset::insert(4, 'f')
+2023-06-05 22:49:23 - DEBUG: c: '\r' => key: KeyEvent(Enter, NONE)
+2023-06-05 22:49:23 - DEBUG: Emacs command: AcceptOrInsertLine { accept_in_the_middle: true }
+2023-06-05 22:49:23 - INFO: Choice
+2023-06-05 22:49:23 - INFO: prompt3
+2023-06-05 22:49:23 - INFO: prompt3-2
+2023-06-05 22:49:23 - INFO: prompt3-3
+2023-06-05 22:49:25 - INFO: display_cats
+2023-06-05 22:49:25 - INFO: ""
+2023-06-05 22:49:25 - ERROR: 2edit_category() error is ""
+2023-06-05 22:49:56 - INFO: Choice
+2023-06-05 22:49:56 - INFO: prompt3
+2023-06-05 22:49:56 - INFO: prompt3-2
+2023-06-05 22:49:56 - INFO: prompt3-3
+2023-06-05 22:49:56 - INFO: quitting
+2023-06-05 22:50:12 - INFO: logging started
+2023-06-05 22:50:12 - INFO: Choice
+2023-06-05 22:50:12 - INFO: prompt3
+2023-06-05 22:50:12 - INFO: prompt3-2
+2023-06-05 22:50:12 - INFO: prompt3-3
+2023-06-05 22:50:14 - INFO: display_cats
+2023-06-05 22:50:16 - INFO: index :""
+2023-06-05 22:50:16 - INFO: ""
+2023-06-05 22:50:16 - ERROR: 2edit_category() error is ""
+2023-06-05 22:51:18 - INFO: logging started
+2023-06-05 22:51:18 - INFO: Choice
+2023-06-05 22:51:18 - INFO: prompt3
+2023-06-05 22:51:18 - INFO: prompt3-2
+2023-06-05 22:51:18 - INFO: prompt3-3
+2023-06-05 22:51:19 - INFO: display_cats
+2023-06-05 22:51:20 - INFO: index :"q"
+2023-06-05 22:51:20 - INFO: matching dammit
+2023-06-05 22:51:20 - INFO: Choice
+2023-06-05 22:51:20 - INFO: prompt3
+2023-06-05 22:51:20 - INFO: prompt3-2
+2023-06-05 22:51:20 - INFO: prompt3-3
+2023-06-05 22:51:24 - INFO: display_cats
+2023-06-05 22:51:25 - INFO: index :"q"
+2023-06-05 22:51:25 - INFO: matching dammit
+2023-06-05 22:51:25 - INFO: Choice
+2023-06-05 22:51:25 - INFO: prompt3
+2023-06-05 22:51:25 - INFO: prompt3-2
+2023-06-05 22:51:25 - INFO: prompt3-3
+2023-06-05 22:51:27 - INFO: quitting
+2023-06-05 22:52:37 - INFO: logging started
+2023-06-05 22:52:37 - INFO: Choice
+2023-06-05 22:52:37 - INFO: prompt3
+2023-06-05 22:52:37 - INFO: prompt3-2
+2023-06-05 22:52:37 - INFO: prompt3-3
+2023-06-05 22:52:40 - INFO: display_cats
+2023-06-05 22:52:42 - INFO: index :"2"
+2023-06-05 22:52:42 - INFO: temp_cat.id:2
+2023-06-05 22:52:42 - DEBUG: VEOF: KeyEvent(Char('D'), CTRL)
+2023-06-05 22:52:42 - DEBUG: VINTR: KeyEvent(Char('C'), CTRL)
+2023-06-05 22:52:42 - DEBUG: VQUIT: KeyEvent(Char('\\'), CTRL)
+2023-06-05 22:52:42 - DEBUG: VSUSP: KeyEvent(Char('Z'), CTRL)
+2023-06-05 22:52:42 - DEBUG: Changeset::delete(0, "")
+2023-06-05 22:52:42 - DEBUG: Changeset::insert_str(0, "fffff")
+2023-06-05 22:52:42 - DEBUG: old layout: Layout { prompt_size: Position { col: 0, row: 0 }, default_prompt: false, cursor: Position { col: 0, row: 0 }, end: Position { col: 0, row: 0 } }
+2023-06-05 22:52:42 - DEBUG: new layout: Layout { prompt_size: Position { col: 24, row: 0 }, default_prompt: true, cursor: Position { col: 29, row: 0 }, end: Position { col: 29, row: 0 } }
+2023-06-05 22:52:43 - DEBUG: c: '\r' => key: KeyEvent(Enter, NONE)
+2023-06-05 22:52:43 - DEBUG: Emacs command: AcceptOrInsertLine { accept_in_the_middle: true }
+2023-06-05 22:52:43 - INFO: Choice
+2023-06-05 22:52:43 - INFO: prompt3
+2023-06-05 22:52:43 - INFO: prompt3-2
+2023-06-05 22:52:43 - INFO: prompt3-3
+2023-06-05 22:52:45 - INFO: display_cats
+2023-06-05 22:52:46 - INFO: index :"q"
+2023-06-05 22:52:46 - INFO: matching dammit
+2023-06-05 22:52:46 - INFO: Choice
+2023-06-05 22:52:46 - INFO: prompt3
+2023-06-05 22:52:46 - INFO: prompt3-2
+2023-06-05 22:52:46 - INFO: prompt3-3
+2023-06-05 22:53:08 - INFO: display_cats
+2023-06-05 22:53:09 - INFO: display_cats
+2023-06-05 22:56:29 - INFO: index :"q"
+2023-06-05 22:56:29 - INFO: matching dammit
+2023-06-05 22:56:29 - INFO: Choice
+2023-06-05 22:56:29 - INFO: prompt3
+2023-06-05 22:56:29 - INFO: prompt3-2
+2023-06-05 22:56:29 - INFO: prompt3-3
+2023-06-05 22:56:31 - INFO: quitting
+2023-06-05 22:56:46 - INFO: logging started
+2023-06-05 22:56:46 - INFO: Choice
+2023-06-05 22:56:46 - INFO: prompt3
+2023-06-05 22:56:46 - INFO: prompt3-2
+2023-06-05 22:56:46 - INFO: prompt3-3
+2023-06-05 22:57:12 - INFO: enter_search_terms
+2023-06-05 22:57:14 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 22:57:14 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 22:57:14 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 22:57:14 - TRACE: signal: Want
+2023-06-05 22:57:14 - TRACE: signal found waiting giver, notifying
+2023-06-05 22:57:14 - TRACE: poll_want: taker wants!
+2023-06-05 22:57:14 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 22:57:14 - TRACE: signal: Want
+2023-06-05 22:57:14 - TRACE: signal found waiting giver, notifying
+2023-06-05 22:57:14 - TRACE: signal: Want
+2023-06-05 22:57:14 - TRACE: poll_want: taker wants!
+2023-06-05 22:57:14 - TRACE: deregistering event source from poller
+2023-06-05 22:57:14 - TRACE: signal: Closed
+2023-06-05 22:57:14 - INFO: Display pods
+2023-06-05 22:57:14 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 22:57:14 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 22:57:14 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 22:57:17 - INFO: display_pods not q, n, or p
+2023-06-05 22:57:17 - INFO: Display pods
+2023-06-05 22:57:17 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 22:57:17 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 22:57:17 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 22:57:20 - INFO: Ok(chosen
+2023-06-05 22:57:20 - INFO: Podcast returned Podcast { id: 0, name: "The Red Dot Players Present", url: "https://feed.podbean.com/jeremybeaulne/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1560598838 }
+2023-06-05 22:57:20 - INFO: self.category_id: -1
+2023-06-05 22:57:20 - INFO: self.category_id == -1
+2023-06-05 22:57:20 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "fffff" }]
+2023-06-05 22:57:20 - INFO: update new podcast category id
+2023-06-05 22:57:23 - INFO: Podcast { id: 0, name: "The Red Dot Players Present", url: "https://feed.podbean.com/jeremybeaulne/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1560598838 }
+2023-06-05 22:57:23 - INFO: chosen category: 2
+2023-06-05 22:57:23 - INFO: Ok tmp: 1
+2023-06-05 22:57:23 - INFO: Choice
+2023-06-05 22:57:23 - INFO: prompt3
+2023-06-05 22:57:23 - INFO: prompt3-2
+2023-06-05 22:57:23 - INFO: prompt3-3
+2023-06-05 22:57:26 - INFO: New Podcast!
+2023-06-05 23:02:20 - INFO: logging started
+2023-06-05 23:02:20 - INFO: Choice
+2023-06-05 23:02:20 - INFO: prompt3
+2023-06-05 23:02:20 - INFO: prompt3-2
+2023-06-05 23:02:20 - INFO: prompt3-3
+2023-06-05 23:02:23 - INFO: create_new_cateory
+2023-06-05 23:02:25 - INFO: create_catrgory
+2023-06-05 23:02:25 - INFO: ****
+2023-06-05 23:02:25 - INFO: 1
+2023-06-05 23:02:25 - INFO: temp
+2023-06-05 23:02:25 - INFO: 1
+2023-06-05 23:02:27 - INFO: Choice
+2023-06-05 23:02:27 - INFO: prompt3
+2023-06-05 23:02:27 - INFO: prompt3-2
+2023-06-05 23:02:27 - INFO: prompt3-3
+2023-06-05 23:02:29 - INFO: display_cats
+2023-06-05 23:02:31 - INFO: index :"q"
+2023-06-05 23:02:31 - INFO: matching dammit
+2023-06-05 23:02:31 - INFO: Choice
+2023-06-05 23:02:31 - INFO: prompt3
+2023-06-05 23:02:31 - INFO: prompt3-2
+2023-06-05 23:02:31 - INFO: prompt3-3
+2023-06-05 23:02:37 - INFO: enter_search_terms
+2023-06-05 23:02:39 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 23:02:39 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 23:02:39 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 23:02:39 - TRACE: signal: Want
+2023-06-05 23:02:39 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:02:39 - TRACE: poll_want: taker wants!
+2023-06-05 23:02:39 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 23:02:39 - TRACE: signal: Want
+2023-06-05 23:02:39 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:02:39 - TRACE: signal: Want
+2023-06-05 23:02:39 - TRACE: poll_want: taker wants!
+2023-06-05 23:02:39 - TRACE: signal: Want
+2023-06-05 23:02:39 - TRACE: deregistering event source from poller
+2023-06-05 23:02:39 - TRACE: signal: Closed
+2023-06-05 23:02:39 - INFO: Display pods
+2023-06-05 23:02:39 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:02:39 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:02:39 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:02:41 - INFO: display_pods not q, n, or p
+2023-06-05 23:02:41 - INFO: Display pods
+2023-06-05 23:02:41 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:02:41 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:02:41 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:02:42 - INFO: Ok(chosen
+2023-06-05 23:02:42 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 23:02:42 - INFO: self.category_id: -1
+2023-06-05 23:02:42 - INFO: self.category_id == -1
+2023-06-05 23:02:42 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "ffffff" }]
+2023-06-05 23:02:42 - INFO: update new podcast category id
+2023-06-05 23:02:44 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 23:02:44 - INFO: chosen category: 2
+2023-06-05 23:02:44 - ERROR: table podcasts has no column named viewed
+2023-06-05 23:02:44 - INFO: Choice
+2023-06-05 23:02:44 - INFO: prompt3
+2023-06-05 23:02:44 - INFO: prompt3-2
+2023-06-05 23:02:44 - INFO: prompt3-3
+2023-06-05 23:02:47 - INFO: New Podcast!
+2023-06-05 23:02:47 - INFO: hey dick
+2023-06-05 23:02:47 - INFO: Display pods
+2023-06-05 23:02:47 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:02:47 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:05:09 - INFO: logging started
+2023-06-05 23:05:09 - INFO: Choice
+2023-06-05 23:05:09 - INFO: prompt3
+2023-06-05 23:05:09 - INFO: prompt3-2
+2023-06-05 23:05:09 - INFO: prompt3-3
+2023-06-05 23:05:11 - INFO: create_new_cateory
+2023-06-05 23:05:15 - INFO: create_catrgory
+2023-06-05 23:05:15 - INFO: ****
+2023-06-05 23:05:15 - INFO: 1
+2023-06-05 23:05:15 - INFO: temp
+2023-06-05 23:05:15 - INFO: 1
+2023-06-05 23:05:17 - INFO: Choice
+2023-06-05 23:05:17 - INFO: prompt3
+2023-06-05 23:05:17 - INFO: prompt3-2
+2023-06-05 23:05:17 - INFO: prompt3-3
+2023-06-05 23:05:20 - INFO: enter_search_terms
+2023-06-05 23:05:23 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 23:05:23 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 23:05:23 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 23:05:23 - TRACE: signal: Want
+2023-06-05 23:05:23 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:05:23 - TRACE: poll_want: taker wants!
+2023-06-05 23:05:23 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 23:05:23 - TRACE: signal: Want
+2023-06-05 23:05:23 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:05:23 - TRACE: signal: Want
+2023-06-05 23:05:23 - TRACE: poll_want: taker wants!
+2023-06-05 23:05:23 - TRACE: signal: Want
+2023-06-05 23:05:23 - TRACE: deregistering event source from poller
+2023-06-05 23:05:23 - TRACE: signal: Closed
+2023-06-05 23:05:23 - INFO: Display pods
+2023-06-05 23:05:23 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:05:23 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:05:23 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:05:24 - INFO: display_pods not q, n, or p
+2023-06-05 23:05:24 - INFO: Display pods
+2023-06-05 23:05:24 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:05:24 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:05:24 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:05:25 - INFO: Ok(chosen
+2023-06-05 23:05:25 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 23:05:25 - INFO: self.category_id: -1
+2023-06-05 23:05:25 - INFO: self.category_id == -1
+2023-06-05 23:05:25 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "ffff" }]
+2023-06-05 23:05:25 - INFO: update new podcast category id
+2023-06-05 23:05:27 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 23:05:27 - INFO: chosen category: 2
+2023-06-05 23:05:27 - INFO: Ok tmp: 1
+2023-06-05 23:05:27 - INFO: Choice
+2023-06-05 23:05:27 - INFO: prompt3
+2023-06-05 23:05:27 - INFO: prompt3-2
+2023-06-05 23:05:27 - INFO: prompt3-3
+2023-06-05 23:05:32 - INFO: New Podcast!
+2023-06-05 23:10:42 - INFO: logging started
+2023-06-05 23:10:42 - INFO: Choice
+2023-06-05 23:10:42 - INFO: prompt3
+2023-06-05 23:10:42 - INFO: prompt3-2
+2023-06-05 23:10:42 - INFO: prompt3-3
+2023-06-05 23:10:46 - INFO: create_new_cateory
+2023-06-05 23:10:48 - INFO: create_catrgory
+2023-06-05 23:10:48 - INFO: ****
+2023-06-05 23:10:48 - INFO: 1
+2023-06-05 23:10:48 - INFO: temp
+2023-06-05 23:10:48 - INFO: 1
+2023-06-05 23:10:50 - INFO: Choice
+2023-06-05 23:10:50 - INFO: prompt3
+2023-06-05 23:10:50 - INFO: prompt3-2
+2023-06-05 23:10:50 - INFO: prompt3-3
+2023-06-05 23:10:52 - INFO: display_cats
+2023-06-05 23:10:54 - INFO: index :"q"
+2023-06-05 23:10:54 - INFO: matching dammit
+2023-06-05 23:10:54 - INFO: Choice
+2023-06-05 23:10:54 - INFO: prompt3
+2023-06-05 23:10:54 - INFO: prompt3-2
+2023-06-05 23:10:54 - INFO: prompt3-3
+2023-06-05 23:10:57 - INFO: enter_search_terms
+2023-06-05 23:10:59 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 23:10:59 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 23:10:59 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 23:10:59 - TRACE: signal: Want
+2023-06-05 23:10:59 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:10:59 - TRACE: poll_want: taker wants!
+2023-06-05 23:10:59 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 23:10:59 - TRACE: signal: Want
+2023-06-05 23:10:59 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:10:59 - TRACE: signal: Want
+2023-06-05 23:10:59 - TRACE: poll_want: taker wants!
+2023-06-05 23:10:59 - TRACE: signal: Want
+2023-06-05 23:10:59 - TRACE: deregistering event source from poller
+2023-06-05 23:10:59 - TRACE: signal: Closed
+2023-06-05 23:10:59 - INFO: Display pods
+2023-06-05 23:10:59 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:10:59 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:10:59 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:11:01 - INFO: display_pods not q, n, or p
+2023-06-05 23:11:01 - INFO: Display pods
+2023-06-05 23:11:01 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:11:01 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:11:01 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:11:02 - INFO: Ok(chosen
+2023-06-05 23:11:02 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 23:11:02 - INFO: self.category_id: -1
+2023-06-05 23:11:02 - INFO: self.category_id == -1
+2023-06-05 23:11:02 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "ffffff" }]
+2023-06-05 23:11:02 - INFO: update new podcast category id
+2023-06-05 23:11:04 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 23:11:04 - INFO: chosen category: 2
+2023-06-05 23:11:04 - INFO: Ok tmp: 1
+2023-06-05 23:11:04 - INFO: Choice
+2023-06-05 23:11:04 - INFO: prompt3
+2023-06-05 23:11:04 - INFO: prompt3-2
+2023-06-05 23:11:04 - INFO: prompt3-3
+2023-06-05 23:11:06 - INFO: New Podcast!
+2023-06-05 23:14:21 - INFO: logging started
+2023-06-05 23:14:21 - INFO: Choice
+2023-06-05 23:14:21 - INFO: prompt3
+2023-06-05 23:14:21 - INFO: prompt3-2
+2023-06-05 23:14:21 - INFO: prompt3-3
+2023-06-05 23:14:24 - INFO: create_new_cateory
+2023-06-05 23:14:26 - INFO: create_catrgory
+2023-06-05 23:14:26 - INFO: ****
+2023-06-05 23:14:26 - INFO: 1
+2023-06-05 23:14:26 - INFO: temp
+2023-06-05 23:14:26 - INFO: 1
+2023-06-05 23:14:28 - INFO: Choice
+2023-06-05 23:14:28 - INFO: prompt3
+2023-06-05 23:14:28 - INFO: prompt3-2
+2023-06-05 23:14:28 - INFO: prompt3-3
+2023-06-05 23:14:30 - INFO: enter_search_terms
+2023-06-05 23:14:32 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 23:14:32 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 23:14:32 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 23:14:32 - TRACE: signal: Want
+2023-06-05 23:14:32 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:14:32 - TRACE: poll_want: taker wants!
+2023-06-05 23:14:32 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 23:14:32 - TRACE: signal: Want
+2023-06-05 23:14:32 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:14:32 - TRACE: signal: Want
+2023-06-05 23:14:32 - TRACE: poll_want: taker wants!
+2023-06-05 23:14:32 - TRACE: signal: Want
+2023-06-05 23:14:32 - TRACE: deregistering event source from poller
+2023-06-05 23:14:32 - TRACE: signal: Closed
+2023-06-05 23:14:32 - INFO: Display pods
+2023-06-05 23:14:32 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:14:32 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:14:32 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:14:33 - INFO: display_pods not q, n, or p
+2023-06-05 23:14:33 - INFO: Display pods
+2023-06-05 23:14:33 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:14:33 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:14:33 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:14:34 - INFO: Ok(chosen
+2023-06-05 23:14:34 - INFO: Podcast returned Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1627808515 }
+2023-06-05 23:14:34 - INFO: self.category_id: -1
+2023-06-05 23:14:34 - INFO: self.category_id == -1
+2023-06-05 23:14:34 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "ffffff" }]
+2023-06-05 23:14:34 - INFO: update new podcast category id
+2023-06-05 23:14:36 - INFO: Podcast { id: 0, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-05 23:14:36 - INFO: chosen category: 2
+2023-06-05 23:14:36 - INFO: Ok tmp: 1
+2023-06-05 23:14:36 - INFO: Choice
+2023-06-05 23:14:36 - INFO: prompt3
+2023-06-05 23:14:36 - INFO: prompt3-2
+2023-06-05 23:14:36 - INFO: prompt3-3
+2023-06-05 23:14:38 - INFO: New Podcast!
+2023-06-05 23:14:38 - INFO: hey dick
+2023-06-05 23:14:38 - INFO: Display pods
+2023-06-05 23:14:38 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:14:38 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:14:38 - INFO: (pods_len as u16) - 1: 0
+2023-06-05 23:14:50 - INFO: display_pods not q, n, or p
+2023-06-05 23:14:50 - INFO: Display pods
+2023-06-05 23:14:50 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:14:50 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:14:50 - INFO: (pods_len as u16) - 1: 0
+2023-06-05 23:14:52 - INFO: Ok(chosen
+2023-06-05 23:15:33 - INFO: logging started
+2023-06-05 23:15:33 - INFO: Choice
+2023-06-05 23:15:33 - INFO: prompt3
+2023-06-05 23:15:33 - INFO: prompt3-2
+2023-06-05 23:15:33 - INFO: prompt3-3
+2023-06-05 23:15:39 - INFO: enter_search_terms
+2023-06-05 23:15:41 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-05 23:15:41 - DEBUG: starting new connection: https://itunes.apple.com/
+2023-06-05 23:15:41 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-05 23:15:41 - TRACE: signal: Want
+2023-06-05 23:15:41 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:15:41 - TRACE: poll_want: taker wants!
+2023-06-05 23:15:42 - DEBUG: response '200 OK' for https://itunes.apple.com/search?term=red+dog&entity=podcast&limit=50
+2023-06-05 23:15:42 - TRACE: signal: Want
+2023-06-05 23:15:42 - TRACE: signal found waiting giver, notifying
+2023-06-05 23:15:42 - TRACE: signal: Want
+2023-06-05 23:15:42 - TRACE: poll_want: taker wants!
+2023-06-05 23:15:42 - TRACE: signal: Want
+2023-06-05 23:15:42 - TRACE: deregistering event source from poller
+2023-06-05 23:15:42 - TRACE: signal: Closed
+2023-06-05 23:15:42 - INFO: Display pods
+2023-06-05 23:15:42 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:15:42 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:15:42 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:15:44 - INFO: display_pods not q, n, or p
+2023-06-05 23:15:44 - INFO: Display pods
+2023-06-05 23:15:44 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:15:44 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:15:44 - INFO: (pods_len as u16) - 1: 15
+2023-06-05 23:15:45 - INFO: Ok(chosen
+2023-06-05 23:15:45 - INFO: Podcast returned Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: -1, collection_id: 1200114482 }
+2023-06-05 23:15:45 - INFO: self.category_id: -1
+2023-06-05 23:15:45 - INFO: self.category_id == -1
+2023-06-05 23:15:45 - INFO: [Category { id: 1, name: "Uncategorized" }, Category { id: 2, name: "ffffff" }]
+2023-06-05 23:15:45 - INFO: update new podcast category id
+2023-06-05 23:15:47 - INFO: Podcast { id: 0, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1200114482 }
+2023-06-05 23:15:47 - INFO: chosen category: 2
+2023-06-05 23:15:47 - INFO: Ok tmp: 1
+2023-06-05 23:15:47 - INFO: Choice
+2023-06-05 23:15:47 - INFO: prompt3
+2023-06-05 23:15:47 - INFO: prompt3-2
+2023-06-05 23:15:47 - INFO: prompt3-3
+2023-06-05 23:16:12 - INFO: New Podcast!
+2023-06-05 23:16:12 - INFO: hey dick
+2023-06-05 23:16:12 - INFO: Display pods
+2023-06-05 23:16:12 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:16:12 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:16:12 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:16:14 - INFO: display_pods not q, n, or p
+2023-06-05 23:16:14 - INFO: Display pods
+2023-06-05 23:16:14 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:16:14 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:16:14 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:16:16 - INFO: Ok(chosen
+2023-06-05 23:21:56 - INFO: logging started
+2023-06-05 23:21:56 - INFO: Choice
+2023-06-05 23:21:56 - INFO: prompt3
+2023-06-05 23:21:56 - INFO: prompt3-2
+2023-06-05 23:21:56 - INFO: prompt3-3
+2023-06-05 23:22:02 - INFO: New Podcast!
+2023-06-05 23:22:02 - INFO: hey dick
+2023-06-05 23:22:02 - INFO: Display pods
+2023-06-05 23:22:02 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:22:02 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:22:02 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:22:04 - INFO: display_pods not q, n, or p
+2023-06-05 23:22:04 - INFO: Display pods
+2023-06-05 23:22:04 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:22:04 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:22:04 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:22:07 - INFO: Ok(chosen
+2023-06-05 23:42:20 - INFO: logging started
+2023-06-05 23:42:20 - INFO: Choice
+2023-06-05 23:42:20 - INFO: prompt3
+2023-06-05 23:42:20 - INFO: prompt3-2
+2023-06-05 23:42:20 - INFO: prompt3-3
+2023-06-05 23:42:25 - INFO: New Podcast!
+2023-06-05 23:42:25 - INFO: hey dick
+2023-06-05 23:42:25 - INFO: Display pods
+2023-06-05 23:42:25 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:42:25 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:42:25 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:42:27 - INFO: display_pods not q, n, or p
+2023-06-05 23:42:27 - INFO: Display pods
+2023-06-05 23:42:27 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:42:27 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:42:27 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:42:36 - INFO: Ok(chosen
+2023-06-05 23:44:19 - INFO: logging started
+2023-06-05 23:44:19 - INFO: Choice
+2023-06-05 23:44:19 - INFO: prompt3
+2023-06-05 23:44:19 - INFO: prompt3-2
+2023-06-05 23:44:19 - INFO: prompt3-3
+2023-06-05 23:44:25 - INFO: New Podcast!
+2023-06-05 23:44:25 - INFO: hey dick
+2023-06-05 23:44:25 - INFO: Display pods
+2023-06-05 23:44:25 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:44:25 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:44:25 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:44:28 - INFO: 0
+2023-06-05 23:44:28 - INFO: Ok(chosen
+2023-06-05 23:44:28 - INFO: Choice
+2023-06-05 23:44:28 - INFO: prompt3
+2023-06-05 23:44:28 - INFO: prompt3-2
+2023-06-05 23:44:28 - INFO: prompt3-3
+2023-06-05 23:44:36 - INFO: quitting
+2023-06-05 23:50:39 - INFO: logging started
+2023-06-05 23:50:39 - INFO: Choice
+2023-06-05 23:50:39 - INFO: prompt3
+2023-06-05 23:50:39 - INFO: prompt3-2
+2023-06-05 23:50:39 - INFO: prompt3-3
+2023-06-05 23:50:43 - INFO: New Podcast!
+2023-06-05 23:50:43 - INFO: Display pods
+2023-06-05 23:50:43 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:50:43 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:50:43 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:50:46 - INFO: 0
+2023-06-05 23:50:46 - INFO: Ok(chosen
+2023-06-05 23:50:46 - INFO: Choice
+2023-06-05 23:50:46 - INFO: prompt3
+2023-06-05 23:50:46 - INFO: prompt3-2
+2023-06-05 23:50:46 - INFO: prompt3-3
+2023-06-05 23:51:41 - INFO: quitting
+2023-06-05 23:52:38 - INFO: logging started
+2023-06-05 23:52:38 - INFO: Choice
+2023-06-05 23:52:38 - INFO: prompt3
+2023-06-05 23:52:38 - INFO: prompt3-2
+2023-06-05 23:52:38 - INFO: prompt3-3
+2023-06-05 23:52:41 - INFO: New Podcast!
+2023-06-05 23:52:41 - INFO: Display pods
+2023-06-05 23:52:41 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:52:41 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:52:41 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:52:44 - INFO: display_pods not q, n, or p
+2023-06-05 23:52:44 - INFO: Display pods
+2023-06-05 23:52:44 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:52:44 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:52:44 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:52:52 - INFO: 1
+2023-06-05 23:52:52 - INFO: Ok(chosen
+2023-06-05 23:52:57 - INFO: logging started
+2023-06-05 23:52:57 - INFO: Choice
+2023-06-05 23:52:57 - INFO: prompt3
+2023-06-05 23:52:57 - INFO: prompt3-2
+2023-06-05 23:52:57 - INFO: prompt3-3
+2023-06-05 23:53:03 - INFO: New Podcast!
+2023-06-05 23:53:03 - INFO: Display pods
+2023-06-05 23:53:03 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:53:03 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:53:03 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:53:13 - INFO: display_pods not q, n, or p
+2023-06-05 23:53:13 - INFO: Display pods
+2023-06-05 23:53:13 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:53:13 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:53:13 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:55:03 - INFO: 1
+2023-06-05 23:55:03 - INFO: Ok(chosen
+2023-06-05 23:55:20 - INFO: logging started
+2023-06-05 23:55:20 - INFO: Choice
+2023-06-05 23:55:20 - INFO: prompt3
+2023-06-05 23:55:20 - INFO: prompt3-2
+2023-06-05 23:55:20 - INFO: prompt3-3
+2023-06-05 23:55:21 - INFO: New Podcast!
+2023-06-05 23:55:21 - INFO: Display pods
+2023-06-05 23:55:21 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:55:21 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:55:21 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:55:23 - INFO: delete_podcast chosen.len(): 0
+2023-06-05 23:55:23 - INFO: Choice
+2023-06-05 23:55:23 - INFO: prompt3
+2023-06-05 23:55:23 - INFO: prompt3-2
+2023-06-05 23:55:23 - INFO: prompt3-3
+2023-06-05 23:55:24 - INFO: New Podcast!
+2023-06-05 23:55:24 - INFO: Display pods
+2023-06-05 23:55:24 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:55:24 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:55:24 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:55:25 - INFO: delete_podcast chosen.len(): 0
+2023-06-05 23:55:25 - INFO: Choice
+2023-06-05 23:55:25 - INFO: prompt3
+2023-06-05 23:55:25 - INFO: prompt3-2
+2023-06-05 23:55:25 - INFO: prompt3-3
+2023-06-05 23:55:27 - INFO: New Podcast!
+2023-06-05 23:55:27 - INFO: Display pods
+2023-06-05 23:55:27 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:55:27 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:55:27 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:55:28 - INFO: display_pods not q, n, or p
+2023-06-05 23:55:28 - INFO: Display pods
+2023-06-05 23:55:28 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:55:28 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:55:28 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:55:58 - INFO: delete_podcast chosen.len(): 1
+2023-06-05 23:55:58 - INFO: delete_podcast v: [2]
+2023-06-05 23:56:01 - INFO: logging started
+2023-06-05 23:56:01 - INFO: Choice
+2023-06-05 23:56:01 - INFO: prompt3
+2023-06-05 23:56:01 - INFO: prompt3-2
+2023-06-05 23:56:01 - INFO: prompt3-3
+2023-06-05 23:56:04 - INFO: New Podcast!
+2023-06-05 23:56:04 - INFO: Display pods
+2023-06-05 23:56:04 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:56:04 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:56:04 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:56:06 - INFO: display_pods not q, n, or p
+2023-06-05 23:56:06 - INFO: Display pods
+2023-06-05 23:56:06 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:56:06 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:56:06 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:56:09 - INFO: delete_podcast chosen.len(): 1
+2023-06-05 23:56:09 - INFO: delete_podcast v: [2]
+2023-06-05 23:56:33 - INFO: logging started
+2023-06-05 23:56:33 - INFO: Choice
+2023-06-05 23:56:33 - INFO: prompt3
+2023-06-05 23:56:33 - INFO: prompt3-2
+2023-06-05 23:56:33 - INFO: prompt3-3
+2023-06-05 23:56:36 - INFO: New Podcast!
+2023-06-05 23:56:36 - INFO: Display pods
+2023-06-05 23:56:36 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:56:36 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:56:36 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:56:38 - INFO: display_pods not q, n, or p
+2023-06-05 23:56:38 - ERROR: y is not a valid number.
+2023-06-05 23:56:39 - INFO: Display pods
+2023-06-05 23:56:39 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:56:39 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:56:39 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:56:41 - INFO: display_pods not q, n, or p
+2023-06-05 23:56:41 - INFO: Display pods
+2023-06-05 23:56:41 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:56:41 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:56:41 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:56:42 - INFO: display_pods not q, n, or p
+2023-06-05 23:56:42 - ERROR: y is not a valid number.
+2023-06-05 23:56:43 - INFO: Display pods
+2023-06-05 23:56:43 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:56:43 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:56:43 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:56:45 - INFO: delete_podcast chosen.len(): 1
+2023-06-05 23:56:45 - INFO: delete_podcast v: [2]
+2023-06-05 23:58:03 - INFO: logging started
+2023-06-05 23:58:03 - INFO: Choice
+2023-06-05 23:58:03 - INFO: prompt3
+2023-06-05 23:58:03 - INFO: prompt3-2
+2023-06-05 23:58:03 - INFO: prompt3-3
+2023-06-05 23:58:06 - INFO: New Podcast!
+2023-06-05 23:58:06 - INFO: Display pods
+2023-06-05 23:58:06 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:58:06 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:58:06 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:58:07 - INFO: display_pods not q, n, or p
+2023-06-05 23:58:07 - INFO: Display pods
+2023-06-05 23:58:07 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-05 23:58:07 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-05 23:58:07 - INFO: (pods_len as u16) - 1: 1
+2023-06-05 23:58:14 - INFO: delete_podcast chosen.len(): 1
+2023-06-05 23:58:14 - INFO: delete_podcast v: [2]
+2023-06-05 23:58:14 - INFO: each: 2
+2023-06-06 00:01:16 - INFO: logging started
+2023-06-06 00:01:16 - INFO: Choice
+2023-06-06 00:01:16 - INFO: prompt3
+2023-06-06 00:01:16 - INFO: prompt3-2
+2023-06-06 00:01:16 - INFO: prompt3-3
+2023-06-06 00:01:17 - INFO: New Podcast!
+2023-06-06 00:01:17 - INFO: Display pods
+2023-06-06 00:01:17 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-06 00:01:17 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-06 00:01:17 - INFO: (pods_len as u16) - 1: 1
+2023-06-06 00:01:19 - INFO: display_pods not q, n, or p
+2023-06-06 00:01:19 - INFO: Display pods
+2023-06-06 00:01:19 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-06 00:01:19 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-06 00:01:19 - INFO: (pods_len as u16) - 1: 1
+2023-06-06 00:01:20 - INFO: delete_podcast chosen.len(): 1
+2023-06-06 00:01:20 - INFO: delete_podcast v: [2]
+2023-06-06 00:01:20 - INFO: each: 1
+2023-06-06 00:01:20 - INFO: Podcast returned Podcast { id: 2, name: "Red Dead Redemption Podcast", url: "https://feed.podbean.com/reddeadredemption2podcast/feed.xml", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1200114482 }
+2023-06-06 00:01:20 - INFO: Ok tmp: ()
+2023-06-06 00:01:20 - INFO: Choice
+2023-06-06 00:01:20 - INFO: prompt3
+2023-06-06 00:01:20 - INFO: prompt3-2
+2023-06-06 00:01:20 - INFO: prompt3-3
+2023-06-06 00:01:22 - INFO: New Podcast!
+2023-06-06 00:01:22 - INFO: Display pods
+2023-06-06 00:01:22 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-06 00:01:22 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-06 00:01:22 - INFO: (pods_len as u16) - 1: 0
+2023-06-06 00:01:27 - INFO: display_pods not q, n, or p
+2023-06-06 00:01:27 - INFO: Display pods
+2023-06-06 00:01:27 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-06 00:01:27 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-06 00:01:27 - INFO: (pods_len as u16) - 1: 0
+2023-06-06 00:01:29 - INFO: delete_podcast chosen.len(): 1
+2023-06-06 00:01:29 - INFO: delete_podcast v: [1]
+2023-06-06 00:01:29 - INFO: each: 0
+2023-06-06 00:01:29 - INFO: Podcast returned Podcast { id: 1, name: "Red Dot Pod", url: "https://anchor.fm/s/9c449188/podcast/rss", audio: "/home/marc/audio", video: "/home/marc/video", category_id: 2, collection_id: 1627808515 }
+2023-06-06 00:01:29 - INFO: Ok tmp: ()
+2023-06-06 00:01:29 - INFO: Choice
+2023-06-06 00:01:29 - INFO: prompt3
+2023-06-06 00:01:29 - INFO: prompt3-2
+2023-06-06 00:01:29 - INFO: prompt3-3
+2023-06-06 00:01:31 - INFO: New Podcast!
+2023-06-06 00:01:31 - INFO: Display pods
+2023-06-06 00:01:31 - INFO: (page_iter+1)*display_size)-1 < (pods_len as u16) - 1
+2023-06-06 00:01:31 - INFO: (page_iter+1)*display_size)-1: 18
+2023-06-06 00:02:51 - INFO: logging started
+2023-06-06 00:02:51 - INFO: Choice
+2023-06-06 00:02:51 - INFO: prompt3
+2023-06-06 00:02:51 - INFO: prompt3-2
+2023-06-06 00:02:51 - INFO: prompt3-3
+2023-06-06 00:02:54 - INFO: New Podcast!
+2023-06-06 00:02:54 - INFO: delete_podcast chosen.len(): 0
+2023-06-06 00:02:54 - INFO: Choice
+2023-06-06 00:02:54 - INFO: prompt3
+2023-06-06 00:02:54 - INFO: prompt3-2
+2023-06-06 00:02:54 - INFO: prompt3-3
+2023-06-06 00:04:08 - INFO: quitting
+2023-06-06 00:04:26 - INFO: logging started
+2023-06-06 00:04:26 - INFO: Choice
+2023-06-06 00:04:26 - INFO: prompt3
+2023-06-06 00:04:26 - INFO: prompt3-2
+2023-06-06 00:04:26 - INFO: prompt3-3
+2023-06-06 00:04:27 - INFO: New Podcast!
+2023-06-06 00:04:27 - ERROR: No Podcasts to display.
+2023-06-06 00:04:29 - INFO: delete_podcast chosen.len(): 0
+2023-06-06 00:04:29 - INFO: Choice
+2023-06-06 00:04:29 - INFO: prompt3
+2023-06-06 00:04:29 - INFO: prompt3-2
+2023-06-06 00:04:29 - INFO: prompt3-3
+2023-06-06 00:04:31 - INFO: quitting

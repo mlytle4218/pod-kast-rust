@@ -2,6 +2,9 @@ use rusqlite::{params, Connection, Error, Result};
 
 use log::info;
 
+use super::super::config::config::Config;
+use super::data::DB;
+
 #[derive(Debug)]
 pub struct Category {
     pub id: i32,
@@ -41,6 +44,34 @@ impl Category {
             results.push(category.unwrap());
         }
         Ok(results)
+    }
+    pub fn read_all_categories(&self) -> Result<Vec<Category>, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let mut stmt = conn.prepare("SELECT * FROM categories;")?;
+        let cat_iter = stmt.query_map([], |row| {
+            Ok(Category {
+                id: row.get(0)?,
+                name: row.get(1)?,
+            })
+        })?;
+        let mut results: Vec<Category> = Vec::new();
+        for category in cat_iter {
+            results.push(category.unwrap());
+        }
+        // conn.close();
+        Ok(results)
+    }
+    
+
+    pub fn update_existing(&self) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let result = conn.execute(
+            "UPDATE categories SET category=(?1) where category_id=(?2)",
+            params![self.name, self.id],
+        )?;
+        Ok(result)
     }
     pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Category, Error> {
         // pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Vec<Category>, Error> {
