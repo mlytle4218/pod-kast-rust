@@ -3,14 +3,18 @@ use std::fs;
 use whoami;
 use toml;
 
+use log::{info, warn, error, LevelFilter};
 
-#[derive(Serialize, Deserialize, Debug)]
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Config {
     pub asset_location: String,
     config_file: String,
-    pub database: Database,
+    pub def_audio_loc: String,
+    pub def_video_loc: String,
+    pub database: Database
 }
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Database {
     pub sqlite_file: String
 }
@@ -29,6 +33,8 @@ impl Config {
             asset_location: format!("/home/{}/.pod-kast/", whoami::username()),
             config_file: String::from("pod-kast-config"),
             database: db,
+            def_audio_loc: format!("/home/{}/audio/", whoami::username()),
+            def_video_loc: format!("/home/{}/video/", whoami::username())
         };
         if con.config_exists() {
             con = con.load_config();
@@ -46,9 +52,24 @@ impl Config {
         fs::metadata(res).is_ok()
     }
     pub fn save_config(&self) -> std::io::Result<()> {
-        let toml = toml::to_string(self).unwrap();
         let res = format!("{}/{}", self.asset_location, self.config_file);
-        fs::write(res, toml)?;
+        match toml::to_string(self) {
+            Ok(toml) => {
+                match fs::write(res, toml) {
+                    Ok(()) => {
+                        return Ok(())
+                    }, Err(e) =>{
+                        error!("save_config-fs:write: {}",e)
+                    }
+                }
+
+            }, Err(e) => {
+                error!("save_config-toml::to_string: {}", e);
+            }
+        }
+        // let toml = toml::to_string(self).unwrap();
+        // let res = format!("{}/{}", self.asset_location, self.config_file);
+        // fs::write(res, toml)?;
         Ok(())
     }
 

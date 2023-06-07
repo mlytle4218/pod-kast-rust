@@ -15,6 +15,7 @@ pub struct SimpleMenu {
 
 impl SimpleMenu {
     pub fn new(screen: Screen, entries: Vec<MenuEntry>) -> SimpleMenu {
+        info!("simple menu");
         SimpleMenu {
             screen: screen,
             entries: entries,

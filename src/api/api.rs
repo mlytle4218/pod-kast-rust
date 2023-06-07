@@ -7,6 +7,7 @@ use std::error::Error;
 
 use crate::data::episode::Episode;
 use crate::data::podcast::Podcast;
+use super::super::config::config::Config;
 
 #[derive(Deserialize, Debug)]
 pub struct ItuneResult {
@@ -41,6 +42,8 @@ impl AppleSearch {
 	pub async fn search(&self) -> Result<Vec<Podcast>, Box<dyn std::error::Error>> {
 		// fs::write("log.txt", "test****************");
 
+		let config: Config = Config::new();
+
 		let url = format!(
 			"{}/search?term={}&entity=podcast&limit={}",
 			self.base_url, self.terms, self.limit
@@ -57,8 +60,8 @@ impl AppleSearch {
 				id: 0,
 				name: itune_result.collectionName,
 				url: itune_result.feedUrl,
-				audio: String::from("/home/marc/audio"),
-				video: String::from("/home/marc/video"),
+				audio: config.def_audio_loc.clone(),
+				video: config.def_video_loc.clone(),
 				category_id: -1,
 				collection_id: itune_result.collectionId
 			};
@@ -90,6 +93,7 @@ pub async fn retreive_episodes(url: String, podcast_id: i16) -> Result<Vec<Episo
 			length: String::from(&en.length).parse::<i32>().unwrap(),
 			audio: String::from(&en.mime_type),
 			url: String::from(&en.url),
+			viewed: 0,
 			downloaded: 0,
 			podcast_id: podcast_id,
 		});

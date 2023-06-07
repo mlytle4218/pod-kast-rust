@@ -1,7 +1,11 @@
 use chrono::{DateTime, Duration, Utc};
 use rusqlite::{params, Connection, Error, Result};
+use log::{debug, error, log_enabled, info, Level};
 
 use super::podcast::Podcast;
+use super::category::Category;
+use super::super::config::config::Config;
+use super::data::DB;
 
 #[derive(Debug)]
 pub struct Episode {
@@ -13,6 +17,7 @@ pub struct Episode {
     pub audio: String,
     pub url: String,
     pub downloaded: i8,
+    pub viewed: i8,
     pub podcast_id: i16,
 }
 impl Episode {
@@ -26,10 +31,60 @@ impl Episode {
             audio: String::from("audio/mpeg"),
             url: String::from("nada"),
             downloaded: 0,
+            viewed: 0,
             podcast_id: 1,
         }
     }
 
+    pub fn save_existing(&mut self) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let result = conn.execute(
+            "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
+            params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
+        )?;
+        // let result = conn.execute(
+        //     "BEGIN 
+        //      IF NOT EXISTS (SELECT * FROM episodes 
+        //         WHERE url = ?6)
+        //         BEGIN 
+        //             INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)
+        //         END
+        //     END", 
+        //     params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
+        // )?;
+
+
+
+        // BEGIN
+        //     IF NOT EXISTS (SELECT * FROM EmailsRecebidos 
+        //                     WHERE De = @_DE
+        //                     AND Assunto = @_ASSUNTO
+        //                     AND Data = @_DATA)
+        //     BEGIN
+        //         INSERT INTO EmailsRecebidos (De, Assunto, Data)
+        //         VALUES (@_DE, @_ASSUNTO, @_DATA)
+        //     END
+        //     END
+
+
+
+        // match conn.execute(
+        //     "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
+        //     params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
+        // ) {
+        //     Ok(result) =>{
+        //         self.id = conn.last_insert_rowid();
+        //         Ok(result)
+        //     },
+        //     Err(e) => {
+        //         error!("{}", e)
+        //     }
+        // }
+        
+        self.id = conn.last_insert_rowid();
+        Ok(result)
+    }
     fn create_episode(&mut self, conn: Connection) -> Result<usize, Error> {
         let result = conn.execute(
             "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
@@ -50,8 +105,9 @@ impl Episode {
                 length: row.get(4)?,
                 audio: row.get(5)?,
                 url: row.get(6)?,
-                downloaded: row.get(7)?,
-                podcast_id: row.get(8)?,
+                viewed: row.get(7)?,
+                downloaded: row.get(8)?,
+                podcast_id: row.get(9)?,
             })
         })?;
         let mut results: Vec<Episode> = Vec::new();
@@ -70,6 +126,7 @@ impl Episode {
             length: 3600,
             audio: String::from("audio/mpeg"), //true
             url: String::from("https://something.com/epi1"),
+            viewed: 0, //false
             downloaded: 0, //false
             podcast_id: 1,
         };

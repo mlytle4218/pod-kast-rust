@@ -2030,3 +2030,731 @@
 2023-06-06 00:04:29 - INFO: prompt3-2
 2023-06-06 00:04:29 - INFO: prompt3-3
 2023-06-06 00:04:31 - INFO: quitting
+2023-06-07 14:39:15 - INFO: logging started
+2023-06-07 14:39:15 - INFO: just before config call
+2023-06-07 14:39:15 - INFO: Just after config call
+2023-06-07 14:39:15 - INFO: simple menu
+2023-06-07 14:39:15 - INFO: Choice
+2023-06-07 14:39:15 - INFO: prompt3
+2023-06-07 14:39:15 - INFO: prompt3-2
+2023-06-07 14:39:15 - INFO: prompt3-3
+2023-06-07 14:40:37 - INFO: New Podcast!
+2023-06-07 14:40:37 - INFO: Display pods
+2023-06-07 14:40:44 - INFO: delete_podcast chosen.len(): 0
+2023-06-07 14:40:44 - INFO: Choice
+2023-06-07 14:40:44 - INFO: prompt3
+2023-06-07 14:40:44 - INFO: prompt3-2
+2023-06-07 14:40:44 - INFO: prompt3-3
+2023-06-07 14:40:48 - INFO: New Podcast!
+2023-06-07 14:40:48 - INFO: https://anchor.fm/s/9c449188/podcast/rss, 1
+2023-06-07 14:40:48 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:48 - DEBUG: starting new connection: https://anchor.fm/
+2023-06-07 14:40:48 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:48 - TRACE: signal: Want
+2023-06-07 14:40:48 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:48 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:48 - DEBUG: response '200 OK' for https://anchor.fm/s/9c449188/podcast/rss
+2023-06-07 14:40:48 - TRACE: signal: Want
+2023-06-07 14:40:48 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:48 - TRACE: signal: Want
+2023-06-07 14:40:48 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:48 - TRACE: deregistering event source from poller
+2023-06-07 14:40:48 - TRACE: signal: Closed
+2023-06-07 14:40:48 - INFO: 5
+2023-06-07 14:40:48 - INFO: Episode 5: Return to the Red Dot House
+2023-06-07 14:40:48 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:48 - INFO: Episode 4: Inge's Story
+2023-06-07 14:40:48 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:48 - INFO: Episode 3: The House
+2023-06-07 14:40:48 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:48 - INFO: Episode 2: The Crime
+2023-06-07 14:40:48 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:48 - INFO: Episode 1: Boone's Biggest Mystery - The Red Dot House
+2023-06-07 14:40:48 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:48 - INFO: https://anchor.fm/s/ff675fc/podcast/rss, 2
+2023-06-07 14:40:48 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:48 - DEBUG: starting new connection: https://anchor.fm/
+2023-06-07 14:40:48 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:48 - TRACE: signal: Want
+2023-06-07 14:40:48 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:48 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:48 - DEBUG: response '200 OK' for https://anchor.fm/s/ff675fc/podcast/rss
+2023-06-07 14:40:48 - TRACE: signal: Want
+2023-06-07 14:40:48 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:48 - TRACE: signal: Want
+2023-06-07 14:40:48 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:48 - TRACE: deregistering event source from poller
+2023-06-07 14:40:48 - TRACE: signal: Closed
+2023-06-07 14:40:48 - INFO: 1
+2023-06-07 14:40:48 - INFO: Red dog 
+2023-06-07 14:40:48 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:48 - INFO: https://feeds.buzzsprout.com/277637.rss, 3
+2023-06-07 14:40:48 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:48 - DEBUG: starting new connection: https://feeds.buzzsprout.com/
+2023-06-07 14:40:48 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:48 - TRACE: signal: Want
+2023-06-07 14:40:48 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:48 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:48 - DEBUG: response '200 OK' for https://feeds.buzzsprout.com/277637.rss
+2023-06-07 14:40:49 - TRACE: signal: Want
+2023-06-07 14:40:49 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:49 - TRACE: signal: Want
+2023-06-07 14:40:49 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:49 - TRACE: deregistering event source from poller
+2023-06-07 14:40:49 - TRACE: signal: Closed
+2023-06-07 14:40:49 - INFO: 84
+2023-06-07 14:40:49 - INFO: Teeanna Isaac: Why I Had To Lose
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Dog Emotion vs. Human Reaction & Volunteer 001 & 002
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Moving Through the Grief of Losing a Pet with Marina Resa
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Animal Wellness Center of OC
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Should I Give My Dog Drugs?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Actor / Producer / Dog Foster: Mark Valley
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Mondo Stray: Fiona Cole and Carlo Cesario
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Reducing Your Pet's Carbon Pawprint
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The Science of The Zoomies & Fundraising for the Dogs
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The Most Loyal Breeds & Non-Profit Marketing Pointers
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Dogecoin For Dog Rescues?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The First Dogs & Best Life Leashes
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Cindi Opdyke: Humble Warrior
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Clint Lien: Natural Pet Oil & CBD For Pets
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Jacqueline Piñol: The Canine Condition
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Special Guest: Thor and Dudeman | For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: TLRD REWIND: Benefits of CBD Oil with Clint Lien, Founder of Natural Pet Oil
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The Trouble With Positive Reinforcement (For Dogs) & 2020 in Review
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: This Commercial is CRAP & Home for the Holidays
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Why Does Vanderpump Only Take Perfect Little Dogs?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Why Dogs Are Not Furry People
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The Dog's Brain & Don't Be Selfish!
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: First Time Adopters & Cora Baker, Reiki Master
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Learning Dog Behavior From Dogs & The State of Animal Rights
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The First Presidential Rescue Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Nip/Tuck For Dogs & Vote For Florence!
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: 43 Shocking Facts About Animal Shelters
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Law For Dogs & Tips For Starting a Dog Rescue
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The Little Red Dog Turns 9! & Robo-Dog 2.0
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Training With Treats & Transport Tales
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Would You Rather Give Up Your Phone or Your Dog?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Should I Leave Food Out For My Dog?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Dog, Meet Baby + Rescue Q&A
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: My Dog is a SPAZ!
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: White Gums = Red Flag | Dog Safety in a Heat Wave
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Sneaky Rupert & Would You Rather
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: How Do I Get My Dog EXCITED About Leaving the House?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: A Week in the Life & The Dog No One Wanted
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Pick on Someone Your Own Size!
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: 5 Myths of Rescue Dogs
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Cats vs Dogs
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Attack of the Frenchies
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Human Adoption Return & Exchange Policy
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Dog Adoption For Cat People & Training a Deaf Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Will the Pavement Burn My Pups Pads?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: We Had a Telethon!
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Why We Hate Harnesses
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Food Delivery and Virtual Dog Rescue
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Nosy Neighbors Are Hound-ing Us
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Resource Guarding 101
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Interview With @malibusmama
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Should I Get a Second Dog?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Interview With OC Shelter Partners' Liz Hueg
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Puppy Poop Problems
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Do All Dogs Deserve to Be Saved?
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: How Do I Get My Dog to Stop Eating Poop?!
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: One Star Reviews, Five Star Volunteers & Pit Bull Bans - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Live! From Our First Spay/Neuter Clinic - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Controversial Issues - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Flexi Leash Dangers and Listener Questions - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Dogs Always Poop North to South - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Happy New Year From The Little Red Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Steve and Gary Answer Listener Questions - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Michael Vick, Good Dog/Bad Dog, and Owner Surrenders - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Correcting Your Dog and Adoption Applications - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Will People Food Make My Dog a Begging Monster? - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: The Truth About Dog Breeders - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Interview With Show Dog Stephanie Heer - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Steve and Gary Answer Listener Questions - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Social Media Criticism and Our Upcoming Gala - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Interview With Uber Dog Foster Kelly Hammons - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Lost Dogs and Dog Adoption Applications - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Interview with Dog Trainer Gary Newcomb - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Interview with Gary Cannon, Comedian and Foster Failure - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Benefits of CBD Oil with Clint Lien, Founder of Natural Pet Oil - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Founder's Day Fatigue - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Mistakes are Pawsitively Okay! - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: It's Not Your Dog, It's You - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Don't Start Your Day on the Wrong Paw! - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Is your dog too chunky?  Maybe... - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Interview with our Founder: PJ Rosch - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Get Your Biscuit Out and Walk - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Service Dogs or Purse Pups? - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Barkin' Bracket - For the Love of Dog
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: https://feed.podbean.com/reddeadredemption2podcast/feed.xml, 4
+2023-06-07 14:40:49 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:49 - DEBUG: starting new connection: https://feed.podbean.com/
+2023-06-07 14:40:49 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:49 - TRACE: signal: Want
+2023-06-07 14:40:49 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:49 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:49 - DEBUG: response '200 OK' for https://feed.podbean.com/reddeadredemption2podcast/feed.xml
+2023-06-07 14:40:49 - TRACE: signal: Want
+2023-06-07 14:40:49 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:49 - TRACE: signal: Want
+2023-06-07 14:40:49 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:49 - TRACE: deregistering event source from poller
+2023-06-07 14:40:49 - TRACE: signal: Closed
+2023-06-07 14:40:49 - INFO: 5
+2023-06-07 14:40:49 - INFO: What we expect from Red Dead’s Multiplayer & The Podcast Awards 2018, 5 Minute Geek #47
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Week 2 of Red Dead and Escapism in Video Games, 5 Minute Geek #45
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Read Dead Redemption 2 First Impressions and What to expect from multiplayer, 5 Minute Geek #44
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: Introducing: Red Dead Redemption 2 Podcast! By The Drive By Dogs
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: General Game Info!! Red Dead Redemption 2 Podcast
+2023-06-07 14:40:49 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:49 - INFO: https://feeds.soundcloud.com/users/soundcloud:users:339777231/sounds.rss, 5
+2023-06-07 14:40:49 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:49 - DEBUG: starting new connection: https://feeds.soundcloud.com/
+2023-06-07 14:40:49 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:49 - TRACE: signal: Want
+2023-06-07 14:40:49 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:49 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:50 - TRACE: signal: Want
+2023-06-07 14:40:50 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:50 - DEBUG: response '200 OK' for https://feeds.soundcloud.com/users/soundcloud:users:339777231/sounds.rss
+2023-06-07 14:40:50 - TRACE: signal: Want
+2023-06-07 14:40:50 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:50 - TRACE: deregistering event source from poller
+2023-06-07 14:40:50 - TRACE: signal: Closed
+2023-06-07 14:40:50 - INFO: 2
+2023-06-07 14:40:50 - INFO: Reservoir Red Dogs: Jason Lee
+2023-06-07 14:40:50 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:50 - INFO: Reservoir Red Dogs: Jermaine Jenas
+2023-06-07 14:40:50 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:50 - INFO: https://www.salty.com.au/feeds/saltyinterviews.xml, 6
+2023-06-07 14:40:50 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:50 - DEBUG: starting new connection: https://www.salty.com.au/
+2023-06-07 14:40:50 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:50 - TRACE: signal: Want
+2023-06-07 14:40:50 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:50 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:51 - DEBUG: response '200 OK' for https://www.salty.com.au/feeds/saltyinterviews.xml
+2023-06-07 14:40:51 - TRACE: signal: Want
+2023-06-07 14:40:51 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:51 - TRACE: signal: Want
+2023-06-07 14:40:51 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:51 - TRACE: deregistering event source from poller
+2023-06-07 14:40:51 - TRACE: signal: Closed
+2023-06-07 14:40:51 - ERROR: invalid digit found in string
+2023-06-07 14:40:51 - ERROR: invalid digit found in string
+2023-06-07 14:40:51 - INFO: 51
+2023-06-07 14:40:51 - INFO: Jesse Dayton - Salty Interview (May 2023)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Frank Sultana - Salty Interview (March 2023)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Renée Geyer (RIP) - Salty Interview (April 2007)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Kelly Joe Phelps (RIP) - Salty Interview (November 2012)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Lachy Doley 'Studio 301 Sessions' - Salty Interview
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Dustin Arbuckle and The Damnations - Salty Interview
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Josh Teskey - Ash Grunwald "Push The Blues Away" - Salty Interview
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Blues Roulette 'Jimi Hocking' - Salty Interview
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Van Walker 'Ghosting' - Salty Interview
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Joey Vincent (Camilleri) - Salty Interview
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Jimmie Vaughan - Salty Interview
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Geoff Achison '20th Anniversary UK Souldiggers' (Salty Interview)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Ash Grunwald 'Mojo' - Salty Interview (September 2019)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: The New Savages / Milan Milutinovic 'Seventh Son' - Salty Interview (August 2019)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Blues Roulette/Ben Wicks - Salty Interview (July 2019)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Samantha Fish - Salty Interview (April 2019)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Larkin Poe - Salty Interview (January 2019)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Matty T Wall - Salty Interview (August 2018)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Lloyd Spiegel - Salty Interview (July 2018)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Justin Yap Band - Salty Interview (June 2018)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Dave Hole - Salty Interview (May 2018)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Canned Heat - Salty Interview (March 2018)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Joe Louis Walker - Salty Interview (February 2018)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Kris Morris - Salty Interview (October 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Lachy Doley - Salty Interview (August 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Tracy McNeil and the Good Life - Salty Interview (June 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Kelly Joe Phelps - Salty Interview (June 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Mike Elrington - Salty Interview (June 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Jack Derwin - Salty Interview  (June 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Jed Rowe 'The Last Day Of Winter' - Salty Interview   (February 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Warren Haynes 'Ashes and Dust' - Salty Interview  (January 2016)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Joe Camilleri 'A Conversation about Endless Sleep and things Black Sorrows' - Salty Interview (July 2015)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Lloyd Spiegel 'Double Live Set' - Salty Interview (June 2015)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Raised By Eagles - Salty Interview (May 2015)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: JJ Grey N Mofro - Salty Interview (March 2015)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Robert Cray 'In My Soul' - Salty Interview  (July 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Joe Camilleri / Black Sorrows - Salty Interview  (June 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Jeff Lang - Salty Interview  (May 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Jules Boult - Salty Interview  (April 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Robben Ford - Salty Interview  (March 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Hugo T Armstrong / Blues Train, Motor City Geetroit Music Festival - Salty Interview  (February 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Gregg Allman - Salty Interview (February 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Valerie June - Salty Interview (February 2014)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Wayne Jury - Salty Interview (September 2013)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Matt Walker - Salty Interview (April 2013)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Sean Taylor - Salty Interview (March 2013)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Chris Smither - Salty Interview (Feb 2013)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Scott Wilson (Stompy and the Heat) - Salty Interview (Dec 2012)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Charlie Musselwhite - Salty Interview (Oct 2012)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Clayton Doley - Salty Interview (Oct 2012)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Joe Bonamassa - Salty Interview (Oct 2012)
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: https://anchor.fm/s/1a65d2bc/podcast/rss, 7
+2023-06-07 14:40:51 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:51 - DEBUG: starting new connection: https://anchor.fm/
+2023-06-07 14:40:51 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:51 - TRACE: signal: Want
+2023-06-07 14:40:51 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:51 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:51 - DEBUG: response '200 OK' for https://anchor.fm/s/1a65d2bc/podcast/rss
+2023-06-07 14:40:51 - TRACE: signal: Want
+2023-06-07 14:40:51 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:51 - TRACE: signal: Want
+2023-06-07 14:40:51 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:51 - TRACE: deregistering event source from poller
+2023-06-07 14:40:51 - TRACE: signal: Closed
+2023-06-07 14:40:51 - INFO: 86
+2023-06-07 14:40:51 - INFO: Best Fifa Player on the Team???
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: You'll Never Believe Who ChatGPT put first!!!
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Crazy Spring Break!!!
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Casey Powell Lacrosse Revamped???
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Hopkins switches helmets midseason???
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Is this the best pregame playlist ever?
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: The Transfer Portal is crazy!!!
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: Next big thing in lacrosse media!!!
+2023-06-07 14:40:51 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:51 - INFO: This D3 run test is much harder than most D1 run test! (Week 1 Recap)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: OC tournament is the BEST summer tournament!!
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: "Bing Bong" Island Boys Play Lacrosse
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Who let KAREN on the field? 
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Why 6's Suck.
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Virginia is the BEST college team EVER
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Wisnauskas has BIG shoes the fill
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Dr. Pepper Hates Lacrosse
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: A Trip to the ER
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Fighting Mother Nature
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Guess the Lacrosse Item 
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: MLL left in the DUST
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: ECD Greg tells ECD Secrets
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: ECD Promposed to ME!!!
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Ultimate Debate: Long Distance versus Sprints!! 
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Meeting Our TikTok Crush
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The PLL Lied
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Our Pokemon cards are illegal!?!
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: What to buy a Lacrosse Player for Christmas
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Blue Dogs Relapse 
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Haus Dynasty ft. John Haus 
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The 8th PLL Team
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Lacrosse IS BACK
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: How to be Jay Carlson (w/Jay Carlson)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Worst Lacrosse Injury Ever
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Arrested for Murder
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: What the ELF
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Current Educators of America
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Airbending for Dummies
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Pregame
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Swag vs Safety
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Collegiate Athletics with COVID
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The NLL Journey Begins
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: 1st Annual Golden Bone Awards
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: State of the Union
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: 2020 Studio Brawl
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Christian Mazzone: 2-Bar and Traffic Cone Specialist
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Nick Ossello Wuz Here (Humble Brag)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Boyz R Back and Lax is Over
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Avatar 2.0
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL and MLL CANCELED
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: One Team (ft. Harbst)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Chazz Woodson Is Pretty Cool
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Celebrity All-Star Game
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Preview: The Whipsnakes
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Preview: The Waterdogs
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Preview: The Redwoods
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Preview: The Chrome
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Preview: The Chaos
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Preview: The Atlas
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Preview: The Archers
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The T Fent Experience
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Serrano the Human Meat Shield
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Avatar the Last Laxbender
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Jersey Boys
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Celly-brate Good Times
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Chillin' With Dylan (feat: Dylan Maltz)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Talk Trash to Me
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Other Sports
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Franchise Players
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: How Much Do You Know About Lacrosse?
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: D3 is Better Than D1 (feat: Coach Cyle)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Welcome to Blue Dogs Lacrosse (Trailer)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Ben's Story
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Betting & Fantasy Sports
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Mr.Clutch Himself: Ryan Drenner
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Shaft, the Movie, and the One Thing We've All Been Waiting For
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Growing the Game ft. Kiviniemi_
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: United Lacrosse League
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Pre-Draft Donkey 
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: That's Wack
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Drippin' and Hollywood
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Trifecta
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Corona-cation Catch-up
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Waterdogs Mock Draft
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Lax Twags & Waterdogs
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Recruiting & the Champs
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The PLL
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: https://anchor.fm/s/114a0680/podcast/rss, 8
+2023-06-07 14:40:52 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:52 - DEBUG: starting new connection: https://anchor.fm/
+2023-06-07 14:40:52 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:52 - TRACE: signal: Want
+2023-06-07 14:40:52 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:52 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:52 - DEBUG: response '200 OK' for https://anchor.fm/s/114a0680/podcast/rss
+2023-06-07 14:40:52 - TRACE: signal: Want
+2023-06-07 14:40:52 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:52 - TRACE: signal: Want
+2023-06-07 14:40:52 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:52 - TRACE: deregistering event source from poller
+2023-06-07 14:40:52 - TRACE: signal: Closed
+2023-06-07 14:40:52 - INFO: 2
+2023-06-07 14:40:52 - INFO: Richard Nixon
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Blue ribbon emotions in dogs 
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: https://anchor.fm/s/5e388db8/podcast/rss, 9
+2023-06-07 14:40:52 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:52 - DEBUG: starting new connection: https://anchor.fm/
+2023-06-07 14:40:52 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:52 - TRACE: signal: Want
+2023-06-07 14:40:52 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:52 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:52 - DEBUG: response '200 OK' for https://anchor.fm/s/5e388db8/podcast/rss
+2023-06-07 14:40:52 - TRACE: signal: Want
+2023-06-07 14:40:52 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:52 - TRACE: signal: Want
+2023-06-07 14:40:52 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:52 - TRACE: deregistering event source from poller
+2023-06-07 14:40:52 - TRACE: signal: Closed
+2023-06-07 14:40:52 - INFO: 31
+2023-06-07 14:40:52 - INFO: Notre Dame is Missing the Playoffs AGAIN
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Bottle Merchant Roll Call
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Daddy Ruppel OWNS Virginia (mid)
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Why Virginia Can't Win Big Games
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: BPI Clears Coaches' Poll Negative Diff
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: How We Revolutionized Lacrosse
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Media Poll Is RIGGED
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Sixes Is Dog Water
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Dhane Smith Doesn't Care About the MVP Race
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Lindenwood Has Title Hopes
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Loyola and Hopkins are MID
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Paul Rabil Cancelled Maryland's Season
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Free Agency Will Ruin the League
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Nobody Cares Duke Won
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Modern Lacrosse Offenses are DEAD
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The New Power 5 in College Lacrosse
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Don't F*** With GOAT Malcom
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Who Got Snubbed From the NCAA Top 50?
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Is Something WRONG With the Rochester Knighthawks?
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The Dumbest Trade in NLL History
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Your Favorite Team Is NOT Winning the PLL Championship Series
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: The NEW Best Conference In College Lacrosse
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: These Rules Will Change the Way You Play
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: PLL Playoffs
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Episode 7: PLL Week 1 Preview & NLL Championship Game 1
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Episode 6: Everything
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: What We Think We Know
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Week 5 Minnesota
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Long Island Madness
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Homewood Preview
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: Week 1 Sloppiness
+2023-06-07 14:40:52 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:52 - INFO: https://anchor.fm/s/1c21de84/podcast/rss, 10
+2023-06-07 14:40:52 - TRACE: registering event source with poller: token=Token(0), interests=READABLE | WRITABLE
+2023-06-07 14:40:52 - DEBUG: starting new connection: https://anchor.fm/
+2023-06-07 14:40:52 - TRACE: registering event source with poller: token=Token(1), interests=READABLE | WRITABLE
+2023-06-07 14:40:52 - TRACE: signal: Want
+2023-06-07 14:40:52 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:52 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:53 - DEBUG: response '200 OK' for https://anchor.fm/s/1c21de84/podcast/rss
+2023-06-07 14:40:53 - TRACE: signal: Want
+2023-06-07 14:40:53 - TRACE: signal found waiting giver, notifying
+2023-06-07 14:40:53 - TRACE: signal: Want
+2023-06-07 14:40:53 - TRACE: poll_want: taker wants!
+2023-06-07 14:40:53 - TRACE: deregistering event source from poller
+2023-06-07 14:40:53 - TRACE: signal: Closed
+2023-06-07 14:40:53 - INFO: 11
+2023-06-07 14:40:53 - INFO: Sonos CEO Patrick Spence's Interview with Maggie and Maya
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #10 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #9 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #8: The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #7 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #6 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #5 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #4 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #3 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #2 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Episode #1 - The Medley - All Things Appleby
+2023-06-07 14:40:53 - ERROR: UNIQUE constraint failed: episodes.url, episodes.title
+2023-06-07 14:40:53 - INFO: Choice
+2023-06-07 14:40:53 - INFO: prompt3
+2023-06-07 14:40:53 - INFO: prompt3-2
+2023-06-07 14:40:53 - INFO: prompt3-3

@@ -20,6 +20,19 @@ impl Category {
     pub fn to_string(&self) -> String {
         format!("category name and id {} {}",self.name, self.id)
     }
+    
+    pub fn create_exisitng(&self) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        info!("create_catrgory");
+        let result = conn.execute(
+            "INSERT INTO categories (category) VALUES (?1)",
+            params![self.name],
+        )?;
+        info!("****");
+        info!("{}",result);
+        Ok(result)
+    }
     pub fn create_category(&self, conn: Connection) -> Result<usize, Error> {
         info!("create_catrgory");
         let result = conn.execute(

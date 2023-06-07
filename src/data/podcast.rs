@@ -8,7 +8,7 @@ use super::super::config::config::Config;
 use super::data::DB;
 use std::io::{self, Read, Write, BufRead};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Podcast {
     pub id: i64,
     pub name: String,
@@ -21,12 +21,13 @@ pub struct Podcast {
 impl Podcast {
     pub fn new() -> Podcast {
         info!("New Podcast!");
+        let config: Config = Config::new();
         Podcast {
             id: 0,
-            name: String::from("nada"),
-            url: String::from("nada"),
-            audio: String::from("nada"),
-            video: String::from("nada"),
+            name: String::from(""),
+            url: String::from(""),
+            audio: config.def_audio_loc.clone(),
+            video: config.def_video_loc.clone(),
             category_id: -1,
             collection_id: 1
         }
@@ -124,7 +125,7 @@ impl Podcast {
         Ok(result)
     }
     pub fn read_all_podcasts(&self) ->Result<Vec<Podcast>, Error>  {
-        let db: super::data::DB = super::data::DB::new(super::super::config::config::Config::new());
+        let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
         let pod_iter = stmt.query_map([], |row| {

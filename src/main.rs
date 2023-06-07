@@ -1,5 +1,6 @@
 mod api {
     pub mod api;
+    pub mod retrieve;
 }
 
 mod menu {
@@ -28,6 +29,7 @@ use std::io::{self, Read, Write, BufRead};
 use std::path::PathBuf;
 
 use api::api::AppleSearch;
+use api::retrieve::Retreive;
 use data::podcast::Podcast;
 
 use data::category::Category;
@@ -50,6 +52,7 @@ use log4rs::config::{Appender, Config, Root};
 // use rustyline::{Editor, Result as rlResult};
 use rustyline::{DefaultEditor, Result as rlResult};
 use rusqlite::{Error};
+use rustyline::error::ReadlineError;
 
 use std::collections::HashSet;
 
@@ -95,13 +98,13 @@ fn main() {
     entries.push(MenuEntry {
         description: String::from("Add new podcast"),
         reference: (entries.len() + 1).to_string(),
-        f: trial,
+        f: create_podcast,
         show: true
     });
     entries.push(MenuEntry {
         description: String::from("Edit podcast"),
         reference: (entries.len() + 1).to_string(),
-        f: trial,
+        f: edit_podcast,
         show: true
     });
     entries.push(MenuEntry {
@@ -137,7 +140,7 @@ fn main() {
     entries.push(MenuEntry {
         description: String::from("update all podcasts"),
         reference: (entries.len() + 1).to_string(),
-        f: trial,
+        f: update_podcast_download_info,
         show: true
     });
     entries.push(MenuEntry {
@@ -146,7 +149,6 @@ fn main() {
         f: trial,
         show: true
     });
-
     entries.push(MenuEntry {
         description: String::from("quit"),
         reference: "q".to_owned(),
@@ -157,6 +159,9 @@ fn main() {
 
 
 
+    info!("just before config call");
+    let config = config::config::Config::new();
+    info!("Just after config call");
     // let simple_menu = SimpleMenu::new(screen, main_menu);
     let simple_menu = SimpleMenu::new(Screen::new(), entries);
     // let simple_menu = SimpleMenu::new(screen, entries);
@@ -177,7 +182,6 @@ fn main() {
     // let b1 = std::io::stdin().read_line(&mut line).unwrap();
     // steve();
     // simple_menu.show( &mut io::stdout()).unwrap();
-    let config = config::config::Config::new();
 
 
 
@@ -261,15 +265,17 @@ fn trial() {
     thread::sleep(time::Duration::from_secs(2));
 }
 fn create_new_category() {
-    let db = data::data::DB::new(config::config::Config::new());
-    let conn = db.connect_to_database();
+    // let db = data::data::DB::new(config::config::Config::new());
+    // let conn = db.connect_to_database();
     let mut cat = Category::new();
     
     cat.name = enter_category_info2("Enter Category name".to_string());
-    let temp = cat.create_category(conn);
+    let temp = cat.create_exisitng();
+    // let temp = cat.create_category(conn);
     info!("temp");
     info!("{}",temp.unwrap());
     // println!("Hello , {}", line);
+
     thread::sleep(time::Duration::from_secs(2));
 }
 fn enter_search_terms() -> std::string::String {
@@ -302,14 +308,37 @@ fn enter_category_info2(message: String) -> String {
     line.pop();
     return line;
 }
-fn enter_category_info3(message: &str, default: &str) -> rlResult<String> {
+fn enter_category_info3(message: &str, default: &str) -> Result<std::string::String, ReadlineError> {
     // let mut rl = Editor::new()?;
     let mut rl = DefaultEditor::new()?;
     // let mut rl: Editor<H> = rustyline::Editor::new()?;
     // const DEFAULT_USERNAME: &str = "admin";
-    let input = rl.readline_with_initial(&message, (default, ""))?;
-    println!("Your selected username: {input}");
-    Ok(input)
+    let mut input: String = "".to_string();
+    loop {
+        match rl.readline_with_initial(&message, (default, "")) {
+            Ok(res) => {
+                if res.len() > 0 {
+                    break Ok(res)
+                } else {
+                    continue
+                }
+            },
+            Err(ReadlineError::Interrupted) => {
+                println!("CTRL-C");
+                break Err(ReadlineError::Interrupted)
+            },
+            Err(ReadlineError::Eof) => {
+                println!("CTRL-D");
+                break Err(ReadlineError::Eof)
+            },
+            Err(err) => {
+                error!("Error: {:?}", err);
+                break Err(err)
+            }
+        }
+    }
+    // println!("Your selected username: {input}");
+    // Ok(input)
 
 }
 fn delete_category()  {
@@ -441,8 +470,8 @@ fn search() {
 }
 
 fn delete_podcast() {
-    let tempPod: Podcast = Podcast::new();
-    match tempPod.read_all_podcasts() {
+    let temp_pod: Podcast = Podcast::new();
+    match temp_pod.read_all_podcasts() {
         Ok(mut tmp ) => {
             match display_pods(&tmp) {
                 Ok(chosen) => {
@@ -478,6 +507,94 @@ fn delete_podcast() {
         }
     }
 }
+fn edit_podcast() {
+    println!("\x1B[2J\x1B[1;1H");
+    let mut pod: Podcast = Podcast::new();
+    match pod.read_all_podcasts() {
+        Ok(mut res) =>{
+            match display_pods(&res) {   
+                Ok(chosen) =>{
+                    info!("Ok(chosen");
+                    let mut v: Vec<&u16> = chosen.iter().collect();
+                    v.sort();
+                    for each in v {
+                        info!("Podcast returned {:?}",res[(*each as usize)-1]);
+                        edit_podcast_details(res[(*each as usize)-1].clone());
+                        // match res[*each as usize].save_existing() {
+                        //     Ok(tmp) => {
+                        //         info!("Ok tmp: {}", tmp);
+                        //     },
+                        //     Err(e) => {
+                        //         error!("{}", e);
+                        //     }
+                        // }
+                        
+                    }
+                },
+                Err(_) => {
+                    error_message(format!("Had an issue returing the podcasts").as_str())
+                }
+            }
+        },
+        Err(_) => {
+            error_message(format!("Had an issue returing the podcasts").as_str())
+        }
+    }
+
+}
+
+fn edit_podcast_details(mut pod: Podcast) {
+    match enter_category_info3("Podcast name: ", &pod.name) {
+        Ok(name) => {
+            pod.name = name;
+            info!("New Podcast name: {}", pod.name);
+            match enter_category_info3("Podcast URL: ", &pod.url) {
+                Ok(url) => {
+                    pod.url = url;
+                    info!("New Podcast URL: {}", pod.url);
+                    match enter_category_info3("Default Audio Save location : ", &pod.audio) {
+                        Ok(audio) =>{
+                            pod.audio = audio;
+                            info!("New Podcast default audio location: {}", pod.audio);
+                            match enter_category_info3("Default Audio Save location : ", &pod.video) {
+                                Ok(video) => {
+                                    pod.video = video;
+                                    info!("New Podcast default audio location: {}", pod.video);
+                                    match pod.save_existing() {
+                                        Ok(tmp) => {
+                                            info!("Ok tmp: {}", tmp);
+                                        },
+                                        Err(e) => {
+                                            error!("{}", e);
+                                        }
+                                    }
+                                }, Err(e) =>{
+                                    error!("create_podcast-video: {}", e);
+                                }
+                            }
+                        }, Err(e) =>{
+                            error!("create_podcast-audio: {}", e);
+                        }
+                    }
+                },
+                Err(e) =>{
+                    error!("create_podcast-url: {}", e);
+                }
+            }
+        },
+        Err(e) => {
+            error!("create_podcast-name: {}", e);
+        }
+    }
+
+}
+
+fn create_podcast() {
+    println!("\x1B[2J\x1B[1;1H");
+    let mut pod: Podcast = Podcast::new();
+    edit_podcast_details(pod);
+
+}
 
 fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
     let screen = Screen::new();
@@ -497,26 +614,19 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
         pages += 1;
         pages += (pods_len as u16)/(display_size);
     }
-    // info!("pages: {}", pages);
-    // info!("{}", (pods_len as u16).rem_euclid(display_size));
-    // info!("{}", (pods_len as u16)/(display_size));
+    
     loop {
         println!("\x1B[2J\x1B[1;1H");
         info!("Display pods");
         let start = page_iter*display_size;
         let mut end = 0;
-        info!("(page_iter+1)*display_size)-1 < (pods_len as u16) - 1");
-        info!("(page_iter+1)*display_size)-1: {}", ((page_iter+1)*display_size)-1);
-        info!("(pods_len as u16) - 1: {}",(pods_len as u16) - 1);
-
 
         if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
             end = ((page_iter+1)*display_size)-1;
         } else {
             end = (pods_len as u16) - 1;
         }
-        // info!("testing1:{}",(start));
-        // info!("testing2:{}",(end));
+
         row_iter = start;
         while row_iter <= end {
             println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
@@ -617,6 +727,43 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
         //     }
         // }
     }
+}
+
+fn update_podcast_download_info() {
+    let retrieve = Retreive::new();
+    
+    let temp_pod: Podcast = Podcast::new();
+    match temp_pod.read_all_podcasts() {
+        Ok(pods)=>{
+            for pod in pods {
+                info!("{}, {}", pod.url, pod.id);
+                match retrieve.retreive_episodes(pod.url, pod.id as i16) {
+                    Ok(mut episodes) =>{
+                        info!("{:?}", episodes.len());
+                        for mut episode in episodes {
+                            info!("{}", episode.title);
+                            match episode.save_existing() {
+                                Ok(res) => {
+                                    info!("Episode {} added", episode.title);
+                                },
+                                Err(e) =>{
+                                    error!("{}", e);
+                                }
+                            }
+                        }
+                    },
+                    Err(e) => {
+                        error!("{}",e)
+                    }
+                }
+            }
+        },
+        Err(e) =>{
+            error!("{}", e)
+        }
+    }
+    
+
 }
 // fn dc(cats: &Result<Vec<Category>>){
 

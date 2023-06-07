@@ -39,7 +39,8 @@ impl DB {
                     collection_id INTEGER,
                     viewed INTEGER,
                     PRIMARY KEY (podcast_id), 
-                    FOREIGN KEY(category_id) REFERENCES categories (category_id)
+                    FOREIGN KEY(category_id) REFERENCES categories (category_id),
+                    UNIQUE(name)
                 );
             ", []).unwrap();
             conn.execute("
@@ -55,7 +56,8 @@ impl DB {
                     podcast_id INTEGER, 
                     viewed INTEGER, 
                     PRIMARY KEY (episode_id), 
-                    FOREIGN KEY(podcast_id) REFERENCES podcasts (podcast_id)
+                    FOREIGN KEY(podcast_id) REFERENCES podcasts (podcast_id),
+                    UNIQUE(url, title)
                 );
             ", []).unwrap();
             conn.execute("INSERT INTO categories (category) VALUES ('Uncategorized');", []).unwrap();
