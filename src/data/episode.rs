@@ -8,6 +8,11 @@ use super::super::config::config::Config;
 use super::data::DB;
 
 #[derive(Debug)]
+pub struct Count {
+    pub result: usize
+}
+
+#[derive(Debug)]
 pub struct Episode {
     pub id: i64,
     pub title: String,
@@ -35,12 +40,36 @@ impl Episode {
             podcast_id: 1,
         }
     }
+    
+    pub fn count_episodes(&self, cat_id: i64) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        
+        let mut stmt = conn.prepare("SELECT COUNT(viewed) from episodes where podcast_id=(?) and viewed=0;")?;
+        let epi_iter = stmt.query_map([cat_id], |row| {
+            Ok(Count {
+                result: row.get(0)?
+            })
+        })?;
+        for each in epi_iter {
+            match each {
+                Ok(result) =>{
+                    return Ok(result.result)
+                },
+                Err(e) => {
+                    error!("{}",e)
+                }
+            }
+        }
+        //bad design will return zero if there is a problem not because it is zero. - fix this later
+        Ok(0 as usize)
+    }
 
     pub fn save_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let result = conn.execute(
-            "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id,viewed) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
+            "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id,viewed) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8,?9)", 
             params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0]
         )?;
         // let result = conn.execute(
@@ -96,7 +125,7 @@ impl Episode {
     pub fn read_all_episodes_by_podcast_id(&self, pod: i16) ->Result<Vec<Episode>, Error>  {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        let mut stmt = conn.prepare("SELECT * FROM episodes ORDER BY published ASC where podcast_id=(?);")?;
+        let mut stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) ORDER BY title ASC;")?;
         let epi_iter = stmt.query_map([pod], |row| {
             Ok(Episode {
                 id: row.get(0)?,

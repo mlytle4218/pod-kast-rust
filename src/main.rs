@@ -763,9 +763,20 @@ fn display_pods2(pods: &Vec<Podcast>) -> Result<i16, Error> {
         }
 
         row_iter = start;
+        
+        let epi_temp: Episode = Episode::new();
         while row_iter <= end {
-            println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
-            row_iter += 1;
+            // let count: usize = epi_temp.count_episodes(pods[row_iter as usize].id);
+            match epi_temp.count_episodes(pods[row_iter as usize].id) {
+                Ok(count) => {
+                    println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, count);
+                    row_iter += 1;
+                },
+                Err(e) => {
+                    error!("{}",e)
+                }
+
+            }
         }
         let mut line = String::new();
         print!("Choice: ");
