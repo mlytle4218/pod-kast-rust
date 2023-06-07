@@ -21,7 +21,7 @@ pub struct Episode {
     pub podcast_id: i16,
 }
 impl Episode {
-    fn new() -> Episode {
+    pub fn new() -> Episode {
         Episode {
             id: 0,
             title: String::from("nada"),
@@ -40,8 +40,8 @@ impl Episode {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let result = conn.execute(
-            "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
-            params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
+            "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id,viewed) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
+            params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0]
         )?;
         // let result = conn.execute(
         //     "BEGIN 
@@ -92,6 +92,30 @@ impl Episode {
         )?;
         self.id = conn.last_insert_rowid();
         Ok(result)
+    }
+    pub fn read_all_episodes_by_podcast_id(&self, pod: i16) ->Result<Vec<Episode>, Error>  {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let mut stmt = conn.prepare("SELECT * FROM episodes ORDER BY published ASC where podcast_id=(?);")?;
+        let epi_iter = stmt.query_map([pod], |row| {
+            Ok(Episode {
+                id: row.get(0)?,
+                title: row.get(1)?,
+                published: row.get(2)?,
+                summary: row.get(3)?,
+                length: row.get(4)?,
+                audio: row.get(5)?,
+                url: row.get(6)?,
+                viewed: row.get(7)?,
+                downloaded: row.get(8)?,
+                podcast_id: row.get(9)?,
+            })
+        })?;
+        let mut results: Vec<Episode> = Vec::new();
+        for episode in epi_iter {
+            results.push(episode.unwrap());
+        }
+        Ok(results)
     }
 
     fn read_episodes(&self, conn: Connection) -> Result<Vec<Episode>, Error> {

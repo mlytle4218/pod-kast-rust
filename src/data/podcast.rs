@@ -145,6 +145,27 @@ impl Podcast {
         }
         Ok(results)
     }
+    pub fn read_all_podcasts_by_category(&self, cat: String) ->Result<Vec<Podcast>, Error>  {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let mut stmt = conn.prepare("SELECT * FROM podcasts  where category_id=(?);")?;
+        let pod_iter = stmt.query_map([cat], |row| {
+            Ok(Podcast {
+                id: row.get(0)?,
+                name: row.get(1)?,
+                url: row.get(2)?,
+                audio: row.get(3)?,
+                video: row.get(4)?,
+                category_id: row.get(5)?,
+                collection_id: row.get(6)?
+            })
+        })?;
+        let mut results: Vec<Podcast> = Vec::new();
+        for category in pod_iter {
+            results.push(category.unwrap());
+        }
+        Ok(results)
+    }
 
     fn read_podcasts(&self, conn: Connection) -> Result<Vec<Podcast>, Error> {
         let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
