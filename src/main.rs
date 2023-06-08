@@ -731,7 +731,7 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
         // }
     }
 }
-fn display_pods2(pods: &Vec<Podcast>) -> Result<i16, Error> {
+fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
     let mut result: i16 = -1;
@@ -806,7 +806,24 @@ fn display_pods2(pods: &Vec<Podcast>) -> Result<i16, Error> {
                 info!("display_pods not q, n, or p");
                 match line.trim().parse::<i16>() {
                     Ok(val) => {
-                        return Ok(val)
+                        let episode: Episode = Episode::new();
+                        match episode.read_all_episodes_by_podcast_id(val) {
+                            Ok(episodes) =>{
+                                match display_episodes(&episodes) {
+                                    Ok(chosen_epis) => {
+                                        info!("{:?}", chosen_epis);
+                                        add_episodes_to_download_queue(chosen_epis);
+
+                                    },
+                                    Err(e) => {
+                                        error!("{}", e)
+                                    }
+                                }
+                            },
+                            Err(e) => {
+                                error!("{}", e)
+                            }
+                        }
                     },
                     Err(_) => {
                         error_message(format!("{} is not a valid number.", line.trim()).as_str())
@@ -836,6 +853,10 @@ fn display_pods2(pods: &Vec<Podcast>) -> Result<i16, Error> {
         //     }
         // }
     }
+}
+
+fn add_episodes_to_download_queue(episodes: Vec<Episode>) {
+    
 }
 
 fn update_podcast_download_info() {
@@ -884,29 +905,9 @@ fn choose_episodes() {
                     let pod: Podcast = Podcast::new();
                     match pod.read_all_podcasts_by_category(c) {
                         Ok(pods) =>{
-                            match display_pods2(&pods) {
+                            match display_pods_to_choose_episodes(&pods) {
                                 Ok(chosen) => {
-                                    if chosen < 0 {
-                                        return
-                                    } else {
-                                        let episode: Episode = Episode::new();
-                                        match episode.read_all_episodes_by_podcast_id(chosen) {
-                                            Ok(episodes) =>{
-                                                match display_episodes(&episodes) {
-                                                    Ok(chosen_epis) => {
-                                                        info!("{:?}", chosen_epis)
-                                                    },
-                                                    Err(e) => {
-                                                        error!("{}", e)
-                                                    }
-                                                }
-                                            },
-                                            Err(e) => {
-                                                error!("{}", e)
-                                            }
-                                        }
-                                    }
-                                    info!("chosen:{}", chosen)
+                                    // nada
                                 },
                                 Err(e) => {
                                     error!("{}", e)
@@ -930,10 +931,12 @@ fn choose_episodes() {
 
 }
 
-fn display_episodes(epis: &Vec<Episode>) -> Result<HashSet<u16>, Error> {
+fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
+    // fn display_episodes(epis: &Vec<Episode>) -> Result<HashSet<u16>, Error> {
     let screen = Screen::new();
     let epis_len = epis.len(); 
-    let mut results: HashSet<u16> = HashSet::new();
+    // let mut results: HashSet<u16> = HashSet::new();
+    let mut results: Vec<Episode> = Vec::new();
     if epis.len() == 0 {
         error_message(format!("No Podcasts to display.").as_str());
         return Ok(results)
@@ -1009,7 +1012,7 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<HashSet<u16>, Error> {
                                             if val >= (start + 1) && val2 <= (end + 1) {
                                                 for v in val..=val2 {
                                                     info!("{}", v);
-                                                    results.insert(v);
+                                                    results.push(epis[(row_iter as usize)-1].clone());
                                                 }
                                             }
                                         },
@@ -1028,7 +1031,7 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<HashSet<u16>, Error> {
                     } else  {
                         match each.parse::<u16>() {
                             Ok(val) => {
-                                results.insert(val);
+                                results.push(epis[(val as usize)-1].clone());
                             },
                             Err(_) => {
                                 error_message(format!("{} is not a valid number.", each).as_str())

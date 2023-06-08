@@ -7,6 +7,8 @@ use super::category::Category;
 use super::super::config::config::Config;
 use super::data::DB;
 
+use std::clone::Clone;
+
 #[derive(Debug)]
 pub struct Count {
     pub result: usize
@@ -25,6 +27,8 @@ pub struct Episode {
     pub viewed: i8,
     pub podcast_id: i16,
 }
+
+
 impl Episode {
     pub fn new() -> Episode {
         Episode {
@@ -195,6 +199,24 @@ impl Episode {
         Ok(result)
     }
 }
+
+impl Clone for Episode {
+    fn clone(&self) -> Episode {
+        Episode {
+            id: self.id.clone(),
+            title: self.title.clone(),
+            published: self.published.clone(),
+            summary: self.summary.clone(),
+            length: self.length.clone(),
+            audio: self.audio.clone(),
+            url: self.url.clone(),
+            downloaded: self.downloaded.clone(),
+            viewed: self.viewed.clone(),
+            podcast_id: self.podcast_id.clone()
+        }
+    }
+}
+
 
 
 
