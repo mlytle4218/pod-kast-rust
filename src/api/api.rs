@@ -9,12 +9,12 @@ use crate::data::episode::Episode;
 use crate::data::podcast::Podcast;
 use super::super::config::config::Config;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 pub struct ItuneResult {
 	resultCount: i32,
 	results: Vec<PodcastResult>,
 }
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize)]
 struct PodcastResult {
 	collectionName: String,
 	feedUrl: String,
@@ -96,6 +96,7 @@ pub async fn retreive_episodes(url: String, podcast_id: i16) -> Result<Vec<Episo
 			viewed: 0,
 			downloaded: 0,
 			podcast_id: podcast_id,
+			queue: 0
 		});
 	}
 	Ok(episode_vec)

@@ -54,7 +54,8 @@ impl DB {
                     url VARCHAR(250), 
                     downloaded INTEGER, 
                     podcast_id INTEGER, 
-                    viewed INTEGER, 
+                    viewed INTEGER,
+                    queue INTEGER, 
                     PRIMARY KEY (episode_id), 
                     FOREIGN KEY(podcast_id) REFERENCES podcasts (podcast_id),
                     UNIQUE(url, title)

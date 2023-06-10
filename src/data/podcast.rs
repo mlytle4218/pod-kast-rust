@@ -1,12 +1,10 @@
-use chrono::{Utc};
 use rusqlite::{params, Connection, Error, Result};
-use log::{debug, error, log_enabled, info, Level};
+use log::{error, info};
 
-use super::episode::Episode;
 use super::category::Category;
 use super::super::config::config::Config;
 use super::data::DB;
-use std::io::{self, Read, Write, BufRead};
+use std::io::{self, Write};
 
 #[derive(Debug, Clone)]
 pub struct Podcast {
@@ -85,12 +83,13 @@ impl Podcast {
 
 
         }
-        let mut result: usize = conn.execute(
+        let result: usize = conn.execute(
+        // let mut result: usize = conn.execute(
             "INSERT INTO podcasts (name, url, audio, video, category_id, collection_id, viewed) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7)",
             params![self.name, self.url, self.audio, self.video, self.category_id, self.collection_id, 0],
         )?;
         self.id  = conn.last_insert_rowid();
-        conn.close();
+        // conn.close();
         Ok(result)
         // Ok(1 as usize)
     }
@@ -102,23 +101,24 @@ impl Podcast {
         tx.execute("DELETE FROM episodes where podcast_id=(?1);", params![self.id])?;
         tx.execute("DELETE FROM podcasts where podcast_id=(?1);", params![self.id])?;
         let result  = tx.commit().unwrap();
-        conn.close();
+        // conn.close();
         Ok(result)
     }
 
-    fn update_existing(&mut self) -> Result<(usize), Error> {
+    fn update_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let result = conn.execute(
             "UPDATE podcasts SET name=(?1), url=(?2), audio=(?3), video=(?4), category_id=(?5) where podcast_id=(?6)",
             params![self.name, self.url, self.audio, self.video, self.category_id, self.id],
         )?;
-        conn.close();
+        // conn.close();
         Ok(result)
     }
 
     pub fn create_podcast(&mut self, conn: Connection) -> Result<usize, Error> {
-        let mut result = conn.execute(
+        // let mut result = conn.execute(
+        let result = conn.execute(
             "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
             params![self.name, self.url, self.audio, self.video],
         )?;

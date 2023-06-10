@@ -3,7 +3,7 @@ use std::fs;
 use whoami;
 use toml;
 
-use log::{info, warn, error, LevelFilter};
+use log::error;
 
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

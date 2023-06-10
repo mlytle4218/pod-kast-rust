@@ -25,12 +25,13 @@ mod config {
     pub mod config;
 }
 
-use home;
+use std::cmp::min;
+use std::fs::File;
 
-use std::fs;
-use std::io::{self, Read, Write, BufRead};
-use std::path::PathBuf;
+use indicatif::{ProgressBar, ProgressStyle};
+use futures_util::StreamExt;
 
+use std::io::{self, Write, BufRead};
 use api::api::AppleSearch;
 use api::retrieve::Retreive;
 
@@ -38,10 +39,8 @@ use data::category::Category;
 use data::podcast::Podcast;
 use data::episode::Episode;
 
-use rusqlite::{Connection, NO_PARAMS};
-
 use menu::menu_entry::MenuEntry;
-use menu::category_menu::CategoryMenu;
+// use menu::category_menu::CategoryMenu;
 use menu::screen::Screen;
 use menu::simple_menu::SimpleMenu;
 
@@ -49,15 +48,19 @@ use std::{thread, time};
 
 use std::process;
 
-use log::{info, warn, error, LevelFilter};
-use log4rs::append::file::FileAppender;
-use log4rs::encode::pattern::PatternEncoder;
-use log4rs::config::{Appender, Config, Root};
+use log::{info, error};
+// use log4rs::append::file::FileAppender;
+// use log4rs::encode::pattern::PatternEncoder;
+// use log4rs::config::{Appender, Config, Root};
 
 // use rustyline::{Editor, Result as rlResult};
-use rustyline::{DefaultEditor, Result as rlResult};
+// use rustyline::{DefaultEditor, Result as rlResult};
+use rustyline::{DefaultEditor};
 use rusqlite::{Error};
 use rustyline::error::ReadlineError;
+
+
+use reqwest::Client;
 
 use std::collections::HashSet;
 
@@ -67,14 +70,14 @@ fn main() {
     
     log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
     info!("logging started");
-    let screen = Screen::new();
+    // let screen = Screen::new();
     // let main_menu = create_main_menu();
     // let cat_name = CategoryMenu{};
 
     // let category_menu = CategoryMenu::new();
-    let category_menu = CategoryMenu{
-        screen: Screen::new()
-    };
+    // let category_menu = CategoryMenu{
+    //     screen: Screen::new()
+    // };
 
     
     let mut entries: Vec<MenuEntry> = Vec::new();
@@ -127,7 +130,7 @@ fn main() {
     entries.push(MenuEntry {
         description: String::from("Start downloads"),
         reference: (entries.len() + 1).to_string(),
-        f: trial,
+        f: start_downloads,
         show: true
     });
     entries.push(MenuEntry {
@@ -139,7 +142,7 @@ fn main() {
     entries.push(MenuEntry {
         description: String::from("delete from download queue"),
         reference: (entries.len() + 1).to_string(),
-        f: trial,
+        f: delete_from_download_queue,
         show: true
     });
     entries.push(MenuEntry {
@@ -164,7 +167,7 @@ fn main() {
 
 
 
-    let config = config::config::Config::new();
+    let _config = config::config::Config::new();
     // let simple_menu = SimpleMenu::new(screen, main_menu);
     let simple_menu = SimpleMenu::new(Screen::new(), entries);
     // let simple_menu = SimpleMenu::new(screen, entries);
@@ -291,16 +294,16 @@ fn enter_search_terms() -> std::string::String {
     line.pop();
     return line;
 }
-fn enter_category_info() -> std::string::String {
-    println!("\x1B[2J\x1B[1;1H");
-    info!("create_new_cateory");
-    let mut line = String::new();
-    print!("Enter Category name: ");
-    io::stdout().flush().unwrap();
-    std::io::stdin().read_line(&mut line).unwrap();
-    line.pop();
-    return line;
-}
+// fn enter_category_info() -> std::string::String {
+//     println!("\x1B[2J\x1B[1;1H");
+//     info!("create_new_cateory");
+//     let mut line = String::new();
+//     print!("Enter Category name: ");
+//     io::stdout().flush().unwrap();
+//     std::io::stdin().read_line(&mut line).unwrap();
+//     line.pop();
+//     return line;
+// }
 fn enter_category_info2(message: String) -> String {
     println!("\x1B[2J\x1B[1;1H");
     info!("create_new_cateory");
@@ -316,7 +319,7 @@ fn enter_category_info3(message: &str, default: &str) -> Result<std::string::Str
     let mut rl = DefaultEditor::new()?;
     // let mut rl: Editor<H> = rustyline::Editor::new()?;
     // const DEFAULT_USERNAME: &str = "admin";
-    let mut input: String = "".to_string();
+    // let mut input: String = "".to_string();
     loop {
         match rl.readline_with_initial(&message, (default, "")) {
             Ok(res) => {
@@ -421,7 +424,7 @@ fn edit_category() {
                     }
 
                 },
-                Err(e) =>  {
+                Err(_e) =>  {
                     match index.as_str() {
                         "q" => {},
                         _ => error_message(&format!("2edit_category() error is {:?}", index))
@@ -437,7 +440,7 @@ fn edit_category() {
 }
 fn search() {
     let terms = enter_search_terms();
-    let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),50);
+    let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
     let results = search.search();
     match results {
         Ok(mut res) =>{
@@ -512,9 +515,11 @@ fn delete_podcast() {
 }
 fn edit_podcast() {
     println!("\x1B[2J\x1B[1;1H");
-    let mut pod: Podcast = Podcast::new();
+    // let mut pod: Podcast = Podcast::new();
+    let pod: Podcast = Podcast::new();
     match pod.read_all_podcasts() {
-        Ok(mut res) =>{
+        // Ok(mut res) =>{
+        Ok(res) =>{
             match display_pods(&res) {   
                 Ok(chosen) =>{
                     info!("Ok(chosen");
@@ -594,7 +599,8 @@ fn edit_podcast_details(mut pod: Podcast) {
 
 fn create_podcast() {
     println!("\x1B[2J\x1B[1;1H");
-    let mut pod: Podcast = Podcast::new();
+    // let mut pod: Podcast = Podcast::new();
+    let pod: Podcast = Podcast::new();
     edit_podcast_details(pod);
 
 }
@@ -612,7 +618,7 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
     // info!("display_size:{}", display_size);
     let mut pages: u16 = 0;
     let mut page_iter = 0;
-    let mut row_iter = 0;
+    let mut row_iter; // = 0;
     if (pods_len as u16).rem_euclid(display_size) > 0 {
         pages += 1;
         pages += (pods_len as u16)/(display_size);
@@ -622,7 +628,7 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
         println!("\x1B[2J\x1B[1;1H");
         info!("Display pods");
         let start = page_iter*display_size;
-        let mut end = 0;
+        let end; // = 0;
 
         if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
             end = ((page_iter+1)*display_size)-1;
@@ -731,10 +737,12 @@ fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
         // }
     }
 }
+
 fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
-    let mut result: i16 = -1;
+    let result: i16 = -1;
+    // let mut result: i16 = -1;
     if pods.len() == 0 {
         error_message(format!("No Podcasts to display.").as_str());
         return Ok(result)
@@ -744,7 +752,7 @@ fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
     // info!("display_size:{}", display_size);
     let mut pages: u16 = 0;
     let mut page_iter = 0;
-    let mut row_iter = 0;
+    let mut row_iter; // = 0;
     if (pods_len as u16).rem_euclid(display_size) > 0 {
         pages += 1;
         pages += (pods_len as u16)/(display_size);
@@ -754,7 +762,7 @@ fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
         println!("\x1B[2J\x1B[1;1H");
         info!("Display pods");
         let start = page_iter*display_size;
-        let mut end = 0;
+        let end; // = 0;
 
         if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
             end = ((page_iter+1)*display_size)-1;
@@ -805,9 +813,9 @@ fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
             _ => {
                 info!("display_pods not q, n, or p");
                 match line.trim().parse::<i16>() {
-                    Ok(val) => {
+                    Ok(line_parsed) => {
                         let episode: Episode = Episode::new();
-                        match episode.read_all_episodes_by_podcast_id(val) {
+                        match episode.read_all_episodes_by_podcast_id(pods[(line_parsed as usize)-1].id) {
                             Ok(episodes) =>{
                                 match display_episodes(&episodes) {
                                     Ok(chosen_epis) => {
@@ -856,7 +864,47 @@ fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
 }
 
 fn add_episodes_to_download_queue(episodes: Vec<Episode>) {
-    
+    // info!("add_episodes_to_download_queue length : {}", episodes.len());
+    for episode in episodes {
+        // info!("Episode title: {}", episode.title);
+        match episode.add_to_download_queue() {
+            Ok(result) =>{
+                info!("{}",result);
+                // all good in the hood
+            }, 
+            Err(e) =>{
+                error!("{}", e);
+            }
+        }
+    }
+}
+
+fn delete_from_download_queue() {
+    match Episode::read_all_in_download_queue() {
+        Ok(episodes) =>{
+            info!("{:?}", episodes);
+            match display_episodes(&episodes) {
+                Ok(epis_to_be_removed) => {
+                    for epi in epis_to_be_removed {
+                        match epi.remove_from_download_queue() {
+                            Ok(result) =>{
+                                info!("{} removed", result);
+                            },
+                            Err(e) => {
+                                error!("{}", e);
+                            }
+                        }
+                    }
+                },
+                Err(e) => {
+                    error!("{}", e);
+                }
+            }
+        },
+        Err(e) => {
+            error!("{}", e);
+        }
+    }
 }
 
 fn update_podcast_download_info() {
@@ -868,12 +916,12 @@ fn update_podcast_download_info() {
             for pod in pods {
                 info!("{}, {}", pod.url, pod.id);
                 match retrieve.retreive_episodes(pod.url, pod.id as i16) {
-                    Ok(mut episodes) =>{
+                    Ok(episodes) =>{
                         info!("{:?}", episodes.len());
                         for mut episode in episodes {
                             info!("{}", episode.title);
                             match episode.save_existing() {
-                                Ok(res) => {
+                                Ok(_res) => {
                                     info!("Episode {} added", episode.title);
                                 },
                                 Err(e) =>{
@@ -906,7 +954,7 @@ fn choose_episodes() {
                     match pod.read_all_podcasts_by_category(c) {
                         Ok(pods) =>{
                             match display_pods_to_choose_episodes(&pods) {
-                                Ok(chosen) => {
+                                Ok(_chosen) => {
                                     // nada
                                 },
                                 Err(e) => {
@@ -932,6 +980,7 @@ fn choose_episodes() {
 }
 
 fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
+    info!("{}", epis.len());
     // fn display_episodes(epis: &Vec<Episode>) -> Result<HashSet<u16>, Error> {
     let screen = Screen::new();
     let epis_len = epis.len(); 
@@ -946,7 +995,7 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
     // info!("display_size:{}", display_size);
     let mut pages: u16 = 0;
     let mut page_iter = 0;
-    let mut row_iter = 0;
+    let mut row_iter; // = 0;
     if (epis_len as u16).rem_euclid(display_size) > 0 {
         pages += 1;
         pages += (epis_len as u16)/(display_size);
@@ -956,7 +1005,7 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
         println!("\x1B[2J\x1B[1;1H");
         info!("Display epis");
         let start = page_iter*display_size;
-        let mut end = 0;
+        let end; // = 0;
 
         if ((page_iter+1)*display_size)-1 < (epis_len as u16) - 1 {
             end = ((page_iter+1)*display_size)-1;
@@ -1012,7 +1061,7 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
                                             if val >= (start + 1) && val2 <= (end + 1) {
                                                 for v in val..=val2 {
                                                     info!("{}", v);
-                                                    results.push(epis[(row_iter as usize)-1].clone());
+                                                    results.push(epis[(v as usize)-1].clone());
                                                 }
                                             }
                                         },
@@ -1044,6 +1093,79 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
         }
 
     }
+}
+// fn get_download_location() {
+    
+// }
+
+fn start_downloads() {
+    match Episode::read_all_in_download_queue() {
+        Ok(episodes) => {
+            for episode in episodes {
+                match episode.get_podcast_download_location() {
+                    Ok(download) =>{
+                        info!("url:{}", episode.url);
+                        info!("download:{}", download);
+                        // match reqwest::get(episode.url) {
+                        //     Ok(returned) =>{
+                        //         info!("{:?}",returned);
+                        //     },
+                        //     Err(e) => {
+                        //         error!("{}",e);
+                        //     }
+                        // }
+                        
+                        // let mut resp = reqwest::get("https://sh.rustup.rs").expect("request failed");
+                        // let mut out = File::create("rustup-init.sh").expect("failed to create file");
+                        // io::copy(&mut resp, &mut out).expect("failed to copy content");
+                    },
+                    Err(e) => {
+                        error!("{}",e)
+                    }
+                }
+            }
+        },
+        Err(e) => {
+            error!("{}",e)
+        }
+    }
+}
+
+
+async fn download_file(client: &Client, url: &str, path: &str) -> Result<(), String> {
+    // Reqwest setup
+    let res = client
+        .get(url)
+        .send()
+        .await
+        .or(Err(format!("Failed to GET from '{}'", &url)))?;
+    let total_size = res
+        .content_length()
+        .ok_or(format!("Failed to get content length from '{}'", &url))?;
+    
+    // Indicatif setup
+    let pb = ProgressBar::new(total_size);
+    pb.set_style(ProgressStyle::default_bar()
+        .template("{msg}\n{spinner:.green} [{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({bytes_per_sec}, {eta})")
+        .progress_chars("#>-"));
+    pb.set_message(&format!("Downloading {}", url));
+
+    // download chunks
+    let mut file = File::create(path).or(Err(format!("Failed to create file '{}'", path)))?;
+    let mut downloaded: u64 = 0;
+    let mut stream = res.bytes_stream();
+
+    while let Some(item) = stream.next().await {
+        let chunk = item.or(Err(format!("Error while downloading file")))?;
+        file.write_all(&chunk)
+            .or(Err(format!("Error while writing to file")))?;
+        let new = min(downloaded + (chunk.len() as u64), total_size);
+        downloaded = new;
+        pb.set_position(new);
+    }
+
+    pb.finish_with_message(&format!("Downloaded {} to {}", url, path));
+    return Ok(());
 }
 // fn dc(cats: &Result<Vec<Category>>){
 
@@ -1077,7 +1199,7 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
 fn display_cats2(cats: &Result<Vec<Category>, Error>) -> Result<std::string::String, Error> {
     // fn display_cats(cats: &Result<Vec<Category>, rusqlite::Error>) -> Result<std::string::String, io::Error> {
     
-    let screen = Screen::new();
+    // let screen = Screen::new();
     let cats_len = cats.as_ref().unwrap().len(); 
     loop {      
         println!("\x1B[2J\x1B[1;1H");
@@ -1109,7 +1231,7 @@ fn display_cats2(cats: &Result<Vec<Category>, Error>) -> Result<std::string::Str
 fn display_cats3(cats: Vec<Category>) -> Result<std::string::String, Error> {
     // fn display_cats(cats: &Result<Vec<Category>, rusqlite::Error>) -> Result<std::string::String, io::Error> {
     
-    let screen = Screen::new();
+    // let screen = Screen::new();
     let cats_len = cats.len(); 
     loop {      
         println!("\x1B[2J\x1B[1;1H");

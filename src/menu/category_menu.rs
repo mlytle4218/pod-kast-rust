@@ -1,11 +1,9 @@
-use termsize;
 
 use super::screen::Screen;
 use super::super::data::category::Category;
-use super::super::data::data::DB;
-use super::super::config::config::Config;
-use super::menu_entry::MenuEntry;
-use std::io::{self, Read, Write, BufRead};
+// use super::super::data::data::DB;
+// use super::super::config::config::Config;
+// use std::io::{self, Write, BufRead};
 use std::{thread, time};
 
 use rustyline::{DefaultEditor, Result as rlResult};
@@ -26,13 +24,13 @@ impl CategoryMenu {
             screen: Screen::new()
         }
     }
-    pub fn show_categories(&self, podcasts: Vec<Category>) -> Vec<Category> {
-        let result: Vec<Category> = Vec::new();
-        result
-    }
+    // pub fn show_categories(&self, podcasts: Vec<Category>) -> Vec<Category> {
+    //     let result: Vec<Category> = Vec::new();
+    //     result
+    // }
     pub fn create_new_category(&self) {
-        let db = DB::new(Config::new());
-        let conn = db.connect_to_database();
+        // let db = DB::new(Config::new());
+        // let conn = db.connect_to_database();
         let mut cat = Category::new();
         
         cat.name = match self.enter_info("Enter Category name",""){
@@ -65,33 +63,33 @@ impl CategoryMenu {
 
 
     // }
-    pub fn get_menu_input(&self, count: i32, input: &mut impl BufRead, output: &mut impl Write) -> std::io::Result<String> {
+    // pub fn get_menu_input(&self, count: i32, input: &mut impl BufRead, output: &mut impl Write) -> std::io::Result<String> {
 
 
-        let result = loop {
-            let mut line = String::new();
-            output.write("Choice: ".as_bytes())?;
-            // print!("Choice: ");
-            io::stdout().flush().unwrap();
+    //     let result = loop {
+    //         let mut line = String::new();
+    //         output.write("Choice: ".as_bytes())?;
+    //         // print!("Choice: ");
+    //         io::stdout().flush().unwrap();
 
-            let mut stdin = io::stdin(); // We get `Stdin` here.
+    //         let mut stdin = io::stdin(); // We get `Stdin` here.
     
-            stdin.read_line(&mut line).unwrap();
-            match line.trim().parse::<i32>() {
-                Ok(val2) => {
-                    if val2 <= count {
-                        break val2.to_string()
-                    }
-                },
-                Err(_) => {
-                    match line.trim() {
-                        "q" | "n" => break String::from(line.trim()),
-                        _err => {}
+    //         stdin.read_line(&mut line).unwrap();
+    //         match line.trim().parse::<i32>() {
+    //             Ok(val2) => {
+    //                 if val2 <= count {
+    //                     break val2.to_string()
+    //                 }
+    //             },
+    //             Err(_) => {
+    //                 match line.trim() {
+    //                     "q" | "n" => break String::from(line.trim()),
+    //                     _err => {}
 
-                    }
-                }
-            }
-        };
-        Ok(result)
-    }
+    //                 }
+    //             }
+    //         }
+    //     };
+    //     Ok(result)
+    // }
 }

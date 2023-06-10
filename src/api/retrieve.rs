@@ -1,14 +1,9 @@
 use chrono::Utc;
-use regex::Regex;
-use reqwest::Client;
 use rss::Channel;
-use serde::Deserialize;
 use std::error::Error;
 
 use crate::data::episode::Episode;
-use crate::data::podcast::Podcast;
-use super::super::config::config::Config;
-use log::{debug, error, log_enabled, info, Level};
+use log::error;
 
 pub struct Retreive {
 
@@ -42,6 +37,7 @@ impl Retreive {
                         downloaded: 0,
                         viewed: 0,
                         podcast_id: podcast_id,
+                        queue: 0
                     });
                 },
                 Err(e) => {
