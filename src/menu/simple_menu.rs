@@ -1,10 +1,10 @@
 use super::menu_entry::MenuEntry;
 use super::screen::Screen;
 
-use std::io::{self, BufRead, Error, Read, Result, Write};
+use std::io::{self, BufRead, Write};
 
 
-use log::{info, warn, error, LevelFilter};
+use log::info;
 
 pub struct SimpleMenu {
     screen: Screen,
@@ -27,9 +27,9 @@ impl SimpleMenu {
         Ok(self.entries.len())
     }
 
-    pub fn retrieve(&self, choice: String) {
+    // pub fn retrieve(&self, choice: String) {
 
-    }
+    // }
     
     pub fn prompt2<R, W>(&self, mut input: R, mut output: W) -> std::io::Result<String> 
     where 
@@ -92,7 +92,7 @@ impl SimpleMenu {
                 if line.trim() == entry.reference {
                     (entry.f)();
                 }
-                self.show(&mut output);
+                // self.show(&mut output);
             }
         };
     }
@@ -112,7 +112,7 @@ impl SimpleMenu {
                     (entry.f)();
                 }
             }
-            self.show3();
+            // self.show3();
         };
     }
 
