@@ -115,6 +115,22 @@ impl SimpleMenu {
             // self.show3();
         };
     }
+    pub fn prompt4(&self, label: &str) 
+    {
+        info!("prompt4");
+        let mut line = String::new();
+        info!("prompt4-2");
+        print!("{}",label);
+        io::stdout().flush().unwrap();
+        info!("prompt4-3");
+        std::io::stdin().read_line(&mut line).unwrap();
+        for entry in &self.entries {
+            if line.trim() == entry.reference {
+                (entry.f)();
+            }
+        }
+        // self.show3();
+    }
 
 
     pub fn show(&self, output: &mut impl Write)  -> std::io::Result<i32>  {
@@ -130,6 +146,21 @@ impl SimpleMenu {
         info!("Choice");
         self.prompt3("Choice: ");
         Ok(count as i32)
+    }
+    pub fn show4(&self)   {
+        loop {
+            print!("\x1B[2J\x1B[1;1H");
+            let count = self.entries.len();
+            // println!("Count {}",count);
+            for i in 0..count {
+                let out = self.entries[i].to_string() +"\n";
+                if self.entries[i].show {
+                    print!("{}", out);
+                    // output.write(out.as_bytes())?;
+                }
+            }
+            self.prompt4("Choice: ");
+        }
     }
 
     pub fn show3(&self)  -> std::io::Result<i32>  {

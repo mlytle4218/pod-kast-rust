@@ -44,6 +44,8 @@ use menu::menu_entry::MenuEntry;
 use menu::screen::Screen;
 use menu::simple_menu::SimpleMenu;
 
+
+
 use std::{thread, time};
 
 use std::process;
@@ -63,6 +65,8 @@ use rustyline::error::ReadlineError;
 use reqwest::Client;
 
 use std::collections::HashSet;
+
+use std::path::Path;
 
 fn main() {
     // systemd_journal_logger::init().unwrap();
@@ -172,7 +176,8 @@ fn main() {
     let simple_menu = SimpleMenu::new(Screen::new(), entries);
     // let simple_menu = SimpleMenu::new(screen, entries);
     // let simple_menu = SimpleMenu::new(screen, create_main_menu());
-    simple_menu.show3().unwrap();
+    simple_menu.show4();
+    // simple_menu.show3().unwrap();
     // simple_menu.show( &mut io::stdout()).unwrap();
     // let bob = simple_menu.show( &mut io::stdout()).unwrap();
     
@@ -1097,8 +1102,8 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
 // fn get_download_location() {
     
 // }
-
 fn start_downloads() {
+    // async fn start_downloads() {
     match Episode::read_all_in_download_queue() {
         Ok(episodes) => {
             for episode in episodes {
@@ -1106,6 +1111,41 @@ fn start_downloads() {
                     Ok(download) =>{
                         info!("url:{}", episode.url);
                         info!("download:{}", download);
+                        let path = Path::new(&episode.url);
+                        let mut filename: String = "".to_string(); // = path.file_name().unwrap();
+                        filename.push_str(&download);
+                        let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
+                        filename.push_str(&path_temp);
+
+                        // info!("filename: {}", filename.as_str());
+                        let client = reqwest::Client::new();
+                        let rt = tokio::runtime::Builder::new_current_thread()
+                            .enable_all()
+                            .build()
+                            .unwrap();
+
+                        // let res = rt.block_on(async { download_file(&client, &episode.url, &filename).await });
+                        // match rt.block_on(async { download_file(&client, &episode.url, &filename).await }) {
+                        match rt.block_on(async { download_file2(&episode.url, &filename).await }) {
+                            Ok(res) =>{
+                                info!("rt.block_on result");
+                                info!("{:?}",res)
+                            },
+                            Err(e) => {
+                                error!("{}",e);
+                            }
+
+                        }
+                        
+                        // info!("res after download{:?}",res);
+                        // match download_file(&client, &episode.url, &download).await {
+                        //     Ok(fileResult) =>{
+
+                        //     },
+                        //     Err(e) =>{
+                        //         error!("{}",e);
+                        //     }
+                        // }
                         // match reqwest::get(episode.url) {
                         //     Ok(returned) =>{
                         //         info!("{:?}",returned);
@@ -1166,6 +1206,52 @@ async fn download_file(client: &Client, url: &str, path: &str) -> Result<(), Str
 
     pb.finish_with_message(&format!("Downloaded {} to {}", url, path));
     return Ok(());
+}
+
+async fn download_file2(url: &str, path: &str) -> Result<(), Error>  {
+    let mut file = File::create(path).await?;
+    println!("Downloading {}...", url);
+
+    let mut stream = reqwest::get(url)
+        .await?
+        .bytes_stream();
+
+    while let Some(chunk_result) = stream.next().await {
+        let chunk = chunk_result?;
+        file.write_all(&chunk).await?;
+    }
+
+    file.flush().await?;
+
+    println!("Downloaded {}", url);
+    Ok(())
+}
+async fn download_file3(url: &str, path: &str) -> Result<(), Error>  {
+
+    match File::create(path).await {
+        Ok(file) => {
+            println!("Downloading {}...", url);
+        },
+        Err(e) =>{
+            error!("{}",e)
+        }
+    }
+    // let mut file = File::create(path).await?;
+    // println!("Downloading {}...", url);
+
+    let mut stream = reqwest::get(url)
+        .await?
+        .bytes_stream();
+
+    while let Some(chunk_result) = stream.next().await {
+        let chunk = chunk_result?;
+        file.write_all(&chunk).await?;
+    }
+
+    file.flush().await?;
+
+    println!("Downloaded {}", url);
+    Ok(())
 }
 // fn dc(cats: &Result<Vec<Category>>){
 
