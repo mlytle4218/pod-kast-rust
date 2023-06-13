@@ -1020,8 +1020,15 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
 
         row_iter = start;
         while row_iter <= end {
-            println!("{}. {}", (row_iter + 1), epis[row_iter as usize].title);
-            row_iter += 1;
+            match epis[row_iter as usize].mark_viewed() {
+                Ok(marked) =>{
+                    println!("{}. {}", (row_iter + 1), epis[row_iter as usize].title);
+                    row_iter += 1;
+                },
+                Err(e) => {
+                    error!("{}", e)
+                }
+            }
         }
         let mut line = String::new();
         print!("Choice: ");
@@ -1124,18 +1131,38 @@ fn start_downloads() {
                             .build()
                             .unwrap();
 
+                        
+                        rt.block_on(async { match download_file(&client, &episode.url, &filename).await {
+                            Ok(res) =>{
+                                match episode.mark_downloaded() {
+                                    Ok(downloaded) => {
+                                        info!("{} marked as downloaded", episode.title);
+                                    },
+                                    Err(e) => {
+                                        error!("{}",e);
+                                    }
+                                }
+                                info!("rt.block_on result***************************************");
+                                info!("{:?}", res);
+                            },
+                            Err(e) =>{
+                                error!("{}",e)
+                            }
+                        } })
+
                         // let res = rt.block_on(async { download_file(&client, &episode.url, &filename).await });
                         // match rt.block_on(async { download_file(&client, &episode.url, &filename).await }) {
-                        match rt.block_on(async { download_file2(&episode.url, &filename).await }) {
-                            Ok(res) =>{
-                                info!("rt.block_on result");
-                                info!("{:?}",res)
-                            },
-                            Err(e) => {
-                                error!("{}",e);
-                            }
+                        // match rt.block_on(async { download_file2(&episode.url, &filename).await }) {
+                        //     Ok(res) =>{
+                        //         // match episode.mark_downloaded()
+                        //         info!("rt.block_on result");
+                        //         info!("{:?}",res)
+                        //     },
+                        //     Err(e) => {
+                        //         error!("{}",e);
+                        //     }
 
-                        }
+                        // }
                         
                         // info!("res after download{:?}",res);
                         // match download_file(&client, &episode.url, &download).await {
@@ -1209,50 +1236,64 @@ async fn download_file(client: &Client, url: &str, path: &str) -> Result<(), Str
 }
 
 async fn download_file2(url: &str, path: &str) -> Result<(), Error>  {
-    let mut file = File::create(path).await?;
+    let mut file = File::create(path);
     println!("Downloading {}...", url);
 
-    let mut stream = reqwest::get(url)
-        .await?
-        .bytes_stream();
+    // let mut stream = reqwest::get(url)
+    //     .await?
+    //     .bytes_stream();
 
-    while let Some(chunk_result) = stream.next().await {
-        let chunk = chunk_result?;
-        file.write_all(&chunk).await?;
-    }
+    // while let Some(chunk_result) = stream.next().await {
+    //     let chunk = chunk_result?;
+    //     file.write_all(&chunk).await?;
+    // }
 
-    file.flush().await?;
+    // file.flush().await?;
 
-    println!("Downloaded {}", url);
+    // println!("Downloaded {}", url);
     Ok(())
 }
-async fn download_file3(url: &str, path: &str) -> Result<(), Error>  {
+// async fn download_file3(url: &str, path: &str) -> Result<(), Error>  {
 
-    match File::create(path).await {
-        Ok(file) => {
-            println!("Downloading {}...", url);
-        },
-        Err(e) =>{
-            error!("{}",e)
-        }
-    }
-    // let mut file = File::create(path).await?;
-    // println!("Downloading {}...", url);
+//     match File::create(path).await {
+//         Ok(file) => {
+//             println!("Downloading {}...", url);
 
-    let mut stream = reqwest::get(url)
-        .await?
-        .bytes_stream();
+//             let mut stream = reqwest::get(url)
+//                 .await?
+//                 .bytes_stream();
+        
+//             while let Some(chunk_result) = stream.next().await {
+//                 let chunk = chunk_result?;
+//                 file.write_all(&chunk).await?;
+//             }
+        
+//             file.flush().await?;
+        
+//             println!("Downloaded {}", url);
+//             Ok(())
+//         },
+//         Err(e) =>{
+//             error!("{}",e)
+//         }
+//     }
+//     // let mut file = File::create(path).await?;
+//     // println!("Downloading {}...", url);
 
-    while let Some(chunk_result) = stream.next().await {
-        let chunk = chunk_result?;
-        file.write_all(&chunk).await?;
-    }
+//     // let mut stream = reqwest::get(url)
+//     //     .await?
+//     //     .bytes_stream();
 
-    file.flush().await?;
+//     // while let Some(chunk_result) = stream.next().await {
+//     //     let chunk = chunk_result?;
+//     //     file.write_all(&chunk).await?;
+//     // }
 
-    println!("Downloaded {}", url);
-    Ok(())
-}
+//     // file.flush().await?;
+
+//     // println!("Downloaded {}", url);
+//     // Ok(())
+// }
 // fn dc(cats: &Result<Vec<Category>>){
 
 // }
