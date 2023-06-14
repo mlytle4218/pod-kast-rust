@@ -1,6 +1,6 @@
 use chrono::{DateTime, Utc};
 use rusqlite::{params, Connection, Error, Result};
-use log::error;
+use log::{info,error};
 
 use super::super::config::config::Config;
 use super::data::DB;
@@ -79,8 +79,8 @@ impl Episode {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let result = conn.execute(
-            "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id,viewed) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8,?9)", 
-            params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0]
+            "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id,viewed, queue) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8, ?9, ?10)", 
+            params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0, 0]
         )?;
         // let result = conn.execute(
         //     "BEGIN 
@@ -124,6 +124,18 @@ impl Episode {
         self.id = conn.last_insert_rowid();
         Ok(result)
     }
+
+    pub fn update_existing(&mut self) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let result = conn.execute(
+            "UPDATE episodes SET title=(?1) and published=(?2) and summary=(?3) and length=(?4) and audio=(?5) and url=(?6) and downloaded=(?7) and podcast_id=(?8) and viewed=(?9) and queue=(?10) where episode_id=(?11)",
+            params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0, 0, self.id]
+        )?;
+        
+        self.id = conn.last_insert_rowid();
+        Ok(result)
+    }
     // fn create_episode(&mut self, conn: Connection) -> Result<usize, Error> {
     //     let result = conn.execute(
     //         "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
@@ -133,6 +145,7 @@ impl Episode {
     //     Ok(result)
     // }
     pub fn read_all_episodes_by_podcast_id(&self, pod_id: i64) ->Result<Vec<Episode>, Error>  {
+        info!("{}", pod_id);
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let mut stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) AND viewed=0 ORDER BY title ASC;")?;

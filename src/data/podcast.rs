@@ -6,7 +6,7 @@ use super::super::config::config::Config;
 use super::data::DB;
 use std::io::{self, Write};
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Podcast {
     pub id: i64,
     pub name: String,
@@ -105,7 +105,7 @@ impl Podcast {
         Ok(result)
     }
 
-    fn update_existing(&mut self) -> Result<usize, Error> {
+    pub fn update_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let result = conn.execute(
@@ -201,6 +201,20 @@ impl Podcast {
         tx.execute("DELETE FROM podcasts where podcast_id=(?1);", params![self.id])?;
         let result  = tx.commit().unwrap();
         Ok(result)
+    }
+}
+
+impl Clone for Podcast {
+    fn clone(&self) -> Podcast {
+        Podcast {
+            id: self.id.clone(),
+            name: self.name.clone(),
+            url: self.url.clone(),
+            audio: self.audio.clone(),
+            video: self.video.clone(),
+            category_id: self.category_id.clone(),
+            collection_id: self.collection_id.clone()
+        }
     }
 }
 
