@@ -55,24 +55,52 @@ impl Episode {
         let conn: Connection = db.connect_to_database();
         
         let mut stmt = conn.prepare("SELECT COUNT(viewed) from episodes where podcast_id=(?) and viewed=0;")?;
-        // info!("stmt is :{:?}", cat_id);
-        let epi_iter = stmt.query_map([cat_id], |row| {
+        let mut epi_iter = stmt.query_map([cat_id], |row| {
             Ok(Count {
                 result: row.get(0)?
             })
         })?;
-        for each in epi_iter {
-            match each {
-                Ok(result) =>{
-                    return Ok(result.result)
-                },
-                Err(e) => {
-                    error!("{}",e)
+        match epi_iter.next() {
+            Some(count) =>{
+                match count {
+                    Ok(result) => {
+                        return Ok(result.result)
+                    },
+                    Err(e) => {
+                        return Err(e)
+                    }
                 }
+            },
+            None =>{
+                return Err(Error::QueryReturnedNoRows)
             }
         }
-        //bad design will return zero if there is a problem not because it is zero. - fix this later
-        Ok(0 as usize)
+    }
+    pub fn count_episodes_archive(&self, cat_id: i64) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        
+        let mut stmt = conn.prepare("SELECT COUNT(viewed) from episodes where podcast_id=(?);")?;
+        let mut epi_iter = stmt.query_map([cat_id], |row| {
+            Ok(Count {
+                result: row.get(0)?
+            })
+        })?;
+        match epi_iter.next() {
+            Some(count) =>{
+                match count {
+                    Ok(result) => {
+                        return Ok(result.result)
+                    },
+                    Err(e) => {
+                        return Err(e)
+                    }
+                }
+            },
+            None =>{
+                return Err(Error::QueryReturnedNoRows)
+            }
+        }
     }
 
     pub fn save_existing(&mut self) -> Result<usize, Error> {
