@@ -172,11 +172,25 @@ impl Episode {
     //     self.id = conn.last_insert_rowid();
     //     Ok(result)
     // }
-    pub fn read_all_episodes_by_podcast_id(&self, pod_id: i64) ->Result<Vec<Episode>, Error>  {
+    pub fn read_all_episodes_by_podcast_id(&self, pod_id: i64, viewed: Option<i64>) ->Result<Vec<Episode>, Error>  {
         info!("{}", pod_id);
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        let mut stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) AND viewed=0 ORDER BY title ASC;")?;
+        let mut stmt;
+
+        match viewed {
+            Some(result) =>{
+                stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) ORDER BY title ASC;")?
+            },
+            None =>{
+                stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) AND viewed=0 ORDER BY title ASC;")?
+            }
+        }
+        // if (viewed.unwrap_or(i64::from(-1)) > 0 ) {
+        //     stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) AND viewed=0 ORDER BY title ASC;")?;
+        // } else {
+        //     stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) ORDER BY title ASC;")?;
+        // }
         let epi_iter = stmt.query_map([pod_id], |row| {
             Ok(Episode {
                 id: row.get(0)?,

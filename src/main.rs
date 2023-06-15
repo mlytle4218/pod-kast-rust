@@ -753,105 +753,7 @@ fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
                 match line.trim().parse::<i16>() {
                     Ok(line_parsed) => {
                         let episode: Episode = Episode::new();
-                        match episode.read_all_episodes_by_podcast_id(pods[(line_parsed as usize)-1].id) {
-                            Ok(episodes) =>{
-                                match display_episodes(&episodes) {
-                                    Ok(chosen_epis) => {
-                                        info!("{:?}", chosen_epis);
-                                        add_episodes_to_download_queue(chosen_epis);
-
-                                    },
-                                    Err(e) => {
-                                        error!("{}", e)
-                                    }
-                                }
-                            },
-                            Err(e) => {
-                                error!("{}", e)
-                            }
-                        }
-                    },
-                    Err(_) => {
-                        error_message(format!("{} is not a valid number.", line.trim()).as_str())
-                    }
-
-                }
-            }
-        }
-    }
-}
-fn display_pods_to_choose_episodes_archive(pods: &Vec<Podcast>) -> Result<i16, Error> {
-    let screen = Screen::new();
-    let pods_len = pods.len(); 
-    let result: i16 = -1;
-    if pods.len() == 0 {
-        error_message(format!("No Podcasts to display.").as_str());
-        return Ok(result)
-    }
-    let display_size: u16 = screen.row_size -1;
-    let mut pages: u16 = 0;
-    let mut page_iter = 0;
-    let mut row_iter; // = 0;
-    if (pods_len as u16).rem_euclid(display_size) > 0 {
-        pages += 1;
-        pages += (pods_len as u16)/(display_size);
-    }
-    
-    loop {
-        println!("\x1B[2J\x1B[1;1H");
-        info!("Display pods");
-        let start = page_iter*display_size;
-        let end; // = 0;
-
-        if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
-            end = ((page_iter+1)*display_size)-1;
-        } else {
-            end = (pods_len as u16) - 1;
-        }
-
-        row_iter = start;
-        
-        let epi_temp: Episode = Episode::new();
-        while row_iter <= end {
-            match epi_temp.count_episodes_archive(pods[row_iter as usize].id) {
-                Ok(count) => {
-                    println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, count);
-                    row_iter += 1;
-                },
-                Err(e) => {
-                    error!("{}",e)
-                }
-
-            }
-        }
-        let mut line = String::new();
-        print!("Choice: ");
-        io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line);
-        match line.trim_end_matches('\n') {
-            "q" => break Ok(result),
-            "n" => {
-                if page_iter < (pages -1) {
-                    page_iter += 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            "p" => {
-                if page_iter > 0 {
-                    page_iter -= 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            _ => {
-                info!("display_pods not q, n, or p");
-                match line.trim().parse::<i16>() {
-                    Ok(line_parsed) => {
-                        let episode: Episode = Episode::new();
-                        match episode.read_all_episodes_by_podcast_id(pods[(line_parsed as usize)-1].id) {
+                        match episode.read_all_episodes_by_podcast_id(pods[(line_parsed as usize)-1].id, None) {
                             Ok(episodes) =>{
                                 match display_episodes(&episodes) {
                                     Ok(chosen_epis) => {
@@ -962,12 +864,55 @@ fn download_latest_episode_data_for_podcast() {
 fn archive() {
     match Podcast::new().read_all_podcasts() {
         Ok(pods) =>{
-            match display_pods_to_choose_episodes_archive(&pods) {
-                Ok(_chosen) => {
-                    // nada
-                },
-                Err(e) => {
-                    error!("{}", e)
+            loop {
+                match display_pods_to_choose_episodes_archive2(&pods) {
+                    Ok(chosen) => {
+                        match Episode::new().read_all_episodes_by_podcast_id(chosen.id, Some(1 as i64)) {
+                            Ok(all_episodes) =>{
+                                match display_episodes(&all_episodes) {
+                                    Ok(chosen_episodes) =>{
+                                        for episode in chosen_episodes {
+                                            match episode.add_to_download_queue() {
+                                                Ok(res) =>{
+                                                    info!("{} was added to download queue", episode.title)
+                                                },
+                                                Err(e) =>{
+                                                    error!("{}", e);
+                                                }
+                                            }
+                                        }
+                                    },
+                                    Err(e) =>{
+                                        error!("{}", e);
+                                    }
+                                }
+                            },
+                            Err(e) =>{
+                                error!("{}", e);
+                            }
+                        }
+                        // match display_episodes(chosen) {
+                        //     Ok(episodes) => {
+                        //         for episode in episodes {
+                        //             match episode.add_to_download_queue() {
+                        //                 Ok(res) =>{
+                        //                     info!("{} added to donwload queue", episode.title);
+                        //                 },
+                        //                 Err(e) =>{
+                        //                     error!("{}", e);
+                        //                 }
+                        //             }
+                        //         }
+                        //     },
+                        //     Err(e) =>{
+                        //         error!("{}", e);
+                        //     }
+                        // }
+                    },
+                    Err(e) => {
+                        error!("{}", e);
+                        break
+                    }
                 }
             }
         },
@@ -977,6 +922,205 @@ fn archive() {
 
     }
 }
+fn display_pods_to_choose_episodes_archive(pods: &Vec<Podcast>) -> Result<i16, Error> {
+    let screen = Screen::new();
+    let pods_len = pods.len(); 
+    let result: i16 = -1;
+    if pods.len() == 0 {
+        error_message(format!("No Podcasts to display.").as_str());
+        return Ok(result)
+    }
+    let display_size: u16 = screen.row_size -1;
+    let mut pages: u16 = 0;
+    let mut page_iter = 0;
+    let mut row_iter; // = 0;
+    if (pods_len as u16).rem_euclid(display_size) > 0 {
+        pages += 1;
+        pages += (pods_len as u16)/(display_size);
+    }
+    
+    loop {
+        println!("\x1B[2J\x1B[1;1H");
+        info!("Display pods");
+        let start = page_iter*display_size;
+        let end; // = 0;
+
+        if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+            end = ((page_iter+1)*display_size)-1;
+        } else {
+            end = (pods_len as u16) - 1;
+        }
+
+        row_iter = start;
+        
+        let epi_temp: Episode = Episode::new();
+        while row_iter <= end {
+            match epi_temp.count_episodes_archive(pods[row_iter as usize].id) {
+                Ok(count) => {
+                    println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, count);
+                    row_iter += 1;
+                },
+                Err(e) => {
+                    error!("{}",e)
+                }
+
+            }
+        }
+        let mut line = String::new();
+        print!("Choice: ");
+        io::stdout().flush().unwrap();
+        std::io::stdin().read_line(&mut line);
+        match line.trim_end_matches('\n') {
+            "q" => break Ok(result),
+            "n" => {
+                if page_iter < (pages -1) {
+                    page_iter += 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            "p" => {
+                if page_iter > 0 {
+                    page_iter -= 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            _ => {
+                info!("display_pods not q, n, or p");
+                match line.trim().parse::<i16>() {
+                    Ok(line_parsed) => {
+                        let episode: Episode = Episode::new();
+                        match episode.read_all_episodes_by_podcast_id(pods[(line_parsed as usize)-1].id, None) {
+                            Ok(episodes) =>{
+                                match display_episodes(&episodes) {
+                                    Ok(chosen_epis) => {
+                                        info!("{:?}", chosen_epis);
+                                        add_episodes_to_download_queue(chosen_epis);
+
+                                    },
+                                    Err(e) => {
+                                        error!("{}", e)
+                                    }
+                                }
+                            },
+                            Err(e) => {
+                                error!("{}", e)
+                            }
+                        }
+                    },
+                    Err(_) => {
+                        error_message(format!("{} is not a valid number.", line.trim()).as_str())
+                    }
+
+                }
+            }
+        }
+    }
+}
+fn display_pods_to_choose_episodes_archive2(pods: &Vec<Podcast>) -> Result<Podcast, Error> {
+    let screen = Screen::new();
+    let pods_len = pods.len(); 
+    let result: i16 = -1;
+    if pods.len() == 0 {
+        error_message(format!("No Podcasts to display.").as_str());
+        return Err(Error::QueryReturnedNoRows)
+    }
+    let display_size: u16 = screen.row_size -1;
+    let mut pages: u16 = 0;
+    let mut page_iter = 0;
+    let mut row_iter; // = 0;
+    if (pods_len as u16).rem_euclid(display_size) > 0 {
+        pages += 1;
+        pages += (pods_len as u16)/(display_size);
+    }
+    
+    loop {
+        println!("\x1B[2J\x1B[1;1H");
+        info!("Display pods");
+        let start = page_iter*display_size;
+        let end; // = 0;
+
+        if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+            end = ((page_iter+1)*display_size)-1;
+        } else {
+            end = (pods_len as u16) - 1;
+        }
+
+        row_iter = start;
+        
+        let epi_temp: Episode = Episode::new();
+        while row_iter <= end {
+            match epi_temp.count_episodes_archive(pods[row_iter as usize].id) {
+                Ok(count) => {
+                    println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, count);
+                    row_iter += 1;
+                },
+                Err(e) => {
+                    error!("{}",e)
+                }
+
+            }
+        }
+        let mut line = String::new();
+        print!("Choice: ");
+        io::stdout().flush().unwrap();
+        std::io::stdin().read_line(&mut line);
+        match line.trim_end_matches('\n') {
+            "q" => break return Err(Error::QueryReturnedNoRows),
+            "n" => {
+                if page_iter < (pages -1) {
+                    page_iter += 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            "p" => {
+                if page_iter > 0 {
+                    page_iter -= 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            _ => {
+                info!("display_pods not q, n, or p");
+                match line.trim().parse::<i16>() {
+                    Ok(line_parsed) => {
+                        return Ok(pods[(line_parsed as usize)-1].clone())
+                        // let episode: Episode = Episode::new();
+                        // match episode.read_all_episodes_by_podcast_id(pods[(line_parsed as usize)-1].id) {
+                        //     Ok(episodes) =>{
+                        //         match display_episodes(&episodes) {
+                        //             Ok(chosen_epis) => {
+                        //                 info!("{:?}", chosen_epis);
+                        //                 add_episodes_to_download_queue(chosen_epis);
+
+                        //             },
+                        //             Err(e) => {
+                        //                 error!("{}", e)
+                        //             }
+                        //         }
+                        //     },
+                        //     Err(e) => {
+                        //         error!("{}", e)
+                        //     }
+                        // }
+                    },
+                    Err(_) => {
+                        error_message(format!("{} is not a valid number.", line.trim()).as_str());
+                        return Err(Error::QueryReturnedNoRows)
+                    }
+
+                }
+            }
+        }
+    }
+}
+
 
 fn choose_episodes() {
     let cat: Category = Category::new();
