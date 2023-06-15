@@ -29,8 +29,6 @@ impl Category {
             "INSERT INTO categories (category) VALUES (?1)",
             params![self.name],
         )?;
-        info!("****");
-        info!("{}",result);
         Ok(result)
     }
     pub fn create_category(&self, conn: Connection) -> Result<usize, Error> {
@@ -39,8 +37,6 @@ impl Category {
             "INSERT INTO categories (category) VALUES (?1)",
             params![self.name],
         )?;
-        info!("****");
-        info!("{}",result);
         Ok(result)
     }
     // pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, ReadlineError> {
@@ -72,7 +68,6 @@ impl Category {
         for category in cat_iter {
             results.push(category.unwrap());
         }
-        // conn.close();
         Ok(results)
     }
     
@@ -118,6 +113,22 @@ impl Category {
     pub fn delete_category(&self, conn: Connection) -> Result<usize, Error> {
         let result = conn.execute("DELETE FROM categories where category_id=(?1)", params![self.id])?;
         Ok(result)
+    }
+
+    pub fn delete_existing(&self) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let result = conn.execute("DELETE FROM categories where category_id=(?1)", params![self.id])?;
+        Ok(result)
+    }
+}
+
+impl Clone for Category {
+    fn clone(&self) -> Category {
+        Category {
+            id: self.id.clone(),
+            name: self.name.clone()
+        }
     }
 }
 
