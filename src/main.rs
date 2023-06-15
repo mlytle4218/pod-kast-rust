@@ -162,36 +162,31 @@ fn main() {
 }
 
 
-fn trial() {
-    println!("trial function");
-    thread::sleep(time::Duration::from_secs(2));
-}
+// fn trial() {
+//     println!("trial function");
+//     thread::sleep(time::Duration::from_secs(2));
+// }
 fn create_new_category() {
     println!("\x1B[2J\x1B[1;1H");
     let mut cat = Category::new();
-    match enter_category_info3("Enter Category name ","") {
+    match enter_category_info("Enter Category name ","") {
         Ok(result) =>{ 
             cat.name = result;
-            let temp = cat.create_exisitng();
-            info!("temp");
-            info!("{}",temp.unwrap());
+            match cat.create_exisitng() {
+                Ok(db_response) =>{
+                    info!("Category {} created", cat.name);
+                },
+                Err(e) => {
+                    error!("{}", e);
+                }
+            }
         },
         Err(e) => {
             error!("{}", e);
         }
     }
 }
-fn enter_search_terms() -> std::string::String {
-    println!("\x1B[2J\x1B[1;1H");
-    info!("enter_search_terms");
-    let mut line = String::new();
-    print!("Enter search terms: ");
-    io::stdout().flush().unwrap();
-    std::io::stdin().read_line(&mut line).unwrap();
-    line.pop();
-    return line;
-}
-fn enter_category_info3(message: &str, default: &str) -> Result<std::string::String, ReadlineError> {
+fn enter_category_info(message: &str, default: &str) -> Result<std::string::String, ReadlineError> {
     let mut rl = DefaultEditor::new()?;
     loop {
         match rl.readline_with_initial(&message, (default, "")) {
@@ -218,27 +213,199 @@ fn enter_category_info3(message: &str, default: &str) -> Result<std::string::Str
     }
 
 }
-fn delete_category()  {
-    let db = data::data::DB::new(config::config::Config::new());
-    let conn = db.connect_to_database();
+fn edit_category() {
     let mut cat = Category::new();
-    let cats = cat.read_categories(&conn);
-    let result = display_cats2(&cats);
-    match result {
-        Ok(index) => {
-            match index.trim().parse::<usize>() {
-                Ok(idx) => {
-                    cat.id = cats.unwrap()[idx-1].id;
-                    let res = cat.delete_category(conn);
-                    info!("{}", res.unwrap());
+    match cat.read_all_categories() {
+        Ok(cats) =>{
+            match display_cats4(cats) {
+                Ok(mut chosen_cat) =>{
+                    // convert this later to return error if they enter nothing and circumvent this check
+                    let res_name = enter_category_info("Existing Category name: ",&chosen_cat.name).unwrap();
+                    if res_name.len() > 0 {
+                        chosen_cat.name = res_name.to_string();
+                        match chosen_cat.update_existing() {
+                            Ok(_) => {
+                                info!("{} updated", chosen_cat.name);
+                            },
+                            Err(_) => {
+                                error!("{} could not be updated", chosen_cat.name);
+                                error_message("Could not update the Category.");
+                            }
+                        }
+                    } else {
+                        // nothing was entered - don't update
+                    }
                 },
-                Err(e) => error!("delete_category() error is {}", e)
+                Err(e) =>{
+                    error!("{}", e);
+                }
             }
         },
-        Err(e) => error!("delete_category() error is {}", e)
+        Err(e) =>{
+            error!("{}", e);
+        }
+    }
+}
+fn delete_category() {
+    let mut cat = Category::new();
+    match cat.read_all_categories() {
+        Ok(cats) =>{
+            match display_cats4(cats) {
+                Ok(mut chosen_cat) =>{
+                    match chosen_cat.delete_existing() {
+                        Ok(_) => {
+                            info!("{} deleted", chosen_cat.name);
+                        },
+                        Err(_) => {
+                            error!("{} could not be deleted", chosen_cat.name);
+                            error_message("Could not delete the Category.");
+                        }
+                    }
+                },
+                Err(e) =>{
+                    error!("{}", e);
+                }
+            }
+        },
+        Err(e) =>{
+            error!("{}", e);
+        }
+    }
+}
+fn create_podcast() {
+    println!("\x1B[2J\x1B[1;1H");
+    match edit_podcast_details2(Podcast::new()) {
+        Ok(mut podcast) =>{
+            match podcast.save_existing() {
+                Ok(res) =>{
+                    info!("Podcast {} created", podcast.name);
+                },
+                Err(e) =>{
+                    error!("{}", e)
+                }
+            }
+        },
+        Err(e) =>{
+            error!("{}", e)
+        }
+    }
+}
+fn edit_podcast() {
+    println!("\x1B[2J\x1B[1;1H");
+    match Podcast::new().read_all_podcasts() {
+        Ok(res) =>{
+            match display_pods_single_result(&res) {   
+                Ok(chosen) =>{
+                    match edit_podcast_details2(res[(chosen as usize)-1].clone()) {
+                        Ok(mut podcast) =>{
+                            match podcast.update_existing() {
+                                Ok(response) => {
+                                    info!("{} updated", podcast.name)
+                                },
+                                Err(e) =>{
+                                    error!("{}", e);
+                                }
+                            }
+                        },
+                        Err(e) =>{
+                            error!("{}", e);
+                            error_message("Coudl not save Podcast details");
+                        }
+                    }
+                },
+                Err(e) => {
+                    error!("{}",e);
+                }
+            }
+        },
+        Err(e) => {
+            error!("{}",e);
+        }
     }
 
 }
+fn delete_podcast() {
+    match Podcast::new().read_all_podcasts() {
+        Ok(mut pods ) => {
+            match display_pods(&pods) {
+                Ok(chosen) => {
+                    info!("delete_podcast chosen.len(): {}", chosen.len());
+                    if chosen.len() > 0 {
+                        let mut v: Vec<&u16> = chosen.iter().collect();
+                        v.sort();
+                        info!("delete_podcast v: {:?}", v);
+                        for each in v {
+                            info!("each: {}", (*each as usize)-1);
+                            info!("Podcast returned {:?}",pods[(*each as usize)-1]);
+                            match pods[(*each as usize)-1].delete_existing() {
+                                Ok(pods) => {
+                                    info!("Ok pods: {:?}", pods);
+                                },
+                                Err(e) => {
+                                    error!("{}", e);
+                                }
+                            }
+                            
+                        }
+                    } else {
+                        // quit without choosing
+                    }
+                },
+                Err(e) => {
+                    error!("{}", e);
+                }
+            }
+        },
+        Err(e) =>{
+            error!("{}", e);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+// fn delete_category2()  {
+//     let db = data::data::DB::new(config::config::Config::new());
+//     let conn = db.connect_to_database();
+//     let mut cat = Category::new();
+//     let cats = cat.read_categories(&conn);
+//     let result = display_cats2(&cats);
+//     match result {
+//         Ok(index) => {
+//             match index.trim().parse::<usize>() {
+//                 Ok(idx) => {
+//                     cat.id = cats.unwrap()[idx-1].id;
+//                     let res = cat.delete_category(conn);
+//                     info!("{}", res.unwrap());
+//                 },
+//                 Err(e) => error!("delete_category() error is {}", e)
+//             }
+//         },
+//         Err(e) => error!("delete_category() error is {}", e)
+//     }
+
+// }
+
+
+fn enter_search_terms() -> std::string::String {
+    println!("\x1B[2J\x1B[1;1H");
+    info!("enter_search_terms");
+    let mut line = String::new();
+    print!("Enter search terms: ");
+    io::stdout().flush().unwrap();
+    std::io::stdin().read_line(&mut line).unwrap();
+    line.pop();
+    return line;
+}
+
+
 fn error_message(message: &str) {
     println!("\x1B[2J\x1B[1;1H");
     error!("{}", message);
@@ -248,51 +415,52 @@ fn error_message(message: &str) {
     io::stdout().flush().unwrap();
     std::io::stdin().read_line(&mut line);
 }
-fn edit_category() {
-    let db = data::data::DB::new(config::config::Config::new());
-    let conn = db.connect_to_database();
-    let mut cat = Category::new();
-    let cats = cat.read_categories(&conn);
-    let result = display_cats2(&cats);
 
-    match result {
-        Ok(index) => {
-            info!("index :{:?}", index);
-            match index.trim().parse::<usize>() {
-                Ok(idx) => {
-                    cat.id = cats.unwrap()[idx-1].id;
-                    let res2 = cat.read_category_by_id(&conn, idx);
-                    match res2 {
-                        Ok(temp_cat) =>{
-                            info!("temp_cat.id:{:?}", temp_cat.id);
-                            let res_name = enter_category_info3("Existing Category name: ",&temp_cat.name).unwrap();
-                            if res_name.len() > 0 {
-                                cat.name = res_name.to_string();
-                                let update = cat.update_category(&conn);
-                                match update {
-                                    Ok(_) => {},
-                                    Err(_) => { error_message("Could not update the Category.")}
-                                }
-                            } else {
-                                // nothing was entered - don't update
-                            }
-                        },
-                        Err(e) => error_message(&format!("edit_category() error is {}", e))
-                    }
+// fn edit_category2() {
+//     let db = data::data::DB::new(config::config::Config::new());
+//     let conn = db.connect_to_database();
+//     let mut cat = Category::new();
+//     let cats = cat.read_categories(&conn);
+//     let result = display_cats2(&cats);
 
-                },
-                Err(_e) =>  {
-                    match index.as_str() {
-                        "q" => {},
-                        _ => error_message(&format!("2edit_category() error is {:?}", index))
+//     match result {
+//         Ok(index) => {
+//             info!("index :{:?}", index);
+//             match index.trim().parse::<usize>() {
+//                 Ok(idx) => {
+//                     cat.id = cats.unwrap()[idx-1].id;
+//                     let res2 = cat.read_category_by_id(&conn, idx);
+//                     match res2 {
+//                         Ok(temp_cat) =>{
+//                             info!("temp_cat.id:{:?}", temp_cat.id);
+//                             let res_name = enter_category_info("Existing Category name: ",&temp_cat.name).unwrap();
+//                             if res_name.len() > 0 {
+//                                 cat.name = res_name.to_string();
+//                                 let update = cat.update_category(&conn);
+//                                 match update {
+//                                     Ok(_) => {},
+//                                     Err(_) => { error_message("Could not update the Category.")}
+//                                 }
+//                             } else {
+//                                 // nothing was entered - don't update
+//                             }
+//                         },
+//                         Err(e) => error_message(&format!("edit_category() error is {}", e))
+//                     }
 
-                    }
-                }
-            }
-        },
-        Err(e) => error_message(&format!("edit_category() error is {}", e))
-    }
-}
+//                 },
+//                 Err(_e) =>  {
+//                     match index.as_str() {
+//                         "q" => {},
+//                         _ => error_message(&format!("2edit_category() error is {:?}", index))
+
+//                     }
+//                 }
+//             }
+//         },
+//         Err(e) => error_message(&format!("edit_category() error is {}", e))
+//     }
+// }
 fn search() {
     let terms = enter_search_terms();
     let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
@@ -326,45 +494,8 @@ fn search() {
         Err(_) => {}
     }
 }
-fn delete_podcast() {
-    let temp_pod: Podcast = Podcast::new();
-    match temp_pod.read_all_podcasts() {
-        Ok(mut tmp ) => {
-            match display_pods(&tmp) {
-                Ok(chosen) => {
-                    info!("delete_podcast chosen.len(): {}", chosen.len());
-                    if chosen.len() > 0 {
-                        let mut v: Vec<&u16> = chosen.iter().collect();
-                        v.sort();
-                        info!("delete_podcast v: {:?}", v);
-                        for each in v {
-                            info!("each: {}", (*each as usize)-1);
-                            info!("Podcast returned {:?}",tmp[(*each as usize)-1]);
-                            match tmp[(*each as usize)-1].delete_existing() {
-                                Ok(tmp) => {
-                                    info!("Ok tmp: {:?}", tmp);
-                                },
-                                Err(e) => {
-                                    error!("{}", e);
-                                }
-                            }
-                            
-                        }
-                    } else {
-                        // quit without choosing
-                    }
-                },
-                Err(e) => {
-                    error!("{}", e);
-                }
-            }
-        },
-        Err(e) =>{
-            error!("{}", e);
-        }
-    }
-}
-fn edit_podcast() {
+
+fn edit_podcast2() {
     println!("\x1B[2J\x1B[1;1H");
     let pod: Podcast = Podcast::new();
     match pod.read_all_podcasts() {
@@ -400,19 +531,19 @@ fn edit_podcast() {
 
 }
 fn edit_podcast_details(mut pod: Podcast) {
-    match enter_category_info3("Podcast name: ", &pod.name) {
+    match enter_category_info("Podcast name: ", &pod.name) {
         Ok(name) => {
             pod.name = name;
             info!("New Podcast name: {}", pod.name);
-            match enter_category_info3("Podcast URL: ", &pod.url) {
+            match enter_category_info("Podcast URL: ", &pod.url) {
                 Ok(url) => {
                     pod.url = url;
                     info!("New Podcast URL: {}", pod.url);
-                    match enter_category_info3("Default Audio Save location : ", &pod.audio) {
+                    match enter_category_info("Default Audio Save location : ", &pod.audio) {
                         Ok(audio) =>{
                             pod.audio = audio;
                             info!("New Podcast default audio location: {}", pod.audio);
-                            match enter_category_info3("Default Audio Save location : ", &pod.video) {
+                            match enter_category_info("Default Audio Save location : ", &pod.video) {
                                 Ok(video) => {
                                     pod.video = video;
                                     info!("New Podcast default audio location: {}", pod.video);
@@ -445,19 +576,19 @@ fn edit_podcast_details(mut pod: Podcast) {
 
 }
 fn edit_podcast_details2(mut pod: Podcast) -> Result<Podcast, ReadlineError> {
-    match enter_category_info3("Podcast name: ", &pod.name) {
+    match enter_category_info("Podcast name: ", &pod.name) {
         Ok(name) => {
             pod.name = name;
             info!("New Podcast name: {}", pod.name);
-            match enter_category_info3("Podcast URL: ", &pod.url) {
+            match enter_category_info("Podcast URL: ", &pod.url) {
                 Ok(url) => {
                     pod.url = url;
                     info!("New Podcast URL: {}", pod.url);
-                    match enter_category_info3("Default Audio Save location : ", &pod.audio) {
+                    match enter_category_info("Default Audio Save location : ", &pod.audio) {
                         Ok(audio) =>{
                             pod.audio = audio;
                             info!("New Podcast default audio location: {}", pod.audio);
-                            match enter_category_info3("Default Audio Save location : ", &pod.video) {
+                            match enter_category_info("Default Audio Save location : ", &pod.video) {
                                 Ok(video) => {
                                     pod.video = video;
                                     info!("New Podcast default audio location: {}", pod.video);
@@ -486,25 +617,7 @@ fn edit_podcast_details2(mut pod: Podcast) -> Result<Podcast, ReadlineError> {
     }
 
 }
-fn create_podcast() {
-    println!("\x1B[2J\x1B[1;1H");
-    match edit_podcast_details2(Podcast::new()) {
-        Ok(mut podcast) =>{
-            match podcast.save_existing() {
-                Ok(res) =>{
-                    info!("Podcast {} created", podcast.name);
-                },
-                Err(e) =>{
-                    error!("{}", e)
-                }
-            }
-        },
-        Err(e) =>{
-            error!("{}", e)
-        }
-    }
 
-}
 fn display_pods(pods: &Vec<Podcast>) -> Result<HashSet<u16>, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
@@ -1513,6 +1626,35 @@ fn display_cats3(cats: Vec<Category>) -> Result<std::string::String, Error> {
                     "" => return Ok("".to_string()),
                     "q" => return Err((Error::InvalidColumnName("".to_string()))),
                     _err => {}
+                }
+            }
+        }
+    }
+}
+fn display_cats4(cats: Vec<Category>) -> Result<Category, Error> {
+    let cats_len = cats.len(); 
+    loop {      
+        println!("\x1B[2J\x1B[1;1H");
+        for (i, ct) in cats.iter().enumerate() {
+            println!("{}. {}",(i+1),ct.name);
+        }
+        let mut line = String::new();
+        print!("Choose number or press enter for all: ");
+        io::stdout().flush().unwrap();
+        std::io::stdin().read_line(&mut line).unwrap();
+        match line.trim().parse::<usize>() {
+            Ok(val) => {
+                if val <= cats_len  && val > 0 {
+                    return Ok(cats[val -1].clone())
+                }
+            }
+            Err(_) => {
+                match line.trim() {
+                    "" => return Err((Error::InvalidColumnName("".to_string()))),
+                    // "" => return Ok("".to_string()),
+                    "q" => return Err((Error::InvalidColumnName("".to_string()))),
+                    _err => return  Err((Error::InvalidColumnName("".to_string())))
+                    // _err => {}
                 }
             }
         }
