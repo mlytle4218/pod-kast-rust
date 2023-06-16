@@ -124,10 +124,41 @@ impl Podcast {
         )?;
         Ok(result)
     }
-    pub fn read_all_podcasts(&self) ->Result<Vec<Podcast>, Error>  {
+    pub fn read_all_podcasts(&self,) ->Result<Vec<Podcast>, Error>  {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
+        let pod_iter = stmt.query_map([], |row| {
+            Ok(Podcast {
+                id: row.get(0)?,
+                name: row.get(1)?,
+                url: row.get(2)?,
+                audio: row.get(3)?,
+                video: row.get(4)?,
+                category_id: row.get(5)?,
+                collection_id: row.get(6)?
+            })
+        })?;
+        let mut results: Vec<Podcast> = Vec::new();
+        for category in pod_iter {
+            results.push(category.unwrap());
+        }
+        Ok(results)
+    }
+    pub fn read_all_podcasts2(&self, cat: Option<String>) ->Result<Vec<Podcast>, Error>  {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let mut full_statement: String = "".to_string();
+        match cat {
+            Some(cat_ref) =>{
+                full_statement = format!("SELECT * FROM podcasts  where category_id={};", cat_ref);
+            },
+            None => {
+                full_statement = format!("SELECT * FROM podcasts;");
+            }
+        }
+        
+        let mut stmt = conn.prepare(&full_statement)?;
         let pod_iter = stmt.query_map([], |row| {
             Ok(Podcast {
                 id: row.get(0)?,

@@ -327,28 +327,17 @@ fn edit_podcast() {
 fn delete_podcast() {
     match Podcast::new().read_all_podcasts() {
         Ok(mut pods ) => {
-            match display_pods(&pods) {
+            match display_pods2(&pods) {
                 Ok(chosen) => {
-                    info!("delete_podcast chosen.len(): {}", chosen.len());
-                    if chosen.len() > 0 {
-                        let mut v: Vec<&u16> = chosen.iter().collect();
-                        v.sort();
-                        info!("delete_podcast v: {:?}", v);
-                        for each in v {
-                            info!("each: {}", (*each as usize)-1);
-                            info!("Podcast returned {:?}",pods[(*each as usize)-1]);
-                            match pods[(*each as usize)-1].delete_existing() {
-                                Ok(pods) => {
-                                    info!("Ok pods: {:?}", pods);
-                                },
-                                Err(e) => {
-                                    error!("{}", e);
-                                }
+                    for mut podcast in chosen {
+                        match podcast.delete_existing() {
+                            Ok(res) => {
+                                info!("{} was deleted", podcast.name);
+                            },
+                            Err(e) =>{
+                                error!("{}", e);
                             }
-                            
                         }
-                    } else {
-                        // quit without choosing
                     }
                 },
                 Err(e) => {
@@ -358,6 +347,48 @@ fn delete_podcast() {
         },
         Err(e) =>{
             error!("{}", e);
+        }
+    }
+}
+fn choose_episodes() {
+    match Category::new().read_all_categories() {
+        Ok(cats) => {
+            match display_cats3(cats) {
+                Ok(c) => {
+                    // maybe return c as an Option and cut out all this crap?
+                    let pod: Podcast = Podcast::new();
+                    let category: Option<String>;
+                    if (c.len() == 0) {
+                        category = None;
+                    } else {
+                        category = Some(c);
+                    }
+                    match pod.read_all_podcasts2(category) {
+                        Ok(pods) =>{
+                            loop {
+                                match display_pods_to_choose_episodes(&pods) {
+                                    Ok(_chosen) => {
+                                        // nada
+                                    },
+                                    Err(e) => {
+                                        error!("{}", e);
+                                        break
+                                    }
+                                }
+                            }
+                        },
+                        Err(e) => {
+                            error!("{}", e)
+                        }
+                    }
+                },
+                Err(e) => {
+                    error!("{}", e)
+                }
+            }
+        },
+        Err(e) => {
+            error!("{}", e)
         }
     }
 }
@@ -371,6 +402,164 @@ fn delete_podcast() {
 
 
 
+
+fn display_pods2(pods: &Vec<Podcast>) -> Result<Vec<Podcast>, Error> {
+    let screen = Screen::new();
+    let pods_len = pods.len(); 
+    let mut results: Vec<Podcast> = Vec::new();
+    if pods.len() == 0 {
+        error_message(format!("No Podcasts to display.").as_str());
+        return Ok(results)
+    }
+    let display_size: u16 = screen.row_size -1;
+    let mut pages: u16 = 0;
+    let mut page_iter = 0;
+    let mut row_iter; // = 0;
+    if (pods_len as u16).rem_euclid(display_size) > 0 {
+        pages += 1;
+        pages += (pods_len as u16)/(display_size);
+    }
+    
+    loop {
+        println!("\x1B[2J\x1B[1;1H");
+        info!("Display pods");
+        let start = page_iter*display_size;
+        let end; // = 0;
+
+        if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+            end = ((page_iter+1)*display_size)-1;
+        } else {
+            end = (pods_len as u16) - 1;
+        }
+
+        row_iter = start;
+        while row_iter <= end {
+            println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+            row_iter += 1;
+        }
+        let mut line = String::new();
+        print!("Choice: ");
+        io::stdout().flush().unwrap();
+        std::io::stdin().read_line(&mut line);
+        match line.trim_end_matches('\n') {
+            "q" => break Ok(results),
+            "n" => {
+                if page_iter < (pages -1) {
+                    page_iter += 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            "p" => {
+                if page_iter > 0 {
+                    page_iter -= 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            _ => {
+                let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
+                for each in all {
+                    // info!("{}",each);
+                    if each.contains("-") {
+                        info!("has a dash" );
+                        let dash: Vec<&str> = each.split("-").collect();
+                        if dash.len() > 2 {
+                            error_message(format!("{each} is formatted incorrectly").as_str());
+                            break
+                        } else {
+                            match dash[0].parse::<u16>() {
+                                Ok(val) => {
+                                    match (dash[1]).parse::<u16>() {
+                                        Ok(val2) =>{
+                                            if val >= (start + 1) && val2 <= (end + 1) {
+                                                for v in val..=val2 {
+                                                    info!("{}", v);
+                                                    results.insert( 0 as usize, pods[(v as usize)-1].clone());
+                                                }
+                                            }
+                                        },
+                                        Err(_) => {
+                                            let temp = dash[1];
+                                            error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                        }
+                                    }
+                                },
+                                Err(_) => {
+                                    let temp = dash[0];
+                                    error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                }
+                            }
+                        }
+                    } else  {
+                        match each.parse::<u16>() {
+                            Ok(val) => {
+                                results.insert( 0 as usize, pods[(val as usize)-1].clone());
+                            },
+                            Err(_) => {
+                                error_message(format!("{} is not a valid number.", each).as_str())
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// fn delete_podcast2() {
+//     match Podcast::new().read_all_podcasts() {
+//         Ok(mut pods ) => {
+//             match display_pods(&pods) {
+//                 Ok(chosen) => {
+//                     info!("delete_podcast chosen.len(): {}", chosen.len());
+//                     if chosen.len() > 0 {
+//                         let mut v: Vec<&u16> = chosen.iter().collect();
+//                         v.sort();
+//                         info!("delete_podcast v: {:?}", v);
+//                         for each in v {
+//                             info!("each: {}", (*each as usize)-1);
+//                             info!("Podcast returned {:?}",pods[(*each as usize)-1]);
+//                             match pods[(*each as usize)-1].delete_existing() {
+//                                 Ok(pods) => {
+//                                     info!("Ok pods: {:?}", pods);
+//                                 },
+//                                 Err(e) => {
+//                                     error!("{}", e);
+//                                 }
+//                             }
+                            
+//                         }
+//                     } else {
+//                         // quit without choosing
+//                     }
+//                 },
+//                 Err(e) => {
+//                     error!("{}", e);
+//                 }
+//             }
+//         },
+//         Err(e) =>{
+//             error!("{}", e);
+//         }
+//     }
+// }
 // fn delete_category2()  {
 //     let db = data::data::DB::new(config::config::Config::new());
 //     let conn = db.connect_to_database();
@@ -1235,59 +1424,7 @@ fn display_pods_to_choose_episodes_archive2(pods: &Vec<Podcast>) -> Result<Podca
 }
 
 
-fn choose_episodes() {
-    let cat: Category = Category::new();
-    match cat.read_all_categories() {
-        Ok(cats) => {
-            match display_cats3(cats) {
-                Ok(c) => {
-                    let pod: Podcast = Podcast::new();
-                    if (c.len() == 0) {
-                        match pod.read_all_podcasts() {
-                            Ok(pods) =>{
-                                match display_pods_to_choose_episodes(&pods) {
-                                    Ok(_chosen) => {
-                                        // nada
-                                    },
-                                    Err(e) => {
-                                        error!("{}", e)
-                                    }
-                                }
-                            },
-                            Err(e) => {
-                                error!("{}", e)
-                            }
-                        }
-                    } else {
-                        match pod.read_all_podcasts_by_category(c) {
-                            Ok(pods) =>{
-                                match display_pods_to_choose_episodes(&pods) {
-                                    Ok(_chosen) => {
-                                        // nada
-                                    },
-                                    Err(e) => {
-                                        error!("{}", e)
-                                    }
-                                }
-                            },
-                            Err(e) => {
-                                error!("{}", e)
-                            }
-                        }
 
-                    }
-                },
-                Err(e) => {
-                    error!("{}", e)
-                }
-            }
-        },
-        Err(e) => {
-            error!("{}", e)
-        }
-    }
-
-}
 
 fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
     info!("{}", epis.len());
