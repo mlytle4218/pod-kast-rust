@@ -30,7 +30,6 @@ impl Podcast {
             collection_id: 1
         }
     }
-
     pub fn save_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
@@ -93,7 +92,6 @@ impl Podcast {
         Ok(result)
         // Ok(1 as usize)
     }
-
     pub fn delete_existing(&mut self) -> Result<(), Error> {
         let db: DB = DB::new(Config::new());
         let mut conn: Connection = db.connect_to_database();
@@ -104,7 +102,6 @@ impl Podcast {
         // conn.close();
         Ok(result)
     }
-
     pub fn update_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
@@ -115,40 +112,11 @@ impl Podcast {
         // conn.close();
         Ok(result)
     }
-
-    pub fn create_podcast(&mut self, conn: Connection) -> Result<usize, Error> {
-        // let mut result = conn.execute(
-        let result = conn.execute(
-            "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
-            params![self.name, self.url, self.audio, self.video],
-        )?;
-        Ok(result)
-    }
-    pub fn read_all_podcasts(&self,) ->Result<Vec<Podcast>, Error>  {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
-        let pod_iter = stmt.query_map([], |row| {
-            Ok(Podcast {
-                id: row.get(0)?,
-                name: row.get(1)?,
-                url: row.get(2)?,
-                audio: row.get(3)?,
-                video: row.get(4)?,
-                category_id: row.get(5)?,
-                collection_id: row.get(6)?
-            })
-        })?;
-        let mut results: Vec<Podcast> = Vec::new();
-        for category in pod_iter {
-            results.push(category.unwrap());
-        }
-        Ok(results)
-    }
     pub fn read_all_podcasts2(&self, cat: Option<String>) ->Result<Vec<Podcast>, Error>  {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        let mut full_statement: String = "".to_string();
+        let full_statement: String;
+        // let mut full_statement: String = "".to_string();
         match cat {
             Some(cat_ref) =>{
                 full_statement = format!("SELECT * FROM podcasts  where category_id={};", cat_ref);
@@ -176,63 +144,94 @@ impl Podcast {
         }
         Ok(results)
     }
-    pub fn read_all_podcasts_by_category(&self, cat: String) ->Result<Vec<Podcast>, Error>  {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let mut stmt = conn.prepare("SELECT * FROM podcasts  where category_id=(?);")?;
-        let pod_iter = stmt.query_map([cat], |row| {
-            Ok(Podcast {
-                id: row.get(0)?,
-                name: row.get(1)?,
-                url: row.get(2)?,
-                audio: row.get(3)?,
-                video: row.get(4)?,
-                category_id: row.get(5)?,
-                collection_id: row.get(6)?
-            })
-        })?;
-        let mut results: Vec<Podcast> = Vec::new();
-        for category in pod_iter {
-            results.push(category.unwrap());
-        }
-        Ok(results)
-    }
 
-    fn read_podcasts(&self, conn: Connection) -> Result<Vec<Podcast>, Error> {
-        let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
-        let cat_iter = stmt.query_map([], |row| {
-            Ok(Podcast {
-                id: row.get(0)?,
-                name: row.get(1)?,
-                url: row.get(2)?,
-                audio: row.get(3)?,
-                video: row.get(4)?,
-                category_id: row.get(5)?,
-                collection_id: row.get(6)?
-            })
-        })?;
-        let mut results: Vec<Podcast> = Vec::new();
-        for category in cat_iter {
-            results.push(category.unwrap());
-        }
-        Ok(results)
-    }
+//     pub fn create_podcast(&mut self, conn: Connection) -> Result<usize, Error> {
+//         // let mut result = conn.execute(
+//         let result = conn.execute(
+//             "INSERT INTO podcasts (name, url, audio, video) VALUES (?1, ?2, ?3,?4)",
+//             params![self.name, self.url, self.audio, self.video],
+//         )?;
+//         Ok(result)
+//     }
 
-    fn update_podcast(&self, conn: Connection) -> Result<usize, Error> {
-        let result = conn.execute(
-            "UPDATE podcasts SET name=(?1), url=(?2), audio=(?3), video=(?4), category_id=(?5) where podcast_id=(?6)",
-            params![self.name, self.url, self.audio, self.video, self.category_id, self.id],
-        )?;
-        Ok(result)
-    }
+//     pub fn read_all_podcasts_by_category(&self, cat: String) ->Result<Vec<Podcast>, Error>  {
+//         let db: DB = DB::new(Config::new());
+//         let conn: Connection = db.connect_to_database();
+//         let mut stmt = conn.prepare("SELECT * FROM podcasts  where category_id=(?);")?;
+//         let pod_iter = stmt.query_map([cat], |row| {
+//             Ok(Podcast {
+//                 id: row.get(0)?,
+//                 name: row.get(1)?,
+//                 url: row.get(2)?,
+//                 audio: row.get(3)?,
+//                 video: row.get(4)?,
+//                 category_id: row.get(5)?,
+//                 collection_id: row.get(6)?
+//             })
+//         })?;
+//         let mut results: Vec<Podcast> = Vec::new();
+//         for category in pod_iter {
+//             results.push(category.unwrap());
+//         }
+//         Ok(results)
+//     }
 
-    fn delete_podcast(&self, conn: &mut Connection) -> Result<(), Error> {
-        let tx = conn.transaction()?;
-        tx.execute("DELETE FROM episodes where podcast_id=(?1);", params![self.id])?;
-        tx.execute("DELETE FROM podcasts where podcast_id=(?1);", params![self.id])?;
-        let result  = tx.commit().unwrap();
-        Ok(result)
-    }
+//     fn read_podcasts(&self, conn: Connection) -> Result<Vec<Podcast>, Error> {
+//         let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
+//         let cat_iter = stmt.query_map([], |row| {
+//             Ok(Podcast {
+//                 id: row.get(0)?,
+//                 name: row.get(1)?,
+//                 url: row.get(2)?,
+//                 audio: row.get(3)?,
+//                 video: row.get(4)?,
+//                 category_id: row.get(5)?,
+//                 collection_id: row.get(6)?
+//             })
+//         })?;
+//         let mut results: Vec<Podcast> = Vec::new();
+//         for category in cat_iter {
+//             results.push(category.unwrap());
+//         }
+//         Ok(results)
+//     }
+
+//     fn update_podcast(&self, conn: Connection) -> Result<usize, Error> {
+//         let result = conn.execute(
+//             "UPDATE podcasts SET name=(?1), url=(?2), audio=(?3), video=(?4), category_id=(?5) where podcast_id=(?6)",
+//             params![self.name, self.url, self.audio, self.video, self.category_id, self.id],
+//         )?;
+//         Ok(result)
+//     }
+
+//     fn delete_podcast(&self, conn: &mut Connection) -> Result<(), Error> {
+//         let tx = conn.transaction()?;
+//         tx.execute("DELETE FROM episodes where podcast_id=(?1);", params![self.id])?;
+//         tx.execute("DELETE FROM podcasts where podcast_id=(?1);", params![self.id])?;
+//         let result  = tx.commit().unwrap();
+//         Ok(result)
+//     }
+// pub fn read_all_podcasts(&self,) ->Result<Vec<Podcast>, Error>  {
+//     let db: DB = DB::new(Config::new());
+//     let conn: Connection = db.connect_to_database();
+//     let mut stmt = conn.prepare("SELECT * FROM podcasts;")?;
+//     let pod_iter = stmt.query_map([], |row| {
+//         Ok(Podcast {
+//             id: row.get(0)?,
+//             name: row.get(1)?,
+//             url: row.get(2)?,
+//             audio: row.get(3)?,
+//             video: row.get(4)?,
+//             category_id: row.get(5)?,
+//             collection_id: row.get(6)?
+//         })
+//     })?;
+//     let mut results: Vec<Podcast> = Vec::new();
+//     for category in pod_iter {
+//         results.push(category.unwrap());
+//     }
+//     Ok(results)
+// }
 }
 
 impl Clone for Podcast {

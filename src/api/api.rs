@@ -1,24 +1,18 @@
-use chrono::Utc;
 use regex::Regex;
 use reqwest::Client;
-use rss::Channel;
 use serde::Deserialize;
-use std::error::Error;
-
-use crate::data::episode::Episode;
 use crate::data::podcast::Podcast;
 use super::super::config::config::Config;
 
 #[derive(Deserialize)]
 pub struct ItuneResult {
-	resultCount: i32,
 	results: Vec<PodcastResult>,
 }
 #[derive(Deserialize)]
 struct PodcastResult {
-	collectionName: String,
-	feedUrl: String,
-	collectionId: i32
+	collection_name: String,
+	feed_url: String,
+	collection_id: i32
 }
 
 pub struct AppleSearch {
@@ -58,12 +52,12 @@ impl AppleSearch {
 		for itune_result in itune_results.results {
 			let temp = Podcast {
 				id: 0,
-				name: itune_result.collectionName,
-				url: itune_result.feedUrl,
+				name: itune_result.collection_name,
+				url: itune_result.feed_url,
 				audio: config.def_audio_loc.clone(),
 				video: config.def_video_loc.clone(),
 				category_id: -1,
-				collection_id: itune_result.collectionId
+				collection_id: itune_result.collection_id
 			};
 			podcast_vec.push(temp);
 		}
@@ -125,8 +119,8 @@ mod test {
 			then.status(200).json_body(json!({
 				"resultCount": 2,
 				"results": [
-					{"wrapperType":"track", "kind":"podcast", "artistId":121676617, "collectionId":135067274, "trackId":135067274, "artistName":"BBC World Service", "collectionName":"Global News Podcast", "trackName":"Global News Podcast", "collectionCensoredName":"Global News Podcast", "trackCensoredName":"Global News Podcast", "artistViewUrl":"https://podcasts.apple.com/us/artist/bbc/121676617?uo=4", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/global-news-podcast/id135067274?uo=4", "feedUrl":"https://podcasts.files.bbci.co.uk/p02nq0gn.rss", "trackViewUrl":"https://podcasts.apple.com/us/podcast/global-news-podcast/id135067274?uo=4", "artworkUrl30":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/30x30bb.jpg", "artworkUrl60":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/60x60bb.jpg", "artworkUrl100":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "trackRentalPrice":0, "collectionHdPrice":0, "trackHdPrice":0, "trackHdRentalPrice":0, "releaseDate":"2022-01-21T15:49:00Z", "collectionExplicitness":"cleaned", "trackExplicitness":"cleaned", "trackCount":56, "country":"USA", "currency":"USD", "primaryGenreName":"News", "contentAdvisoryRating":"Clean", "artworkUrl600":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/600x600bb.jpg", "genreIds":["1489", "26"], "genres":["News", "Podcasts"]}, 
-					{"wrapperType":"track", "kind":"podcast", "collectionId":1027264941, "trackId":1027264941, "artistName":"Airwave Media", "collectionName":"Kickass News", "trackName":"Kickass News", "collectionCensoredName":"Kickass News", "trackCensoredName":"Kickass News", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/kickass-news/id1027264941?uo=4", "feedUrl":"https://kickasspoliticspreview1.libsyn.com/kickasspolitics2", "trackViewUrl":"https://podcasts.apple.com/us/podcast/kickass-news/id1027264941?uo=4", "artworkUrl30":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/30x30bb.jpg", "artworkUrl60":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/60x60bb.jpg", "artworkUrl100":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "trackRentalPrice":0, "collectionHdPrice":0, "trackHdPrice":0, "trackHdRentalPrice":0, "releaseDate":"2022-01-20T19:01:00Z", "collectionExplicitness":"cleaned", "trackExplicitness":"cleaned", "trackCount":590, "country":"USA", "currency":"USD", "primaryGenreName":"Society & Culture", "contentAdvisoryRating":"Clean", "artworkUrl600":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/600x600bb.jpg", "genreIds":["1324", "26", "1489"], "genres":["Society & Culture", "Podcasts", "News"]}
+					{"wrapperType":"track", "kind":"podcast", "artistId":121676617, "collection_id":135067274, "trackId":135067274, "artistName":"BBC World Service", "collection_name":"Global News Podcast", "trackName":"Global News Podcast", "collectionCensoredName":"Global News Podcast", "trackCensoredName":"Global News Podcast", "artistViewUrl":"https://podcasts.apple.com/us/artist/bbc/121676617?uo=4", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/global-news-podcast/id135067274?uo=4", "feed_url":"https://podcasts.files.bbci.co.uk/p02nq0gn.rss", "trackViewUrl":"https://podcasts.apple.com/us/podcast/global-news-podcast/id135067274?uo=4", "artworkUrl30":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/30x30bb.jpg", "artworkUrl60":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/60x60bb.jpg", "artworkUrl100":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "trackRentalPrice":0, "collectionHdPrice":0, "trackHdPrice":0, "trackHdRentalPrice":0, "releaseDate":"2022-01-21T15:49:00Z", "collectionExplicitness":"cleaned", "trackExplicitness":"cleaned", "trackCount":56, "country":"USA", "currency":"USD", "primaryGenreName":"News", "contentAdvisoryRating":"Clean", "artworkUrl600":"https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/23/9d/ce/239dcef7-d24d-bb0b-1ed1-7b7a87d635ce/mza_7839052379663357293.jpg/600x600bb.jpg", "genreIds":["1489", "26"], "genres":["News", "Podcasts"]}, 
+					{"wrapperType":"track", "kind":"podcast", "collection_id":1027264941, "trackId":1027264941, "artistName":"Airwave Media", "collection_name":"Kickass News", "trackName":"Kickass News", "collectionCensoredName":"Kickass News", "trackCensoredName":"Kickass News", "collectionViewUrl":"https://podcasts.apple.com/us/podcast/kickass-news/id1027264941?uo=4", "feed_url":"https://kickasspoliticspreview1.libsyn.com/kickasspolitics2", "trackViewUrl":"https://podcasts.apple.com/us/podcast/kickass-news/id1027264941?uo=4", "artworkUrl30":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/30x30bb.jpg", "artworkUrl60":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/60x60bb.jpg", "artworkUrl100":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/100x100bb.jpg", "collectionPrice":0.00, "trackPrice":0.00, "trackRentalPrice":0, "collectionHdPrice":0, "trackHdPrice":0, "trackHdRentalPrice":0, "releaseDate":"2022-01-20T19:01:00Z", "collectionExplicitness":"cleaned", "trackExplicitness":"cleaned", "trackCount":590, "country":"USA", "currency":"USD", "primaryGenreName":"Society & Culture", "contentAdvisoryRating":"Clean", "artworkUrl600":"https://is3-ssl.mzstatic.com/image/thumb/Podcasts123/v4/2d/90/aa/2d90aa4a-42ba-2913-49cc-5b5889ca1546/mza_11701255775750433427.jpg/600x600bb.jpg", "genreIds":["1324", "26", "1489"], "genres":["Society & Culture", "Podcasts", "News"]}
 				]
 			}));
 		});

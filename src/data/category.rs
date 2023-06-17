@@ -17,10 +17,6 @@ impl Category {
             name: String::from("nada"),
         }
     }
-    pub fn to_string(&self) -> String {
-        format!("category name and id {} {}",self.name, self.id)
-    }
-    
     pub fn create_exisitng(&self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
@@ -31,28 +27,20 @@ impl Category {
         )?;
         Ok(result)
     }
-    pub fn create_category(&self, conn: Connection) -> Result<usize, Error> {
-        info!("create_catrgory");
+    pub fn update_existing(&self) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
         let result = conn.execute(
-            "INSERT INTO categories (category) VALUES (?1)",
-            params![self.name],
+            "UPDATE categories SET category=(?1) where category_id=(?2)",
+            params![self.name, self.id],
         )?;
         Ok(result)
     }
-    // pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, ReadlineError> {
-    pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, Error> {
-        let mut stmt = conn.prepare("SELECT * FROM categories;")?;
-        let cat_iter = stmt.query_map([], |row| {
-            Ok(Category {
-                id: row.get(0)?,
-                name: row.get(1)?,
-            })
-        })?;
-        let mut results: Vec<Category> = Vec::new();
-        for category in cat_iter {
-            results.push(category.unwrap());
-        }
-        Ok(results)
+    pub fn delete_existing(&self) -> Result<usize, Error> {
+        let db: DB = DB::new(Config::new());
+        let conn: Connection = db.connect_to_database();
+        let result = conn.execute("DELETE FROM categories where category_id=(?1)", params![self.id])?;
+        Ok(result)
     }
     pub fn read_all_categories(&self) -> Result<Vec<Category>, Error> {
         let db: DB = DB::new(Config::new());
@@ -70,57 +58,69 @@ impl Category {
         }
         Ok(results)
     }
-    
 
-    pub fn update_existing(&self) -> Result<usize, Error> {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let result = conn.execute(
-            "UPDATE categories SET category=(?1) where category_id=(?2)",
-            params![self.name, self.id],
-        )?;
-        Ok(result)
-    }
-    pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Category, Error> {
-        // pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Vec<Category>, Error> {
-        let mut result = conn.prepare(
-            "SELECT * FROM categories where category_id=:id"
-        )?;
-        let cat_iter = result.query_map(&[(":id", &id)], |row| {
-            Ok(Category {
-                id: row.get(0)?,
-                name: row.get(1)?,
-            })
-        })?;
-        let mut results: Category = Category::new();
-        for category in cat_iter {
-            let temp = category.unwrap();
-            results.id = temp.id;
-            results.name =  temp.name;
-        }
-        Ok(results)
 
-    }
 
-    pub fn update_category(&self, conn: &Connection) -> Result<usize, Error> {
-        let result = conn.execute(
-            "UPDATE categories SET category=(?1) where category_id=(?2)",
-            params![self.name, self.id],
-        )?;
-        Ok(result)
-    }
 
-    pub fn delete_category(&self, conn: Connection) -> Result<usize, Error> {
-        let result = conn.execute("DELETE FROM categories where category_id=(?1)", params![self.id])?;
-        Ok(result)
-    }
+    // pub fn to_string(&self) -> String {
+    //     format!("category name and id {} {}",self.name, self.id)
+    // }
+    // pub fn create_category(&self, conn: Connection) -> Result<usize, Error> {
+    //     info!("create_catrgory");
+    //     let result = conn.execute(
+    //         "INSERT INTO categories (category) VALUES (?1)",
+    //         params![self.name],
+    //     )?;
+    //     Ok(result)
+    // }
+    // // pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, ReadlineError> {
+    // pub fn read_categories(&self, conn: &Connection) -> Result<Vec<Category>, Error> {
+    //     let mut stmt = conn.prepare("SELECT * FROM categories;")?;
+    //     let cat_iter = stmt.query_map([], |row| {
+    //         Ok(Category {
+    //             id: row.get(0)?,
+    //             name: row.get(1)?,
+    //         })
+    //     })?;
+    //     let mut results: Vec<Category> = Vec::new();
+    //     for category in cat_iter {
+    //         results.push(category.unwrap());
+    //     }
+    //     Ok(results)
+    // }
+    // pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Category, Error> {
+    //     // pub fn read_category_by_id(&self, conn: &Connection, id: usize) -> Result<Vec<Category>, Error> {
+    //     let mut result = conn.prepare(
+    //         "SELECT * FROM categories where category_id=:id"
+    //     )?;
+    //     let cat_iter = result.query_map(&[(":id", &id)], |row| {
+    //         Ok(Category {
+    //             id: row.get(0)?,
+    //             name: row.get(1)?,
+    //         })
+    //     })?;
+    //     let mut results: Category = Category::new();
+    //     for category in cat_iter {
+    //         let temp = category.unwrap();
+    //         results.id = temp.id;
+    //         results.name =  temp.name;
+    //     }
+    //     Ok(results)
 
-    pub fn delete_existing(&self) -> Result<usize, Error> {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let result = conn.execute("DELETE FROM categories where category_id=(?1)", params![self.id])?;
-        Ok(result)
-    }
+    // }
+    // pub fn update_category(&self, conn: &Connection) -> Result<usize, Error> {
+    //     let result = conn.execute(
+    //         "UPDATE categories SET category=(?1) where category_id=(?2)",
+    //         params![self.name, self.id],
+    //     )?;
+    //     Ok(result)
+    // }
+    // pub fn delete_category(&self, conn: Connection) -> Result<usize, Error> {
+    //     let result = conn.execute("DELETE FROM categories where category_id=(?1)", params![self.id])?;
+    //     Ok(result)
+    // }
+
+
 }
 
 impl Clone for Category {

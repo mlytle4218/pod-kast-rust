@@ -152,26 +152,6 @@ impl Episode {
         self.id = conn.last_insert_rowid();
         Ok(result)
     }
-
-    pub fn update_existing(&mut self) -> Result<usize, Error> {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let result = conn.execute(
-            "UPDATE episodes SET title=(?1) and published=(?2) and summary=(?3) and length=(?4) and audio=(?5) and url=(?6) and downloaded=(?7) and podcast_id=(?8) and viewed=(?9) and queue=(?10) where episode_id=(?11)",
-            params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0, 0, self.id]
-        )?;
-        
-        self.id = conn.last_insert_rowid();
-        Ok(result)
-    }
-    // fn create_episode(&mut self, conn: Connection) -> Result<usize, Error> {
-    //     let result = conn.execute(
-    //         "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
-    //         params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
-    //     )?;
-    //     self.id = conn.last_insert_rowid();
-    //     Ok(result)
-    // }
     pub fn read_all_episodes_by_podcast_id(&self, pod_id: i64, viewed: Option<i64>) ->Result<Vec<Episode>, Error>  {
         info!("{}", pod_id);
         let db: DB = DB::new(Config::new());
@@ -179,7 +159,7 @@ impl Episode {
         let mut stmt;
 
         match viewed {
-            Some(result) =>{
+            Some(_) =>{
                 stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) ORDER BY title ASC;")?
             },
             None =>{
@@ -212,30 +192,7 @@ impl Episode {
         }
         Ok(results)
     }
-
-    // fn read_episodes(&self, conn: Connection) -> Result<Vec<Episode>, Error> {
-    //     let mut stmt = conn.prepare("SELECT * FROM episodes;")?;
-    //     let cat_iter = stmt.query_map([], |row| {
-    //         Ok(Episode {
-    //             id: row.get(0)?,
-    //             title: row.get(1)?,
-    //             published: row.get(2)?,
-    //             summary: row.get(3)?,
-    //             length: row.get(4)?,
-    //             audio: row.get(5)?,
-    //             url: row.get(6)?,
-    //             viewed: row.get(7)?,
-    //             downloaded: row.get(8)?,
-    //             podcast_id: row.get(9)?,
-    //             queue: row.get(10)?
-    //         })
-    //     })?;
-    //     let mut results: Vec<Episode> = Vec::new();
-    //     for category in cat_iter {
-    //         results.push(category.unwrap());
-    //     }
-    //     Ok(results)
-    // }
+    
     pub fn add_to_download_queue(&self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
@@ -332,6 +289,53 @@ impl Episode {
         Ok(result)
 
     }
+
+
+    
+    // pub fn update_existing(&mut self) -> Result<usize, Error> {
+    //     let db: DB = DB::new(Config::new());
+    //     let conn: Connection = db.connect_to_database();
+    //     let result = conn.execute(
+    //         "UPDATE episodes SET title=(?1) and published=(?2) and summary=(?3) and length=(?4) and audio=(?5) and url=(?6) and downloaded=(?7) and podcast_id=(?8) and viewed=(?9) and queue=(?10) where episode_id=(?11)",
+    //         params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0, 0, self.id]
+    //     )?;
+        
+    //     self.id = conn.last_insert_rowid();
+    //     Ok(result)
+    // }
+    // // fn create_episode(&mut self, conn: Connection) -> Result<usize, Error> {
+    // //     let result = conn.execute(
+    // //         "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
+    // //         params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
+    // //     )?;
+    // //     self.id = conn.last_insert_rowid();
+    // //     Ok(result)
+    // // }
+
+
+    // fn read_episodes(&self, conn: Connection) -> Result<Vec<Episode>, Error> {
+    //     let mut stmt = conn.prepare("SELECT * FROM episodes;")?;
+    //     let cat_iter = stmt.query_map([], |row| {
+    //         Ok(Episode {
+    //             id: row.get(0)?,
+    //             title: row.get(1)?,
+    //             published: row.get(2)?,
+    //             summary: row.get(3)?,
+    //             length: row.get(4)?,
+    //             audio: row.get(5)?,
+    //             url: row.get(6)?,
+    //             viewed: row.get(7)?,
+    //             downloaded: row.get(8)?,
+    //             podcast_id: row.get(9)?,
+    //             queue: row.get(10)?
+    //         })
+    //     })?;
+    //     let mut results: Vec<Episode> = Vec::new();
+    //     for category in cat_iter {
+    //         results.push(category.unwrap());
+    //     }
+    //     Ok(results)
+    // }
 
     // fn update_episode(&self, conn: Connection) -> Result<usize, Error> {
     //     // let epi = Episode {
