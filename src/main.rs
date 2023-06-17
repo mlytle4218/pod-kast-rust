@@ -31,7 +31,7 @@ use std::fs::File;
 use indicatif::{ProgressBar, ProgressStyle};
 use futures_util::StreamExt;
 
-use std::io::{self, Write, BufRead};
+use std::io::{self, Write};
 use api::api::AppleSearch;
 use api::retrieve::Retreive;
 
@@ -45,7 +45,7 @@ use menu::simple_menu::SimpleMenu;
 
 
 
-use std::{thread, time};
+// use std::{thread, time};
 
 use std::process;
 
@@ -55,9 +55,10 @@ use rusqlite::{Error};
 use rustyline::error::ReadlineError;
 
 
-use reqwest::{Client, Error as ReqError};
+// use reqwest::{Client, Error as ReqError};
+use reqwest::Client;
 
-use std::collections::HashSet;
+// use std::collections::HashSet;
 
 use std::path::Path;
 
@@ -153,9 +154,6 @@ fn main() {
         show: false
     });
 
-
-
-
     let _config = config::config::Config::new();
     let simple_menu = SimpleMenu::new(Screen::new(), entries);
     simple_menu.show4();
@@ -170,7 +168,7 @@ fn create_new_category() {
         Ok(result) =>{ 
             cat.name = result;
             match cat.create_exisitng() {
-                Ok(db_response) =>{
+                Ok(_) =>{
                     info!("Category {} created", cat.name);
                 },
                 Err(e) => {
@@ -211,10 +209,10 @@ fn enter_category_info(message: &str, default: &str) -> Result<std::string::Stri
 
 }
 fn edit_category() {
-    let mut cat = Category::new();
+    let cat = Category::new();
     match cat.read_all_categories() {
         Ok(cats) =>{
-            match display_cats4(cats) {
+            match display_cats(cats) {
                 Ok(mut chosen_cat) =>{
                     // convert this later to return error if they enter nothing and circumvent this check
                     let res_name = enter_category_info("Existing Category name: ",&chosen_cat.name).unwrap();
@@ -244,11 +242,11 @@ fn edit_category() {
     }
 }
 fn delete_category() {
-    let mut cat = Category::new();
+    let cat = Category::new();
     match cat.read_all_categories() {
         Ok(cats) =>{
-            match display_cats4(cats) {
-                Ok(mut chosen_cat) =>{
+            match display_cats(cats) {
+                Ok(chosen_cat) =>{
                     match chosen_cat.delete_existing() {
                         Ok(_) => {
                             info!("{} deleted", chosen_cat.name);
@@ -274,7 +272,7 @@ fn create_podcast() {
     match edit_podcast_details2(Podcast::new()) {
         Ok(mut podcast) =>{
             match podcast.save_existing() {
-                Ok(res) =>{
+                Ok(_) =>{
                     info!("Podcast {} created", podcast.name);
                 },
                 Err(e) =>{
@@ -289,14 +287,14 @@ fn create_podcast() {
 }
 fn edit_podcast() {
     println!("\x1B[2J\x1B[1;1H");
-    match Podcast::new().read_all_podcasts() {
+    match Podcast::new().read_all_podcasts2(None) {
         Ok(res) =>{
             match display_pods_single_result(&res) {   
                 Ok(chosen) =>{
                     match edit_podcast_details2(res[(chosen as usize)-1].clone()) {
                         Ok(mut podcast) =>{
                             match podcast.update_existing() {
-                                Ok(response) => {
+                                Ok(_) => {
                                     info!("{} updated", podcast.name)
                                 },
                                 Err(e) =>{
@@ -322,13 +320,13 @@ fn edit_podcast() {
 
 }
 fn delete_podcast() {
-    match Podcast::new().read_all_podcasts() {
-        Ok(mut pods ) => {
+    match Podcast::new().read_all_podcasts2(None) {
+        Ok(pods ) => {
             match display_pods2(&pods) {
                 Ok(chosen) => {
                     for mut podcast in chosen {
                         match podcast.delete_existing() {
-                            Ok(res) => {
+                            Ok(_) => {
                                 info!("{} was deleted", podcast.name);
                             },
                             Err(e) =>{
@@ -350,21 +348,12 @@ fn delete_podcast() {
 fn choose_episodes() {
     match Category::new().read_all_categories() {
         Ok(cats) => {
-            match display_cats3(cats) {
+            match display_cats(cats) {
                 Ok(c) => {
-                    // maybe return c as an Option and cut out all this crap?
-                    let pod: Podcast = Podcast::new();
-                    let category: Option<String>;
-                    if (c.len() == 0) {
-                        category = None;
-                    } else {
-                        category = Some(c);
-                    }
-                    match pod.read_all_podcasts2(category) {
+                    match Podcast::new().read_all_podcasts2(Some(c.id.to_string())) {
                         Ok(pods) =>{
                             loop {
                                 match display_pods_single_result2(&pods, Some("".to_string())) {
-                                // match display_pods_to_choose_episodes(&pods) {
                                     Ok(chosen_pod) => {
                                         match Episode::new().read_all_episodes_by_podcast_id(chosen_pod.id, None) {
                                             Ok(all_episodes) =>{
@@ -436,9 +425,9 @@ fn start_downloads() {
 
                         
                         rt.block_on(async { match download_file(&client, &episode.url, &filename).await {
-                            Ok(res) =>{
+                            Ok(_) =>{
                                 match episode.mark_downloaded() {
-                                    Ok(downloaded) => {
+                                    Ok(_) => {
                                         info!("{} marked as downloaded", episode.title);
                                     },
                                     Err(e) => {
@@ -466,7 +455,7 @@ fn search() {
     let terms = enter_search_terms();
     let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
     match search.search() {
-        Ok(mut res) =>{
+        Ok(res) =>{
             match display_pods2(&res) {
                 Ok(chosen) => {
                     for mut each in chosen {
@@ -516,7 +505,7 @@ fn delete_from_download_queue() {
     }
 }
 fn download_latest_episode_data_for_podcast() {
-    match Podcast::new().read_all_podcasts() {
+    match Podcast::new().read_all_podcasts2(None) {
         Ok(pods)=>{
             for pod in pods {
                 println!("Checking episodes for {}", pod.name);
@@ -548,7 +537,7 @@ fn download_latest_episode_data_for_podcast() {
 
 }
 fn archive() {
-    match Podcast::new().read_all_podcasts() {
+    match Podcast::new().read_all_podcasts2(None) {
         Ok(pods) =>{
             loop {
                 match display_pods_to_choose_episodes_archive2(&pods) {
@@ -559,7 +548,7 @@ fn archive() {
                                     Ok(chosen_episodes) =>{
                                         for episode in chosen_episodes {
                                             match episode.add_to_download_queue() {
-                                                Ok(res) =>{
+                                                Ok(_) =>{
                                                     info!("{} was added to download queue", episode.title)
                                                 },
                                                 Err(e) =>{
@@ -609,34 +598,8 @@ fn quit() {
 
 
 
-fn display_cats3(cats: Vec<Category>) -> Result<String, Error> {
-    let cats_len = cats.len(); 
-    loop {      
-        println!("\x1B[2J\x1B[1;1H");
-        for (i, ct) in cats.iter().enumerate() {
-            println!("{}. {}",(i+1),ct.name);
-        }
-        let mut line = String::new();
-        print!("Choose number or press enter for all: ");
-        io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line).unwrap();
-        match line.trim().parse::<i32>() {
-            Ok(val) => {
-                if val <= cats_len as i32  && val > 0 {
-                    return Ok(val.to_string());
-                }
-            }
-            Err(_) => {
-                match line.trim() {
-                    "" => return Ok("".to_string()),
-                    "q" => return Err((Error::InvalidColumnName("".to_string()))),
-                    _err => {}
-                }
-            }
-        }
-    }
-}
-fn display_cats4(cats: Vec<Category>) -> Result<Category, Error> {
+
+fn display_cats(cats: Vec<Category>) -> Result<Category, Error> {
     let cats_len = cats.len(); 
     loop {      
         println!("\x1B[2J\x1B[1;1H");
@@ -655,19 +618,16 @@ fn display_cats4(cats: Vec<Category>) -> Result<Category, Error> {
             }
             Err(_) => {
                 match line.trim() {
-                    "" => return Err((Error::InvalidColumnName("".to_string()))),
+                    "" => return Err(Error::InvalidColumnName("".to_string())),
                     // "" => return Ok("".to_string()),
-                    "q" => return Err((Error::InvalidColumnName("".to_string()))),
-                    _err => return  Err((Error::InvalidColumnName("".to_string())))
+                    "q" => return Err(Error::InvalidColumnName("".to_string())),
+                    _err => return  Err(Error::InvalidColumnName("".to_string()))
                     // _err => {}
                 }
             }
         }
     }
 }
-
-
-
 fn display_pods2(pods: &Vec<Podcast>) -> Result<Vec<Podcast>, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
@@ -705,73 +665,81 @@ fn display_pods2(pods: &Vec<Podcast>) -> Result<Vec<Podcast>, Error> {
         let mut line = String::new();
         print!("Choice: ");
         io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line);
-        match line.trim_end_matches('\n') {
-            "q" => break Ok(results),
-            "n" => {
-                if page_iter < (pages -1) {
-                    page_iter += 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            "p" => {
-                if page_iter > 0 {
-                    page_iter -= 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            _ => {
-                let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
-                for each in all {
-                    // info!("{}",each);
-                    if each.contains("-") {
-                        info!("has a dash" );
-                        let dash: Vec<&str> = each.split("-").collect();
-                        if dash.len() > 2 {
-                            error_message(format!("{each} is formatted incorrectly").as_str());
-                            break
+        match std::io::stdin().read_line(&mut line) {
+            Ok(_) => {
+                match line.trim_end_matches('\n') {
+                    "q" => break Ok(results),
+                    "n" => {
+                        if page_iter < (pages -1) {
+                            page_iter += 1;
                         } else {
-                            match dash[0].parse::<u16>() {
-                                Ok(val) => {
-                                    match (dash[1]).parse::<u16>() {
-                                        Ok(val2) =>{
-                                            if val >= (start + 1) && val2 <= (end + 1) {
-                                                for v in val..=val2 {
-                                                    info!("{}", v);
-                                                    results.insert( 0 as usize, pods[(v as usize)-1].clone());
+                            // do nothing bitches
+                        }
+                        continue
+                    },
+                    "p" => {
+                        if page_iter > 0 {
+                            page_iter -= 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
+                    },
+                    _ => {
+                        let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
+                        for each in all {
+                            // info!("{}",each);
+                            if each.contains("-") {
+                                info!("has a dash" );
+                                let dash: Vec<&str> = each.split("-").collect();
+                                if dash.len() > 2 {
+                                    error_message(format!("{each} is formatted incorrectly").as_str());
+                                    break
+                                } else {
+                                    match dash[0].parse::<u16>() {
+                                        Ok(val) => {
+                                            match (dash[1]).parse::<u16>() {
+                                                Ok(val2) =>{
+                                                    if val >= (start + 1) && val2 <= (end + 1) {
+                                                        for v in val..=val2 {
+                                                            info!("{}", v);
+                                                            results.insert( 0 as usize, pods[(v as usize)-1].clone());
+                                                        }
+                                                    }
+                                                },
+                                                Err(_) => {
+                                                    let temp = dash[1];
+                                                    error_message(format!("{temp} is not a valid nubmer.").as_str());
                                                 }
                                             }
                                         },
                                         Err(_) => {
-                                            let temp = dash[1];
+                                            let temp = dash[0];
                                             error_message(format!("{temp} is not a valid nubmer.").as_str());
                                         }
                                     }
-                                },
-                                Err(_) => {
-                                    let temp = dash[0];
-                                    error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                }
+                            } else  {
+                                match each.parse::<u16>() {
+                                    Ok(val) => {
+                                        results.insert( 0 as usize, pods[(val as usize)-1].clone());
+                                    },
+                                    Err(_) => {
+                                        error_message(format!("{} is not a valid number.", each).as_str())
+                                    }
                                 }
                             }
-                        }
-                    } else  {
-                        match each.parse::<u16>() {
-                            Ok(val) => {
-                                results.insert( 0 as usize, pods[(val as usize)-1].clone());
-                            },
-                            Err(_) => {
-                                error_message(format!("{} is not a valid number.", each).as_str())
-                            }
+        
                         }
                     }
-
                 }
+            },
+            Err(e) => {
+                error!("{}",e);
             }
+
         }
+
     }
 }
 fn display_pods_single_result2(pods: &Vec<Podcast>, count: Option<String>) -> Result<Podcast, Error> {
@@ -779,7 +747,7 @@ fn display_pods_single_result2(pods: &Vec<Podcast>, count: Option<String>) -> Re
     let pods_len = pods.len(); 
     if pods.len() == 0 {
         error_message(format!("No Podcasts to display.").as_str());
-        return Err((Error::InvalidColumnName("".to_string())))
+        return Err(Error::InvalidColumnName("".to_string()))
     }
     let display_size: u16 = screen.row_size -1;
     let mut pages: u16 = 0;
@@ -827,43 +795,50 @@ fn display_pods_single_result2(pods: &Vec<Podcast>, count: Option<String>) -> Re
         let mut line = String::new();
         print!("Choice: ");
         io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line);
-        match line.trim_end_matches('\n') {
-            "q" => break return Err((Error::InvalidColumnName("".to_string()))),
-            "n" => {
-                if page_iter < (pages -1) {
-                    page_iter += 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            "p" => {
-                if page_iter > 0 {
-                    page_iter -= 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            _ => {
-                info!("display_pods not q, n, or p");
-                match line.trim_end_matches('\n').parse::<u16>() {
-                    Ok(val) => {
-                        return Ok(pods[(val as usize)-1].clone())
+        match std::io::stdin().read_line(&mut line) {
+            Ok(_) => {
+                match line.trim_end_matches('\n') {
+                    "q" => return Err(Error::InvalidColumnName("".to_string())),
+                    "n" => {
+                        if page_iter < (pages -1) {
+                            page_iter += 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
                     },
-                    Err(_) => {
-                        error_message(format!("{} is not a valid number.", line.trim()).as_str())
+                    "p" => {
+                        if page_iter > 0 {
+                            page_iter -= 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
+                    },
+                    _ => {
+                        info!("display_pods not q, n, or p");
+                        match line.trim_end_matches('\n').parse::<u16>() {
+                            Ok(val) => {
+                                return Ok(pods[(val as usize)-1].clone())
+                            },
+                            Err(_) => {
+                                error_message(format!("{} is not a valid number.", line.trim()).as_str())
+                            }
+                        }
                     }
                 }
+            },
+            Err(e) => {
+                error!("{}",e);
             }
         }
+
     }
 }
 fn display_pods_to_choose_episodes_archive2(pods: &Vec<Podcast>) -> Result<Podcast, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
-    let result: i16 = -1;
+    // let result: i16 = -1;
     if pods.len() == 0 {
         error_message(format!("No Podcasts to display.").as_str());
         return Err(Error::QueryReturnedNoRows)
@@ -907,48 +882,55 @@ fn display_pods_to_choose_episodes_archive2(pods: &Vec<Podcast>) -> Result<Podca
         let mut line = String::new();
         print!("Choice: ");
         io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line);
-        match line.trim_end_matches('\n') {
-            "q" => break return Err(Error::QueryReturnedNoRows),
-            "n" => {
-                if page_iter < (pages -1) {
-                    page_iter += 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            "p" => {
-                if page_iter > 0 {
-                    page_iter -= 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            _ => {
-                // info!("display_pods not q, n, or p");
-                match line.trim().parse::<i16>() {
-                    Ok(line_parsed) => {
-                        return Ok(pods[(line_parsed as usize)-1].clone())
+        match std::io::stdin().read_line(&mut line) {
+            Ok(_) => {
+                match line.trim_end_matches('\n') {
+                    "q" => return Err(Error::QueryReturnedNoRows),
+                    "n" => {
+                        if page_iter < (pages -1) {
+                            page_iter += 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
                     },
-                    Err(_) => {
-                        error_message(format!("{} is not a valid number.", line.trim()).as_str());
-                        return Err(Error::QueryReturnedNoRows)
+                    "p" => {
+                        if page_iter > 0 {
+                            page_iter -= 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
+                    },
+                    _ => {
+                        // info!("display_pods not q, n, or p");
+                        match line.trim().parse::<i16>() {
+                            Ok(line_parsed) => {
+                                return Ok(pods[(line_parsed as usize)-1].clone())
+                            },
+                            Err(_) => {
+                                error_message(format!("{} is not a valid number.", line.trim()).as_str());
+                                return Err(Error::QueryReturnedNoRows)
+                            }
+        
+                        }
                     }
-
                 }
+            },
+            Err(e) => {
+                error!("{}",e);
             }
         }
+
     }
 }
 fn display_pods_single_result(pods: &Vec<Podcast>) -> Result<u16, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
-    let mut results: u16;
+    // let mut results: u16;
     if pods.len() == 0 {
         error_message(format!("No Podcasts to display.").as_str());
-        return Err((Error::InvalidColumnName("".to_string())))
+        return Err(Error::InvalidColumnName("".to_string()))
     }
     let display_size: u16 = screen.row_size -1;
     let mut pages: u16 = 0;
@@ -979,41 +961,46 @@ fn display_pods_single_result(pods: &Vec<Podcast>) -> Result<u16, Error> {
         let mut line = String::new();
         print!("Choice: ");
         io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line);
-        match line.trim_end_matches('\n') {
-            "q" => break return Err((Error::InvalidColumnName("".to_string()))),
-            "n" => {
-                if page_iter < (pages -1) {
-                    page_iter += 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            "p" => {
-                if page_iter > 0 {
-                    page_iter -= 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            _ => {
-                info!("display_pods not q, n, or p");
-                match line.trim_end_matches('\n').parse::<u16>() {
-                    Ok(val) => {
-                        return Ok(val)
+        match std::io::stdin().read_line(&mut line) {
+            Ok(_) =>{
+                match line.trim_end_matches('\n') {
+                    "q" => return Err(Error::InvalidColumnName("".to_string())),
+                    "n" => {
+                        if page_iter < (pages -1) {
+                            page_iter += 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
                     },
-                    Err(_) => {
-                        error_message(format!("{} is not a valid number.", line.trim()).as_str())
+                    "p" => {
+                        if page_iter > 0 {
+                            page_iter -= 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
+                    },
+                    _ => {
+                        info!("display_pods not q, n, or p");
+                        match line.trim_end_matches('\n').parse::<u16>() {
+                            Ok(val) => {
+                                return Ok(val)
+                            },
+                            Err(_) => {
+                                error_message(format!("{} is not a valid number.", line.trim()).as_str())
+                            }
+                        }
                     }
                 }
+            },
+            Err(e) =>{
+                error!("{}",e);
             }
         }
+
     }
 }
-
-
 fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
     info!("{}", epis.len());
     let screen = Screen::new();
@@ -1047,7 +1034,7 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
         row_iter = start;
         while row_iter <= end {
             match epis[row_iter as usize].mark_viewed() {
-                Ok(marked) =>{
+                Ok(_) =>{
                     println!("{}. {}", (row_iter + 1), epis[row_iter as usize].title);
                     row_iter += 1;
                 },
@@ -1059,73 +1046,80 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
         let mut line = String::new();
         print!("Choice: ");
         io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line);
-        match line.trim_end_matches('\n') {
-            "q" => break Ok(results),
-            "n" => {
-                if page_iter < (pages -1) {
-                    page_iter += 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            "p" => {
-                if page_iter > 0 {
-                    page_iter -= 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            _ => {
-                info!("display_epis not q, n, or p");
-                let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
-                for each in all {
-                    if each.contains("-") {
-                        info!("has a dash" );
-                        let dash: Vec<&str> = each.split("-").collect();
-                        if dash.len() > 2 {
-                            error_message(format!("{each} is formatted incorrectly").as_str());
-                            break
+        match std::io::stdin().read_line(&mut line) {
+            Ok(_) =>{
+                match line.trim_end_matches('\n') {
+                    "q" => break Ok(results),
+                    "n" => {
+                        if page_iter < (pages -1) {
+                            page_iter += 1;
                         } else {
-                            match dash[0].parse::<u16>() {
-                                Ok(val) => {
-                                    match (dash[1]).parse::<u16>() {
-                                        Ok(val2) =>{
-                                            if val >= (start + 1) && val2 <= (end + 1) {
-                                                for v in val..=val2 {
-                                                    info!("{}", v);
-                                                    results.push(epis[(v as usize)-1].clone());
+                            // do nothing bitches
+                        }
+                        continue
+                    },
+                    "p" => {
+                        if page_iter > 0 {
+                            page_iter -= 1;
+                        } else {
+                            // do nothing bitches
+                        }
+                        continue
+                    },
+                    _ => {
+                        info!("display_epis not q, n, or p");
+                        let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
+                        for each in all {
+                            if each.contains("-") {
+                                info!("has a dash" );
+                                let dash: Vec<&str> = each.split("-").collect();
+                                if dash.len() > 2 {
+                                    error_message(format!("{each} is formatted incorrectly").as_str());
+                                    break
+                                } else {
+                                    match dash[0].parse::<u16>() {
+                                        Ok(val) => {
+                                            match (dash[1]).parse::<u16>() {
+                                                Ok(val2) =>{
+                                                    if val >= (start + 1) && val2 <= (end + 1) {
+                                                        for v in val..=val2 {
+                                                            info!("{}", v);
+                                                            results.push(epis[(v as usize)-1].clone());
+                                                        }
+                                                    }
+                                                },
+                                                Err(_) => {
+                                                    let temp = dash[1];
+                                                    error_message(format!("{temp} is not a valid nubmer.").as_str());
                                                 }
                                             }
                                         },
                                         Err(_) => {
-                                            let temp = dash[1];
+                                            let temp = dash[0];
                                             error_message(format!("{temp} is not a valid nubmer.").as_str());
                                         }
                                     }
-                                },
-                                Err(_) => {
-                                    let temp = dash[0];
-                                    error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                }
+                            } else  {
+                                match each.parse::<u16>() {
+                                    Ok(val) => {
+                                        results.push(epis[(val as usize)-1].clone());
+                                    },
+                                    Err(_) => {
+                                        error_message(format!("{} is not a valid number.", each).as_str())
+                                    }
                                 }
                             }
-                        }
-                    } else  {
-                        match each.parse::<u16>() {
-                            Ok(val) => {
-                                results.push(epis[(val as usize)-1].clone());
-                            },
-                            Err(_) => {
-                                error_message(format!("{} is not a valid number.", each).as_str())
-                            }
+        
                         }
                     }
-
                 }
+            },
+            Err(e) =>{
+                error!("{}",e);
             }
         }
+
 
     }
 }
@@ -1133,7 +1127,6 @@ fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
 
 fn enter_search_terms() -> std::string::String {
     println!("\x1B[2J\x1B[1;1H");
-    info!("enter_search_terms");
     let mut line = String::new();
     print!("Enter search terms: ");
     io::stdout().flush().unwrap();
@@ -1220,8 +1213,6 @@ async fn download_file(client: &Client, url: &str, path: &str) -> Result<(), Str
     pb.finish_with_message(&format!("Downloaded {} to {}", url, path));
     return Ok(());
 }
-
-
 fn error_message(message: &str) {
     println!("\x1B[2J\x1B[1;1H");
     error!("{}", message);
@@ -1229,7 +1220,7 @@ fn error_message(message: &str) {
     print!("Press return to continue.");
     let mut line = String::new();
     io::stdout().flush().unwrap();
-    std::io::stdin().read_line(&mut line);
+    std::io::stdin().read_line(&mut line).unwrap();
 }
 
 
