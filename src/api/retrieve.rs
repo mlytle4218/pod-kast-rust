@@ -21,43 +21,35 @@ impl Retreive {
 
         let mut episode_vec: Vec<Episode> = Vec::new();
         for it in channel.items() {
-            
-            let en: &rss::Enclosure = it.enclosure.as_ref().unwrap();
-
-            match String::from(&en.length).parse::<i32>() {
-                Ok(temp_length) =>{
-                    episode_vec.push(Episode {
-                        id: 0,
-                        title: String::from(it.title.as_ref().unwrap()),
-                        published: Utc::now(),
-                        summary: String::from(it.description.as_ref().unwrap()),
-                        length: temp_length,
-                        audio: String::from(&en.mime_type),
-                        url: String::from(&en.url),
-                        downloaded: 0,
-                        viewed: 0,
-                        podcast_id: podcast_id,
-                        queue: 0
-                    });
+            match it.enclosure.as_ref() {
+                Some(en) =>{
+                    match String::from(&en.length).parse::<i32>() {
+                        Ok(temp_length) =>{
+                            episode_vec.push(Episode {
+                                id: 0,
+                                title: String::from(it.title.as_ref().unwrap()),
+                                published: Utc::now(),
+                                summary: String::from(it.description.as_ref().unwrap()),
+                                length: temp_length,
+                                audio: String::from(&en.mime_type),
+                                url: String::from(&en.url),
+                                downloaded: 0,
+                                viewed: 0,
+                                podcast_id: podcast_id,
+                                queue: 0
+                            });
+                        },
+                        Err(e) => {
+                            error!("{}", e);
+                            continue
+                        }
+                    }
                 },
-                Err(e) => {
-                    error!("{}", e)
+                None =>{
+                    error!("Rss enclosure empty.");
+                    continue
                 }
             }
-
-            
-            // episode_vec.push(Episode {
-            //     id: 0,
-            //     title: String::from(it.title.as_ref().unwrap()),
-            //     published: Utc::now(),
-            //     summary: String::from(it.description.as_ref().unwrap()),
-            //     length: String::from(&en.length).parse::<i32>().unwrap(),
-            //     audio: String::from(&en.mime_type),
-            //     url: String::from(&en.url),
-            //     downloaded: 0,
-            //     viewed: 0,
-            //     podcast_id: podcast_id,
-            // });
         }
         Ok(episode_vec)
     }

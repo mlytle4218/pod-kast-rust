@@ -366,9 +366,35 @@ fn choose_episodes() {
                     match pod.read_all_podcasts2(category) {
                         Ok(pods) =>{
                             loop {
-                                match display_pods_to_choose_episodes(&pods) {
-                                    Ok(_chosen) => {
-                                        // nada
+                                match display_pods_single_result2(&pods, Some("".to_string())) {
+                                // match display_pods_to_choose_episodes(&pods) {
+                                    Ok(chosen_pod) => {
+                                        match Episode::new().read_all_episodes_by_podcast_id(chosen_pod.id, None) {
+                                            Ok(all_episodes) =>{
+                                                match display_episodes(&all_episodes) {
+                                                    Ok(chosen_episodes) =>{
+                                                        for ch_epi in chosen_episodes {
+                                                            match ch_epi.add_to_download_queue() {
+                                                                Ok(_) =>{
+                                                                    info!("{} added to download queue", ch_epi.title);
+                                                                },
+                                                                Err(e) =>{
+                                                                    error!("{}", e);
+                                                                    error_message(format!("Could not add episode {} to download queue.", ch_epi.title).as_str());
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    Err(e) =>{
+                                                        error!("{}", e);
+                                                    }
+                                                }
+
+                                            },
+                                            Err(e) =>{
+                                                error!("{}",e);
+                                            }
+                                        }
                                     },
                                     Err(e) => {
                                         error!("{}", e);
@@ -392,6 +418,116 @@ fn choose_episodes() {
         }
     }
 }
+fn start_downloads() {
+    match Episode::read_all_in_download_queue() {
+        Ok(episodes) => {
+            for episode in episodes {
+                info!("Attempting to download {}", episode.title);
+                match episode.get_podcast_download_location() {
+                    Ok(download) =>{
+                        let path = Path::new(&episode.url);
+                        let mut filename: String = "".to_string(); 
+                        filename.push_str(&download);
+                        let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
+                        filename.push_str(&path_temp);
+
+                        let client = reqwest::Client::new();
+                        let rt = tokio::runtime::Builder::new_current_thread()
+                            .enable_all()
+                            .build()
+                            .unwrap();
+
+                        
+                        rt.block_on(async { match download_file(&client, &episode.url, &filename).await {
+                            Ok(res) =>{
+                                match episode.mark_downloaded() {
+                                    Ok(downloaded) => {
+                                        info!("{} marked as downloaded", episode.title);
+                                    },
+                                    Err(e) => {
+                                        error!("{}",e);
+                                    }
+                                }
+                            },
+                            Err(e) =>{
+                                error!("{}",e)
+                            }
+                        } })
+                    },
+                    Err(e) => {
+                        error!("{}",e)
+                    }
+                }
+            }
+        },
+        Err(e) => {
+            error!("{}",e)
+        }
+    }
+}
+fn search() {
+    let terms = enter_search_terms();
+    let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
+    match search.search() {
+        Ok(mut res) =>{
+            match display_pods2(&res) {
+                Ok(chosen) => {
+                    for mut each in chosen {
+                        match each.save_existing() {
+                            Ok(_) =>{
+                                info!("{} saved", each.name);
+                            },
+                            Err(e) =>{
+                                error!("{}",e);
+                            }
+                        }
+                    }
+                },
+                Err(e) =>{
+                    error!("{}",e);
+                }
+                // Ok(chosen) =>{
+                //     let mut v: Vec<&u16> = chosen.iter().collect();
+                //     v.sort();
+                //     for each in v {
+                //         // info!("Podcast returned {:?}",res[*each as usize]);
+                //         match res[*each as usize].save_existing() {
+                //             Ok(tmp) => {
+                //                 info!("Ok tmp: {}", tmp);
+                //             },
+                //             Err(e) => {
+                //                 error!("{}", e);
+                //             }
+                //         }
+                        
+                //     }
+                // },
+                // Err(_) => {
+                //     error_message(format!("Had an issue returing the podcasts").as_str())
+                // }
+            }
+        },
+        Err(_) => {}
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -509,9 +645,234 @@ fn display_pods2(pods: &Vec<Podcast>) -> Result<Vec<Podcast>, Error> {
         }
     }
 }
+fn display_cats3(cats: Vec<Category>) -> Result<std::string::String, Error> {
+    let cats_len = cats.len(); 
+    loop {      
+        println!("\x1B[2J\x1B[1;1H");
+        for (i, ct) in cats.iter().enumerate() {
+            println!("{}. {}",(i+1),ct.name);
+        }
+        let mut line = String::new();
+        print!("Choose number or press enter for all: ");
+        io::stdout().flush().unwrap();
+        std::io::stdin().read_line(&mut line).unwrap();
+        match line.trim().parse::<i32>() {
+            Ok(val) => {
+                if val <= cats_len as i32  && val > 0 {
+                    return Ok(val.to_string());
+                }
+            }
+            Err(_) => {
+                match line.trim() {
+                    "" => return Ok("".to_string()),
+                    "q" => return Err((Error::InvalidColumnName("".to_string()))),
+                    _err => {}
+                }
+            }
+        }
+    }
+}
+fn display_pods_single_result2(pods: &Vec<Podcast>, count: Option<String>) -> Result<Podcast, Error> {
+    let screen = Screen::new();
+    let pods_len = pods.len(); 
+    if pods.len() == 0 {
+        error_message(format!("No Podcasts to display.").as_str());
+        return Err((Error::InvalidColumnName("".to_string())))
+    }
+    let display_size: u16 = screen.row_size -1;
+    let mut pages: u16 = 0;
+    let mut page_iter = 0;
+    let mut row_iter; // = 0;
+    if (pods_len as u16).rem_euclid(display_size) > 0 {
+        pages += 1;
+        pages += (pods_len as u16)/(display_size);
+    }
+    
+    loop {
+        println!("\x1B[2J\x1B[1;1H");
+        info!("Display pods");
+        let start = page_iter*display_size;
+        let end; // = 0;
 
+        if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+            end = ((page_iter+1)*display_size)-1;
+        } else {
+            end = (pods_len as u16) - 1;
+        }
 
+        row_iter = start;
+        while row_iter <= end {
+            match count {
+                Some(_) =>{
+                    // let cnt: usize = Episode::new().count_episodes(pods[row_iter as usize].id);
+                    match Episode::new().count_episodes(pods[row_iter as usize].id) {
+                        Ok(cnt) =>{
+                            println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, cnt);
+                        },
+                        Err(_) =>{
+                            println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+                        }
+                    }
+                   
+                },
+                None =>{
+                    println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
 
+                }
+            }
+            row_iter += 1;
+        }
+        let mut line = String::new();
+        print!("Choice: ");
+        io::stdout().flush().unwrap();
+        std::io::stdin().read_line(&mut line);
+        match line.trim_end_matches('\n') {
+            "q" => break return Err((Error::InvalidColumnName("".to_string()))),
+            "n" => {
+                if page_iter < (pages -1) {
+                    page_iter += 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            "p" => {
+                if page_iter > 0 {
+                    page_iter -= 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            _ => {
+                info!("display_pods not q, n, or p");
+                match line.trim_end_matches('\n').parse::<u16>() {
+                    Ok(val) => {
+                        return Ok(pods[(val as usize)-1].clone())
+                    },
+                    Err(_) => {
+                        error_message(format!("{} is not a valid number.", line.trim()).as_str())
+                    }
+                }
+            }
+        }
+    }
+}
+fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
+    info!("{}", epis.len());
+    let screen = Screen::new();
+    let epis_len = epis.len(); 
+    let mut results: Vec<Episode> = Vec::new();
+    if epis.len() == 0 {
+        error_message(format!("No Episodes in download queue.").as_str());
+        return Ok(results)
+    }
+    let display_size: u16 = screen.row_size -1;
+    let mut pages: u16 = 0;
+    let mut page_iter = 0;
+    let mut row_iter; // = 0;
+    if (epis_len as u16).rem_euclid(display_size) > 0 {
+        pages += 1;
+        pages += (epis_len as u16)/(display_size);
+    }
+    
+    loop {
+        println!("\x1B[2J\x1B[1;1H");
+        info!("Display epis");
+        let start = page_iter*display_size;
+        let end; // = 0;
+
+        if ((page_iter+1)*display_size)-1 < (epis_len as u16) - 1 {
+            end = ((page_iter+1)*display_size)-1;
+        } else {
+            end = (epis_len as u16) - 1;
+        }
+
+        row_iter = start;
+        while row_iter <= end {
+            match epis[row_iter as usize].mark_viewed() {
+                Ok(marked) =>{
+                    println!("{}. {}", (row_iter + 1), epis[row_iter as usize].title);
+                    row_iter += 1;
+                },
+                Err(e) => {
+                    error!("{}", e)
+                }
+            }
+        }
+        let mut line = String::new();
+        print!("Choice: ");
+        io::stdout().flush().unwrap();
+        std::io::stdin().read_line(&mut line);
+        match line.trim_end_matches('\n') {
+            "q" => break Ok(results),
+            "n" => {
+                if page_iter < (pages -1) {
+                    page_iter += 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            "p" => {
+                if page_iter > 0 {
+                    page_iter -= 1;
+                } else {
+                    // do nothing bitches
+                }
+                continue
+            },
+            _ => {
+                info!("display_epis not q, n, or p");
+                let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
+                for each in all {
+                    if each.contains("-") {
+                        info!("has a dash" );
+                        let dash: Vec<&str> = each.split("-").collect();
+                        if dash.len() > 2 {
+                            error_message(format!("{each} is formatted incorrectly").as_str());
+                            break
+                        } else {
+                            match dash[0].parse::<u16>() {
+                                Ok(val) => {
+                                    match (dash[1]).parse::<u16>() {
+                                        Ok(val2) =>{
+                                            if val >= (start + 1) && val2 <= (end + 1) {
+                                                for v in val..=val2 {
+                                                    info!("{}", v);
+                                                    results.push(epis[(v as usize)-1].clone());
+                                                }
+                                            }
+                                        },
+                                        Err(_) => {
+                                            let temp = dash[1];
+                                            error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                        }
+                                    }
+                                },
+                                Err(_) => {
+                                    let temp = dash[0];
+                                    error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                }
+                            }
+                        }
+                    } else  {
+                        match each.parse::<u16>() {
+                            Ok(val) => {
+                                results.push(epis[(val as usize)-1].clone());
+                            },
+                            Err(_) => {
+                                error_message(format!("{} is not a valid number.", each).as_str())
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
+}
 
 
 
@@ -604,7 +965,37 @@ fn error_message(message: &str) {
     io::stdout().flush().unwrap();
     std::io::stdin().read_line(&mut line);
 }
-
+fn search2() {
+    let terms = enter_search_terms();
+    let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
+    let results = search.search();
+    match results {
+        Ok(mut res) =>{
+            match display_pods(&res) {
+                Ok(chosen) =>{
+                    let mut v: Vec<&u16> = chosen.iter().collect();
+                    v.sort();
+                    for each in v {
+                        // info!("Podcast returned {:?}",res[*each as usize]);
+                        match res[*each as usize].save_existing() {
+                            Ok(tmp) => {
+                                info!("Ok tmp: {}", tmp);
+                            },
+                            Err(e) => {
+                                error!("{}", e);
+                            }
+                        }
+                        
+                    }
+                },
+                Err(_) => {
+                    error_message(format!("Had an issue returing the podcasts").as_str())
+                }
+            }
+        },
+        Err(_) => {}
+    }
+}
 // fn edit_category2() {
 //     let db = data::data::DB::new(config::config::Config::new());
 //     let conn = db.connect_to_database();
@@ -650,39 +1041,7 @@ fn error_message(message: &str) {
 //         Err(e) => error_message(&format!("edit_category() error is {}", e))
 //     }
 // }
-fn search() {
-    let terms = enter_search_terms();
-    let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
-    let results = search.search();
-    match results {
-        Ok(mut res) =>{
-            // info!("{:?}", results)
-            match display_pods(&res) {
-                Ok(chosen) =>{
-                    info!("Ok(chosen");
-                    let mut v: Vec<&u16> = chosen.iter().collect();
-                    v.sort();
-                    for each in v {
-                        info!("Podcast returned {:?}",res[*each as usize]);
-                        match res[*each as usize].save_existing() {
-                            Ok(tmp) => {
-                                info!("Ok tmp: {}", tmp);
-                            },
-                            Err(e) => {
-                                error!("{}", e);
-                            }
-                        }
-                        
-                    }
-                },
-                Err(_) => {
-                    error_message(format!("Had an issue returing the podcasts").as_str())
-                }
-            }
-        },
-        Err(_) => {}
-    }
-}
+
 
 fn edit_podcast2() {
     println!("\x1B[2J\x1B[1;1H");
@@ -984,6 +1343,8 @@ fn display_pods_single_result(pods: &Vec<Podcast>) -> Result<u16, Error> {
         }
     }
 }
+
+
 fn display_pods_to_choose_episodes(pods: &Vec<Podcast>) -> Result<i16, Error> {
     let screen = Screen::new();
     let pods_len = pods.len(); 
@@ -1426,168 +1787,8 @@ fn display_pods_to_choose_episodes_archive2(pods: &Vec<Podcast>) -> Result<Podca
 
 
 
-fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
-    info!("{}", epis.len());
-    let screen = Screen::new();
-    let epis_len = epis.len(); 
-    let mut results: Vec<Episode> = Vec::new();
-    if epis.len() == 0 {
-        error_message(format!("No Episodes in download queue.").as_str());
-        return Ok(results)
-    }
-    let display_size: u16 = screen.row_size -1;
-    let mut pages: u16 = 0;
-    let mut page_iter = 0;
-    let mut row_iter; // = 0;
-    if (epis_len as u16).rem_euclid(display_size) > 0 {
-        pages += 1;
-        pages += (epis_len as u16)/(display_size);
-    }
-    
-    loop {
-        println!("\x1B[2J\x1B[1;1H");
-        info!("Display epis");
-        let start = page_iter*display_size;
-        let end; // = 0;
 
-        if ((page_iter+1)*display_size)-1 < (epis_len as u16) - 1 {
-            end = ((page_iter+1)*display_size)-1;
-        } else {
-            end = (epis_len as u16) - 1;
-        }
 
-        row_iter = start;
-        while row_iter <= end {
-            match epis[row_iter as usize].mark_viewed() {
-                Ok(marked) =>{
-                    println!("{}. {}", (row_iter + 1), epis[row_iter as usize].title);
-                    row_iter += 1;
-                },
-                Err(e) => {
-                    error!("{}", e)
-                }
-            }
-        }
-        let mut line = String::new();
-        print!("Choice: ");
-        io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line);
-        match line.trim_end_matches('\n') {
-            "q" => break Ok(results),
-            "n" => {
-                if page_iter < (pages -1) {
-                    page_iter += 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            "p" => {
-                if page_iter > 0 {
-                    page_iter -= 1;
-                } else {
-                    // do nothing bitches
-                }
-                continue
-            },
-            _ => {
-                info!("display_epis not q, n, or p");
-                let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
-                for each in all {
-                    if each.contains("-") {
-                        info!("has a dash" );
-                        let dash: Vec<&str> = each.split("-").collect();
-                        if dash.len() > 2 {
-                            error_message(format!("{each} is formatted incorrectly").as_str());
-                            break
-                        } else {
-                            match dash[0].parse::<u16>() {
-                                Ok(val) => {
-                                    match (dash[1]).parse::<u16>() {
-                                        Ok(val2) =>{
-                                            if val >= (start + 1) && val2 <= (end + 1) {
-                                                for v in val..=val2 {
-                                                    info!("{}", v);
-                                                    results.push(epis[(v as usize)-1].clone());
-                                                }
-                                            }
-                                        },
-                                        Err(_) => {
-                                            let temp = dash[1];
-                                            error_message(format!("{temp} is not a valid nubmer.").as_str());
-                                        }
-                                    }
-                                },
-                                Err(_) => {
-                                    let temp = dash[0];
-                                    error_message(format!("{temp} is not a valid nubmer.").as_str());
-                                }
-                            }
-                        }
-                    } else  {
-                        match each.parse::<u16>() {
-                            Ok(val) => {
-                                results.push(epis[(val as usize)-1].clone());
-                            },
-                            Err(_) => {
-                                error_message(format!("{} is not a valid number.", each).as_str())
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-
-    }
-}
-fn start_downloads() {
-    match Episode::read_all_in_download_queue() {
-        Ok(episodes) => {
-            for episode in episodes {
-                info!("Attempting to download {}", episode.title);
-                match episode.get_podcast_download_location() {
-                    Ok(download) =>{
-                        let path = Path::new(&episode.url);
-                        let mut filename: String = "".to_string(); 
-                        filename.push_str(&download);
-                        let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
-                        filename.push_str(&path_temp);
-
-                        let client = reqwest::Client::new();
-                        let rt = tokio::runtime::Builder::new_current_thread()
-                            .enable_all()
-                            .build()
-                            .unwrap();
-
-                        
-                        rt.block_on(async { match download_file(&client, &episode.url, &filename).await {
-                            Ok(res) =>{
-                                match episode.mark_downloaded() {
-                                    Ok(downloaded) => {
-                                        info!("{} marked as downloaded", episode.title);
-                                    },
-                                    Err(e) => {
-                                        error!("{}",e);
-                                    }
-                                }
-                            },
-                            Err(e) =>{
-                                error!("{}",e)
-                            }
-                        } })
-                    },
-                    Err(e) => {
-                        error!("{}",e)
-                    }
-                }
-            }
-        },
-        Err(e) => {
-            error!("{}",e)
-        }
-    }
-}
 async fn download_file(client: &Client, url: &str, path: &str) -> Result<(), String> {
     // Reqwest setup
     let res = client
@@ -1741,33 +1942,7 @@ fn display_cats2(cats: &Result<Vec<Category>, Error>) -> Result<std::string::Str
     }
 
 }
-fn display_cats3(cats: Vec<Category>) -> Result<std::string::String, Error> {
-    let cats_len = cats.len(); 
-    loop {      
-        println!("\x1B[2J\x1B[1;1H");
-        for (i, ct) in cats.iter().enumerate() {
-            println!("{}. {}",(i+1),ct.name);
-        }
-        let mut line = String::new();
-        print!("Choose number or press enter for all: ");
-        io::stdout().flush().unwrap();
-        std::io::stdin().read_line(&mut line).unwrap();
-        match line.trim().parse::<i32>() {
-            Ok(val) => {
-                if val <= cats_len as i32  && val > 0 {
-                    return Ok(val.to_string());
-                }
-            }
-            Err(_) => {
-                match line.trim() {
-                    "" => return Ok("".to_string()),
-                    "q" => return Err((Error::InvalidColumnName("".to_string()))),
-                    _err => {}
-                }
-            }
-        }
-    }
-}
+
 fn display_cats4(cats: Vec<Category>) -> Result<Category, Error> {
     let cats_len = cats.len(); 
     loop {      
