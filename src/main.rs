@@ -8,15 +8,12 @@ mod api {
 
 mod menu {
     pub mod menu_entry;
-    pub mod podcast_menu;
     pub mod screen;
     pub mod simple_menu;
-    pub mod category_menu;
 }
 
 mod data {
     pub mod category;
-    pub mod context;
     pub mod data;
     pub mod episode;
     pub mod podcast;
@@ -43,10 +40,6 @@ use menu::menu_entry::MenuEntry;
 use menu::screen::Screen;
 use menu::simple_menu::SimpleMenu;
 
-
-
-// use std::{thread, time};
-
 use std::process;
 
 use log::{info, error};
@@ -54,11 +47,7 @@ use rustyline::{DefaultEditor};
 use rusqlite::{Error};
 use rustyline::error::ReadlineError;
 
-
-// use reqwest::{Client, Error as ReqError};
 use reqwest::Client;
-
-// use std::collections::HashSet;
 
 use std::path::Path;
 
