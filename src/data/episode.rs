@@ -50,59 +50,78 @@ impl Episode {
         }
     }
     
-    pub fn count_episodes(&self, cat_id: i64) -> Result<usize, Error> {
+    fn db_execute(&self, statement: &str) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        
-        let mut stmt = conn.prepare("SELECT COUNT(viewed) from episodes where podcast_id=(?) and viewed=0;")?;
-        let mut epi_iter = stmt.query_map([cat_id], |row| {
-            Ok(Count {
-                result: row.get(0)?
-            })
-        })?;
-        match epi_iter.next() {
-            Some(count) =>{
-                match count {
-                    Ok(result) => {
-                        return Ok(result.result)
-                    },
-                    Err(e) => {
-                        return Err(e)
-                    }
-                }
+        match conn.execute(statement, params![]) {
+            Ok(result) => {
+                Ok(result)
             },
-            None =>{
-                return Err(Error::QueryReturnedNoRows)
+            Err(e) => {
+                return Err(e)
             }
         }
+    }
+    pub fn remove_from_download_queue(&self) -> Result<usize, Error> {
+        self.change_download_status(0)
+    }
+    pub fn add_to_download_queue(&self) -> Result<usize, Error> {
+        self.change_download_status(1)
+    }
+    fn change_download_status(&self, queue: u8) -> Result<usize, Error> {
+        let stmt: String = format!("UPDATE episodes SET queue={} where episode_id={}", queue, self.id);
+        self.db_execute(&(stmt.clone()))
+    }
+    pub fn mark_viewed(&self) -> Result<usize, Error> {
+        let stmt: String = format!("UPDATE episodes SET viewed=1 where episode_id={}", self.id);
+        self.db_execute(&(stmt.clone()))
+    }
+    pub fn mark_downloaded(&self) -> Result<usize, Error> {
+        let stmt: String = format!("UPDATE episodes SET queue=0 AND downloaded=1 where episode_id={}", self.id);
+        self.db_execute(&(stmt.clone()))
+    }
+    pub fn count_episodes(&self, cat_id: i64) -> Result<usize, Error> {
+        let stmt: String = format!("SELECT COUNT(viewed) from episodes where podcast_id={} and viewed=0;", cat_id);
+        self.count_helper(&(stmt.clone()))
     }
     pub fn count_episodes_archive(&self, cat_id: i64) -> Result<usize, Error> {
+        let stmt: String = format!("SELECT COUNT(viewed) from episodes where podcast_id={};", cat_id);
+        self.count_helper(&(stmt.clone()))
+    }
+    fn count_helper(&self, statement: &str) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         
-        let mut stmt = conn.prepare("SELECT COUNT(viewed) from episodes where podcast_id=(?);")?;
-        let mut epi_iter = stmt.query_map([cat_id], |row| {
+        let mut stmt = conn.prepare(statement)?;
+        match stmt.query_map([], |row| {
             Ok(Count {
                 result: row.get(0)?
             })
-        })?;
-        match epi_iter.next() {
-            Some(count) =>{
-                match count {
-                    Ok(result) => {
-                        return Ok(result.result)
+        }) {
+            Ok(mut res) =>{
+                match res.next() {
+                    Some(count) =>{
+                        match count {
+                            Ok(result) => {
+                                return Ok(result.result)
+                            },
+                            Err(e) => {
+                                return Err(e)
+                            }
+                        }
                     },
-                    Err(e) => {
-                        return Err(e)
+                    None =>{
+                        return Err(Error::QueryReturnedNoRows)
                     }
                 }
-            },
-            None =>{
-                return Err(Error::QueryReturnedNoRows)
-            }
-        }
-    }
 
+            },
+            Err(e) =>{
+                return Err(e)
+            }
+        };
+
+    }
     pub fn save_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
@@ -110,50 +129,10 @@ impl Episode {
             "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id,viewed, queue) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8, ?9, ?10)", 
             params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0, 0]
         )?;
-        // let result = conn.execute(
-        //     "BEGIN 
-        //      IF NOT EXISTS (SELECT * FROM episodes 
-        //         WHERE url = ?6)
-        //         BEGIN 
-        //             INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)
-        //         END
-        //     END", 
-        //     params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
-        // )?;
-
-
-
-        // BEGIN
-        //     IF NOT EXISTS (SELECT * FROM EmailsRecebidos 
-        //                     WHERE De = @_DE
-        //                     AND Assunto = @_ASSUNTO
-        //                     AND Data = @_DATA)
-        //     BEGIN
-        //         INSERT INTO EmailsRecebidos (De, Assunto, Data)
-        //         VALUES (@_DE, @_ASSUNTO, @_DATA)
-        //     END
-        //     END
-
-
-
-        // match conn.execute(
-        //     "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
-        //     params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
-        // ) {
-        //     Ok(result) =>{
-        //         self.id = conn.last_insert_rowid();
-        //         Ok(result)
-        //     },
-        //     Err(e) => {
-        //         error!("{}", e)
-        //     }
-        // }
-        
         self.id = conn.last_insert_rowid();
         Ok(result)
     }
     pub fn read_all_episodes_by_podcast_id(&self, pod_id: i64, viewed: Option<i64>) ->Result<Vec<Episode>, Error>  {
-        info!("{}", pod_id);
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let mut stmt;
@@ -166,11 +145,6 @@ impl Episode {
                 stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) AND viewed=0 ORDER BY title ASC;")?
             }
         }
-        // if (viewed.unwrap_or(i64::from(-1)) > 0 ) {
-        //     stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) AND viewed=0 ORDER BY title ASC;")?;
-        // } else {
-        //     stmt = conn.prepare("SELECT * FROM episodes where podcast_id=(?) ORDER BY title ASC;")?;
-        // }
         let epi_iter = stmt.query_map([pod_id], |row| {
             Ok(Episode {
                 id: row.get(0)?,
@@ -192,176 +166,86 @@ impl Episode {
         }
         Ok(results)
     }
-    
-    pub fn add_to_download_queue(&self) -> Result<usize, Error> {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let result = conn.execute(
-            "UPDATE episodes SET queue=1 where episode_id=(?1)", 
-            params![self.id]
-        )?;
-        Ok(result)
-    }
-    pub fn mark_downloaded(&self) -> Result<usize, Error> {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let result = conn.execute(
-            "UPDATE episodes SET queue=0 AND downloaded=1 where episode_id=(?1)", 
-            params![self.id]
-        )?;
-        Ok(result)
-    }
     pub fn get_podcast_download_location(&self) -> Result<String, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        // let mut format: String = "".to_string();
-        // cheeeeaaaaapppppp fix later
-        let mut stmt; // = conn.prepare("Select (?) from podcasts where podcast_id=(?);")?;
-        if self.audio.contains("audio") {
-            stmt = conn.prepare("Select audio from podcasts where podcast_id=(?);")?;
-        } else {
-            stmt = conn.prepare("Select video from podcasts where podcast_id=(?);")?;
-        }
-        
-        let epi_iter = stmt.query_map([self.podcast_id.to_string()], |row| {
-        // let mut epi_iter = stmt.query_map([self.podcast_id.to_string()], |row| {
-            Ok(Download {
-                result: row.get(0)?
-            }
-        )
-        })?;            
+        let mut statement: String =format!("Select audio from podcasts where podcast_id={};", self.podcast_id);
+        if self.audio.contains("video") {
+            statement = format!("Select audio from podcasts where podcast_id={};", self.podcast_id);
+        } 
 
-        for each in epi_iter {
-            match each {
-                Ok(result) =>{
-                    return Ok(result.result.to_string())
-                },
-                Err(e) => {
-                    error!("{}",e)
+        let _x = match conn.prepare(&statement.clone()) {
+            Ok(mut prepared_statement) =>{
+                match prepared_statement.query_map([],|row| {
+                    Ok(Download {
+                        result: row.get(0)?
+                    })
+                }) {
+                    Ok( mut epi_itr) => {
+                        match epi_itr.next() {
+                            Some(download) =>{
+                                match download {
+                                    Ok(result) =>{
+                                        return Ok(result.result)
+                                    },
+                                    Err(e) =>{
+                                        return Err(e)
+                                    }
+                                }
+                            },
+                            None => {
+                                return Err(Error::QueryReturnedNoRows)
+                            }
+                        }
+                    },
+                    Err(e) => {
+                        return Err(e)
+                    }
                 }
-            }
-        }
-        Ok("".to_string())
 
+            },
+            Err(e) => {
+                return Err(e)
+            }
+        }; 
     }
     pub fn read_all_in_download_queue() -> Result<Vec<Episode>, Error> {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let mut stmt = conn.prepare("SELECT * FROM episodes where queue=1;")?;
-        let epi_iter = stmt.query_map([], |row| {
-            Ok(Episode {
-                id: row.get(0)?,
-                title: row.get(1)?,
-                published: row.get(2)?,
-                summary: row.get(3)?,
-                length: row.get(4)?,
-                audio: row.get(5)?,
-                url: row.get(6)?,
-                downloaded: row.get(7)?,
-                podcast_id: row.get(8)?,
-                viewed: row.get(9)?,
-                queue: row.get(10)?
-            })
-        })?;
         let mut results: Vec<Episode> = Vec::new();
-        for episode in epi_iter {
-            results.push(episode.unwrap());
-        }
-        Ok(results)
-
-    }
-    pub fn remove_from_download_queue(&self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        let result = conn.execute(
-            "UPDATE episodes SET queue=0 where episode_id=(?1)", 
-            params![self.id]
-        )?;
-        Ok(result)
+        let mut _stmt = match conn.prepare("SELECT * FROM episodes where queue=1;") {
+            Ok(mut prepared_statement) =>{
+                match prepared_statement.query_map([], |row| {
+                    Ok(Episode {
+                        id: row.get(0)?,
+                        title: row.get(1)?,
+                        published: row.get(2)?,
+                        summary: row.get(3)?,
+                        length: row.get(4)?,
+                        audio: row.get(5)?,
+                        url: row.get(6)?,
+                        downloaded: row.get(7)?,
+                        podcast_id: row.get(8)?,
+                        viewed: row.get(9)?,
+                        queue: row.get(10)?
+                    })
+                }) {
+                    Ok(epi_iter) =>{
+                        for episode in epi_iter {
+                            results.push(episode.unwrap());
+                        };
+                        return Ok(results)
+                    },
+                    Err(e) => {
+                        return Err(e)
+                    }
+                }
+            },
+            Err(e) =>{
+                return Err(e)
+            }
+        };
     }
-    pub fn mark_viewed(&self) -> Result<usize, Error> {
-        let db: DB = DB::new(Config::new());
-        let conn: Connection = db.connect_to_database();
-        let result = conn.execute(
-            "UPDATE episodes SET viewed=1 where episode_id=(?1)", 
-            params![self.id]
-        )?;
-        Ok(result)
-
-    }
-
-
-    
-    // pub fn update_existing(&mut self) -> Result<usize, Error> {
-    //     let db: DB = DB::new(Config::new());
-    //     let conn: Connection = db.connect_to_database();
-    //     let result = conn.execute(
-    //         "UPDATE episodes SET title=(?1) and published=(?2) and summary=(?3) and length=(?4) and audio=(?5) and url=(?6) and downloaded=(?7) and podcast_id=(?8) and viewed=(?9) and queue=(?10) where episode_id=(?11)",
-    //         params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id,0, 0, self.id]
-    //     )?;
-        
-    //     self.id = conn.last_insert_rowid();
-    //     Ok(result)
-    // }
-    // // fn create_episode(&mut self, conn: Connection) -> Result<usize, Error> {
-    // //     let result = conn.execute(
-    // //         "INSERT INTO episodes (title, published, summary, length, audio, url, downloaded, podcast_id) VALUES (?1, ?2, ?3,?4, ?5, ?6, ?7, ?8)", 
-    // //         params![self.title, self.published, self.summary,self.length, self.audio, self.url, self.downloaded, self.podcast_id]
-    // //     )?;
-    // //     self.id = conn.last_insert_rowid();
-    // //     Ok(result)
-    // // }
-
-
-    // fn read_episodes(&self, conn: Connection) -> Result<Vec<Episode>, Error> {
-    //     let mut stmt = conn.prepare("SELECT * FROM episodes;")?;
-    //     let cat_iter = stmt.query_map([], |row| {
-    //         Ok(Episode {
-    //             id: row.get(0)?,
-    //             title: row.get(1)?,
-    //             published: row.get(2)?,
-    //             summary: row.get(3)?,
-    //             length: row.get(4)?,
-    //             audio: row.get(5)?,
-    //             url: row.get(6)?,
-    //             viewed: row.get(7)?,
-    //             downloaded: row.get(8)?,
-    //             podcast_id: row.get(9)?,
-    //             queue: row.get(10)?
-    //         })
-    //     })?;
-    //     let mut results: Vec<Episode> = Vec::new();
-    //     for category in cat_iter {
-    //         results.push(category.unwrap());
-    //     }
-    //     Ok(results)
-    // }
-
-    // fn update_episode(&self, conn: Connection) -> Result<usize, Error> {
-    //     // let epi = Episode {
-    //     //     id: 0,
-    //     //     title: String::from("Episode 1"),
-    //     //     published: Utc::now(),
-    //     //     summary: String::from("Stuff about Episode 1"),
-    //     //     length: 3600,
-    //     //     audio: String::from("audio/mpeg"), //true
-    //     //     url: String::from("https://something.com/epi1"),
-    //     //     viewed: 0, //false
-    //     //     downloaded: 0, //false
-    //     //     podcast_id: 1,
-    //     //     queue: 0
-    //     // };
-    //     let result = conn.execute(
-    //         "UPDATE episodes SET title=(?1), published=(?2), summary=(?3), length=(?4), audio=(?5), url=(?6), downloaded=(?7), podcast_id=(?8) where episode_id=(?9)", 
-    //         params![self.title, self.published, self.summary, self.length, self.audio, self.url, self.downloaded, self.podcast_id, self.id]
-    //     )?;
-    //     Ok(result)
-    // }
-
-    // fn delete_episode(&self, conn: Connection) -> Result<usize, Error> {
-    //     let result = conn.execute("DELETE FROM episodes where episode_id=(?1)", params![self.id])?;
-    //     Ok(result)
-    // }
 }
 
 impl Clone for Episode {

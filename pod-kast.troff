@@ -58,21 +58,15 @@ Number 10 Update all podcasts. Certainly creating a cron-job would be most effic
 pod-kast -u
 .nf
 Number 11 Archive. So you accidently nuked an eppesode, archive will let you see older items from your subscriptions.
-Bugs.
 .sp
+Bugs.
+.Pp
 Seemingly our cron-job may not actually be updating the list.
 Also, some NPR podcasts have ackward file names-and-cause errors.
 .sp
 Please write Marc or myself with any questions or discoveries.
+.sp
 .Pp                      \" Inserts a space
-A list of items with descriptions:
-.Bl -tag -width -indent  \" Begins a tagged list
-.It item u               \" Each item preceded by .It macro
-Description of item u
-.It item b
-Description of item b
-.El                      \" Ends the list
-.Pp
 A list of flags and their descriptions:
 .Bl -tag -width -indent  \" Differs from above in tag removed
 .It Fl u                 \"-a flag as a list item
