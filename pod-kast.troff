@@ -23,21 +23,60 @@ Use the .Nm macro to refer to your program throughout the man page like such:
 .Nm
 Underlining is accomplished with the .Ar macro like this:
 .Ar underlined text .
+.sp
+Welcome to Pod-kast 1.0 written by Marc Lytle 
+.Ar mlytle4218@gmail.com
+and-conceived by myself, Chime Hart.
+.Ar chime@hubert-humphrey.com
+.sp
+Over many years almost all podcast clients seemed to be lacking an interface which made sense, as well as features I was hoping for.
+An only one I understood was hpodder, but it is no-longer available
+.nf
+In Pod-kast, since I am totally blind-and-listen with Speakup, a Linux screen-reader, we took great care to make all functions really obvious by having numbered menus-and-yes having the word "number" before each digit removing any ambiguity.
+Just before we begin downloading our favorite podcasts, let's go over in detail each of our menu options.
+.sp
+Number 1 Add Catagory. Sure makes it easier to separate items by subject. While I only have 2, you may want many more. It will prompt for a full-path where to save.
+.nf
+Number 2 You can edit your catagories.
+.nf
+Number 3 You can add a new podcast. It will prompt for an url-and-then which catagory you will store in. Later we will discuss another way of adding items.
+.nf
+Number 4 You can edit an exsisting podcast by alter any of the fields such as urls, nick-name of podcast, or your chosen catagory.
+.nf
+Number 5 You can delete an exsisting podcast. This can be handy if you have an actual or similar/ duplicate item, as the program doesn't check.
+.nf
+Number 6 Choose epesodes to download. This will take you to your list of items which you are subscribed to. It will prompt whether you want to see them by name or by catagory.
+If your number of results exceeds 1 screen, hit an "n" for next page. If you are not happy with those results, you can hit c for catchup.
+.nf
+Number 7 will actually begin your downloads.
+.nf
+Number 8 Search for podcasts. After typing what you are looking for, you will see results, where you can type numbers separately or with dashes if consecutive. After that you would hit a q to go to a screen where you will confirm each catagory-and-location of items you just chose.Items not chosen will be removed.
+.nf
+Number 9 You can delete items from your download cue, especially if you ended up with duplicates.
+.nf
+Number 10 Update all podcasts. Certainly creating a cron-job would be most efficient, but this manual way will announce along the way its progress. Also, from a commandline, you can type
+pod-kast -u
+.nf
+Number 11 Archive. So you accidently nuked an eppesode, archive will let you see older items from your subscriptions.
+Bugs.
+.sp
+Seemingly our cron-job may not actually be updating the list.
+Also, some NPR podcasts have ackward file names-and-cause errors.
+.sp
+Please write Marc or myself with any questions or discoveries.
 .Pp                      \" Inserts a space
 A list of items with descriptions:
 .Bl -tag -width -indent  \" Begins a tagged list
-.It item a               \" Each item preceded by .It macro
-Description of item a
+.It item u               \" Each item preceded by .It macro
+Description of item u
 .It item b
 Description of item b
 .El                      \" Ends the list
 .Pp
 A list of flags and their descriptions:
 .Bl -tag -width -indent  \" Differs from above in tag removed
-.It Fl a                 \"-a flag as a list item
-Description of -a flag
-.It Fl b
-Description of -b flag
+.It Fl u                 \"-a flag as a list item
+Updates the episodes for all the podcasts.
 .El                      \" Ends the list
 .Pp
 .\" .Sh ENVIRONMENT      \" May not be needed

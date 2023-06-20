@@ -1,0 +1,26 @@
+Welcome to Pod-kast 1.0 written by Marc Lytle-
+mlytle4218@gmail.com
+and-conceived by myself, Chime Hart.
+chime@hubert-humphrey.com
+Over many years almost all podcast klients seemed to be lacking an interface which made sense, as well as features I was hoping for.
+An only one I understood was hpodder, but it is no-longer available
+In Pod-kast, since I am totally blind-and-listen with Speakup, a Linux screen-reader, we took great care to make all functions really obvious by having numbered menus-and-yes having the word "number" before each digit removing any ambiguity.
+Just before we begin downloading our favorite podcasts, let's go over in detail each of our menu options.
+Number 1 Add Catagory. Sure makes it easier to separate items by subject. While I only have 2, you may want many more. It will prompt for a full-path where to save.
+Number 2 You can edit your catagories.
+Number 3 You can add a new podcast. It will prompt for an url-and-then which catagory you will store in. Later we will discuss another way of adding items.
+Number 4 You can edit an exsisting podcast by alter any of the fields such as urls, nick-name of podcast, or your chosen catagory.
+Number 5 You can delete an exsisting podcast. This can be handy if you have an actual or similar/ duplicate item, as the program doesn't check.
+Number 6 Choose epesodes to download. This will take you to your list of items which you are subscribed to. It will prompt whether you want to see them by name or by catagory.
+If your number of results exceeds 1 screen, hit an "n" for next page. If you are not happy with those results, you can hit c for catchup.
+Number 7 will actually begin your downloads.
+Number 8 Search for podcasts. After typing what you are looking for, you will see results, where you can type numbers separately or with dashes if consecutive. After that you would hit a q to go to a screen where you will confirm each catagory-and-location of items you just chose.Items not chosen will be removed.
+Number 9 You can delete items from your download cue, especially if you ended up with duplicates.
+Number 10 Update all podcasts. Certainly creating a cron-job would be most efficient, but this manual way will announce along the way its progress. Also, from a commandline, you can type
+pod-kast -u
+Number 11 Archive. So you accidently nuked an eppesode, archive will let you see older items from your subscriptions.
+Bugs.
+Seemingly our cron-job may not actually be updating the list.
+Also, some NPR podcasts have ackward file names-and-cause errors.
+Please write Marc or myself with any questions or discoveries.
+
