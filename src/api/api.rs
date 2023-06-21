@@ -36,7 +36,6 @@ impl AppleSearch {
 
 	#[tokio::main]
 	pub async fn search(&self) -> Result<Vec<Podcast>, Box<dyn std::error::Error>> {
-		info!("in search *****************************");
 
 		let config: Config = Config::new();
 
@@ -46,16 +45,11 @@ impl AppleSearch {
 		);
 		let client = Client::builder().build()?;
 		
-		info!("in search 2*****************************");
 
 		let res = client.get(url).send().await?;
-		info!("in search 3*****************************");
-		info!("{:?}", res);
 
 		let itune_results = res.json::<ItuneResult>().await?;
-		info!("in search 4*****************************");
 		let mut podcast_vec: Vec<Podcast> = Vec::new();
-		info!("in search 5*****************************");
 
 		for itune_result in itune_results.results {
 			let temp = Podcast {
@@ -76,34 +70,6 @@ impl AppleSearch {
 
 
 
-
-
-// #[tokio::main]
-// pub async fn retreive_episodes(url: String, podcast_id: i16) -> Result<Vec<Episode>, Box<dyn Error>> {
-// 	let content = reqwest::get(url).await?.bytes().await?;
-// 	let channel = Channel::read_from(&content[..])?;
-
-// 	let mut episode_vec: Vec<Episode> = Vec::new();
-// 	for it in channel.items() {
-		
-// 		let en: &rss::Enclosure = it.enclosure.as_ref().unwrap();
-		
-// 		episode_vec.push(Episode {
-// 			id: 0,
-// 			title: String::from(it.title.as_ref().unwrap()),
-// 			published: Utc::now(),
-// 			summary: String::from(it.description.as_ref().unwrap()),
-// 			length: String::from(&en.length).parse::<i32>().unwrap(),
-// 			audio: String::from(&en.mime_type),
-// 			url: String::from(&en.url),
-// 			viewed: 0,
-// 			downloaded: 0,
-// 			podcast_id: podcast_id,
-// 			queue: 0
-// 		});
-// 	}
-// 	Ok(episode_vec)
-// }
 
 #[cfg(test)]
 mod test {
