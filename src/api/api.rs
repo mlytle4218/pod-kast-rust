@@ -3,13 +3,14 @@ use reqwest::Client;
 use serde::Deserialize;
 use crate::data::podcast::Podcast;
 use super::super::config::config::Config;
-use log::{info,error};
+use log::info;
 
 #[derive(Deserialize)]
 pub struct ItuneResult {
 	results: Vec<PodcastResult>,
 }
 #[derive(Deserialize)]
+#[allow(non_snake_case)]
 struct PodcastResult {
 	collectionName: String,
 	feedUrl: String,

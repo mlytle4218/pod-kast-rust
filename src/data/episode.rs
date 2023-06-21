@@ -1,6 +1,5 @@
 use chrono::{DateTime, Utc};
 use rusqlite::{params, Connection, Error, Result};
-use log::{info,error};
 
 use super::super::config::config::Config;
 use super::data::DB;

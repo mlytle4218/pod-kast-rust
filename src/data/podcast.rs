@@ -1,5 +1,5 @@
 use rusqlite::{params, Connection, Error, Result};
-use log::{error, info};
+use log::info;
 
 use super::category::Category;
 use super::super::config::config::Config;
