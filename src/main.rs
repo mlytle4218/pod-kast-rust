@@ -3,7 +3,6 @@
 
 mod api {
     pub mod api;
-    pub mod retrieve;
 }
 
 mod menu {
@@ -30,7 +29,6 @@ use futures_util::StreamExt;
 
 use std::io::{self, Write};
 use api::api::AppleSearch;
-use api::retrieve::Retreive;
 
 use data::category::Category;
 use data::podcast::Podcast;
@@ -142,7 +140,7 @@ fn main() {
 
     let _config = config::config::Config::new();
     let simple_menu = SimpleMenu::new(Screen::new(), entries);
-    simple_menu.show4();
+    simple_menu.show();
 }
 
 
@@ -255,7 +253,7 @@ fn delete_category() {
 }
 fn create_podcast() {
     println!("\x1B[2J\x1B[1;1H");
-    match edit_podcast_details2(Podcast::new()) {
+    match edit_podcast_details(Podcast::new()) {
         Ok(mut podcast) =>{
             match podcast.save_existing() {
                 Ok(_) =>{
@@ -277,7 +275,7 @@ fn edit_podcast() {
         Ok(res) =>{
             match display_pods_single_result(&res) {   
                 Ok(chosen) =>{
-                    match edit_podcast_details2(res[(chosen as usize)-1].clone()) {
+                    match edit_podcast_details(res[(chosen as usize)-1].clone()) {
                         Ok(mut podcast) =>{
                             match podcast.update_existing() {
                                 Ok(_) => {
@@ -498,7 +496,8 @@ fn download_latest_episode_data_for_podcast() {
         Ok(pods)=>{
             for pod in pods {
                 println!("Checking episodes for {}", pod.name);
-                match  Retreive::new().retreive_episodes(pod.url, pod.id as i16) {
+                match  pod.retreive_episodes() {
+                // match  Retreive::new().retreive_episodes(pod.url, pod.id as i16) {
                     Ok(episodes) =>{
                         for mut episode in episodes {
                             match episode.save_existing() {
@@ -507,7 +506,7 @@ fn download_latest_episode_data_for_podcast() {
                                 },
                                 Err(e) =>{
                                     error!("{}", e);
-                                    println!("{} could not be added", episode.title);
+                                    // println!("{} could not be added", episode.title);
                                 }
                             }
                         }
@@ -1123,7 +1122,7 @@ fn enter_search_terms() -> std::string::String {
     line.pop();
     return line;
 }
-fn edit_podcast_details2(mut pod: Podcast) -> Result<Podcast, ReadlineError> {
+fn edit_podcast_details(mut pod: Podcast) -> Result<Podcast, ReadlineError> {
     match enter_info("Podcast name: ", &pod.name) {
         Ok(name) => {
             pod.name = name;

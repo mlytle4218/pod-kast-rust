@@ -1,10 +1,18 @@
 use rusqlite::{params, Connection, Error, Result};
-use log::info;
+use log::{error,info};
 
 use super::category::Category;
 use super::super::config::config::Config;
 use super::data::DB;
 use std::io::{self, Write};
+
+use chrono::Utc;
+use rss::Channel;
+// use std::error::Error;
+
+use crate::data::episode::Episode;
+
+
 
 #[derive(Debug)]
 pub struct Podcast {
@@ -143,6 +151,45 @@ impl Podcast {
             },
             Err(e) => return Err(e)
         };
+    }
+    #[tokio::main]
+    pub async fn retreive_episodes(&self) -> Result<Vec<Episode>, Box<dyn std::error::Error>> {
+        let content = reqwest::get(self.url.clone()).await?.bytes().await?;
+        let channel = Channel::read_from(&content[..])?;
+
+        let mut episode_vec: Vec<Episode> = Vec::new();
+        for it in channel.items() {
+            match it.enclosure.as_ref() {
+                Some(en) =>{
+                    match String::from(&en.length).parse::<i32>() {
+                        Ok(temp_length) =>{
+                            episode_vec.push(Episode {
+                                id: 0,
+                                title: String::from(it.title.as_ref().unwrap()),
+                                published: Utc::now(),
+                                summary: String::from(it.description.as_ref().unwrap()),
+                                length: temp_length,
+                                audio: String::from(&en.mime_type),
+                                url: String::from(&en.url),
+                                downloaded: 0,
+                                viewed: 0,
+                                podcast_id: self.id as i16,
+                                queue: 0
+                            });
+                        },
+                        Err(e) => {
+                            error!("{}", e);
+                            continue
+                        }
+                    }
+                },
+                None =>{
+                    error!("Rss enclosure empty.");
+                    continue
+                }
+            }
+        }
+        Ok(episode_vec)
     }
 }
 
