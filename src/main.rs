@@ -145,32 +145,37 @@ fn main() {
 
 
 
-fn enter_info(message: &str, default: &str) -> Result<std::string::String, ReadlineError> {
-    let mut rl = DefaultEditor::new()?;
-    loop {
-        match rl.readline_with_initial(&message, (default, "")) {
-            Ok(res) => {
-                if res.len() > 0 {
-                    break Ok(res)
-                } else {
-                    continue
+fn enter_info(message: &str, default: &str) -> Result<String, ReadlineError> {
+    match DefaultEditor::new() {
+        Ok(mut rl) =>{
+            loop {
+                match rl.readline_with_initial(&message, (default, "")) {
+                    Ok(res) => {
+                        if res.len() > 0 {
+                            break Ok(res)
+                        } else {
+                            continue
+                        }
+                    },
+                    Err(ReadlineError::Interrupted) => {
+                        println!("CTRL-C");
+                        break Err(ReadlineError::Interrupted)
+                    },
+                    Err(ReadlineError::Eof) => {
+                        println!("CTRL-D");
+                        break Err(ReadlineError::Eof)
+                    },
+                    Err(err) => {
+                        error!("Error: {:?}", err);
+                        break Err(err)
+                    }
                 }
-            },
-            Err(ReadlineError::Interrupted) => {
-                println!("CTRL-C");
-                break Err(ReadlineError::Interrupted)
-            },
-            Err(ReadlineError::Eof) => {
-                println!("CTRL-D");
-                break Err(ReadlineError::Eof)
-            },
-            Err(err) => {
-                error!("Error: {:?}", err);
-                break Err(err)
             }
+        },
+        Err(e) =>{
+            Err(e)
         }
     }
-
 }
 fn create_category() {
     println!("\x1B[2J\x1B[1;1H");
