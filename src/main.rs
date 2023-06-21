@@ -445,6 +445,7 @@ fn search() {
     let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
     match search.search() {
         Ok(res) =>{
+            info!("wwwwwhhhhhhhhhhhhhhhhhaaaaaaaat? {:?}", res);
             match display_pods2(&res) {
                 Ok(chosen) => {
                     for mut each in chosen {
@@ -463,7 +464,9 @@ fn search() {
                 }
             }
         },
-        Err(_) => {}
+        Err(_) => {
+            error!("wwwwhhhhhhhhhhhhhhhhhhaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaat?");
+        }
     }
 }
 fn delete_from_download_queue() {

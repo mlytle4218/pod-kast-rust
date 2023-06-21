@@ -3,6 +3,7 @@ use reqwest::Client;
 use serde::Deserialize;
 use crate::data::podcast::Podcast;
 use super::super::config::config::Config;
+use log::{info,error};
 
 #[derive(Deserialize)]
 pub struct ItuneResult {
@@ -34,7 +35,7 @@ impl AppleSearch {
 
 	#[tokio::main]
 	pub async fn search(&self) -> Result<Vec<Podcast>, Box<dyn std::error::Error>> {
-		// fs::write("log.txt", "test****************");
+		info!("in search *****************************");
 
 		let config: Config = Config::new();
 
@@ -43,11 +44,17 @@ impl AppleSearch {
 			self.base_url, self.terms, self.limit
 		);
 		let client = Client::builder().build()?;
+		
+		info!("in search 2*****************************");
 
 		let res = client.get(url).send().await?;
+		info!("in search 3*****************************");
+		info!("{:?}", res);
 
 		let itune_results = res.json::<ItuneResult>().await?;
+		info!("in search 4*****************************");
 		let mut podcast_vec: Vec<Podcast> = Vec::new();
+		info!("in search 5*****************************");
 
 		for itune_result in itune_results.results {
 			let temp = Podcast {
@@ -61,6 +68,7 @@ impl AppleSearch {
 			};
 			podcast_vec.push(temp);
 		}
+		info!("number of podcasts returned: {}", podcast_vec.len());
 		Ok(podcast_vec)
 	}
 }
