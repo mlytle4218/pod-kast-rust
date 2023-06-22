@@ -203,7 +203,7 @@ impl Category {
             }
         }
     }
-    fn display_cats_cat(cats: Vec<Category>) -> Result<Category, Error> {
+    pub fn display_cats_cat(cats: Vec<Category>) -> Result<Category, Error> {
         let cats_len = cats.len(); 
         loop {      
             println!("\x1B[2J\x1B[1;1H");

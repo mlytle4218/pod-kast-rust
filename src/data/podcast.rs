@@ -12,10 +12,11 @@ use rss::Channel;
 
 use crate::data::episode::Episode;
 
-use super::super::utilities::utilities::{enter_info_util, error_message};
+use super::super::utilities::utilities::{enter_info_util, error_message, enter_search_terms};
 use rustyline::error::ReadlineError;
 
 use super::super::menu::screen::Screen;
+use super::super::api::api::AppleSearch;
 
 
 #[derive(Debug)]
@@ -327,6 +328,308 @@ impl Podcast {
     
         }
     }
+    pub fn delete_podcast_pod() {
+        match Podcast::read_all_podcasts2(None) {
+            Ok(pods) => {
+                match Podcast::display_pods2(&pods) {
+                    Ok(chosen) => {
+                        for mut podcast in chosen {
+                            match podcast.delete_existing() {
+                                Ok(_) => {
+                                    info!("{} was deleted", podcast.name);
+                                },
+                                Err(e) =>{
+                                    error!("{}", e);
+                                }
+                            }
+                        }
+                    },
+                    Err(e) => {
+                        error!("{}", e);
+                    }
+                }
+            },
+            Err(e) =>{
+                error!("{}", e);
+            }
+        }
+    }
+    fn display_pods2(pods: &Vec<Podcast>) -> Result<Vec<Podcast>, Error> {
+        let screen = Screen::new();
+        let pods_len = pods.len(); 
+        let mut results: Vec<Podcast> = Vec::new();
+        if pods.len() == 0 {
+            error_message(format!("No Podcasts to display.").as_str());
+            return Ok(results)
+        }
+        let display_size: u16 = screen.row_size -1;
+        let mut pages: u16 = 0;
+        let mut page_iter = 0;
+        let mut row_iter; // = 0;
+        if (pods_len as u16).rem_euclid(display_size) > 0 {
+            pages += 1;
+            pages += (pods_len as u16)/(display_size);
+        }
+        
+        loop {
+            println!("\x1B[2J\x1B[1;1H");
+            info!("Display pods");
+            let start = page_iter*display_size;
+            let end; // = 0;
+    
+            if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+                end = ((page_iter+1)*display_size)-1;
+            } else {
+                end = (pods_len as u16) - 1;
+            }
+    
+            row_iter = start;
+            while row_iter <= end {
+                println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+                row_iter += 1;
+            }
+            let mut line = String::new();
+            print!("Choice: ");
+            io::stdout().flush().unwrap();
+            match std::io::stdin().read_line(&mut line) {
+                Ok(_) => {
+                    match line.trim_end_matches('\n') {
+                        "q" => break Ok(results),
+                        "n" => {
+                            if page_iter < (pages -1) {
+                                page_iter += 1;
+                            } else {
+                                // do nothing bitches
+                            }
+                            continue
+                        },
+                        "p" => {
+                            if page_iter > 0 {
+                                page_iter -= 1;
+                            } else {
+                                // do nothing bitches
+                            }
+                            continue
+                        },
+                        _ => {
+                            let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
+                            for each in all {
+                                // info!("{}",each);
+                                if each.contains("-") {
+                                    info!("has a dash" );
+                                    let dash: Vec<&str> = each.split("-").collect();
+                                    if dash.len() > 2 {
+                                        error_message(format!("{each} is formatted incorrectly").as_str());
+                                        break
+                                    } else {
+                                        match dash[0].parse::<u16>() {
+                                            Ok(val) => {
+                                                match (dash[1]).parse::<u16>() {
+                                                    Ok(val2) =>{
+                                                        if val >= (start + 1) && val2 <= (end + 1) {
+                                                            for v in val..=val2 {
+                                                                info!("{}", v);
+                                                                results.insert( 0 as usize, pods[(v as usize)-1].clone());
+                                                            }
+                                                        }
+                                                    },
+                                                    Err(_) => {
+                                                        let temp = dash[1];
+                                                        error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                                    }
+                                                }
+                                            },
+                                            Err(_) => {
+                                                let temp = dash[0];
+                                                error_message(format!("{temp} is not a valid nubmer.").as_str());
+                                            }
+                                        }
+                                    }
+                                } else  {
+                                    match each.parse::<u16>() {
+                                        Ok(val) => {
+                                            results.insert( 0 as usize, pods[(val as usize)-1].clone());
+                                        },
+                                        Err(_) => {
+                                            error_message(format!("{} is not a valid number.", each).as_str())
+                                        }
+                                    }
+                                }
+            
+                            }
+                        }
+                    }
+                },
+                Err(e) => {
+                    error!("{}",e);
+                }
+    
+            }
+    
+        }
+    }
+    pub fn search() {
+        let terms = enter_search_terms();
+        let search = AppleSearch::new("https://itunes.apple.com".to_string(),terms.to_string(),100);
+        match search.search() {
+            Ok(res) =>{
+                match Podcast::display_pods2(&res) {
+                    Ok(chosen) => {
+                        for mut each in chosen {
+                            match each.save_existing() {
+                                Ok(_) =>{
+                                    info!("{} saved", each.name);
+                                },
+                                Err(e) =>{
+                                    error!("{}",e);
+                                }
+                            }
+                        }
+                    },
+                    Err(e) =>{
+                        error!("{}",e);
+                    }
+                }
+            },
+            Err(e) => {
+                error!("{}", e);
+            }
+        }
+    }
+    fn display_pods_to_choose_episodes_archive2(pods: &Vec<Podcast>) -> Result<Podcast, Error> {
+        let screen = Screen::new();
+        let pods_len = pods.len(); 
+        // let result: i16 = -1;
+        if pods.len() == 0 {
+            error_message(format!("No Podcasts to display.").as_str());
+            return Err(Error::QueryReturnedNoRows)
+        }
+        let display_size: u16 = screen.row_size -1;
+        let mut pages: u16 = 0;
+        let mut page_iter = 0;
+        let mut row_iter; // = 0;
+        if (pods_len as u16).rem_euclid(display_size) > 0 {
+            pages += 1;
+            pages += (pods_len as u16)/(display_size);
+        }
+        
+        loop {
+            println!("\x1B[2J\x1B[1;1H");
+            info!("Display pods");
+            let start = page_iter*display_size;
+            let end; // = 0;
+    
+            if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+                end = ((page_iter+1)*display_size)-1;
+            } else {
+                end = (pods_len as u16) - 1;
+            }
+    
+            row_iter = start;
+            
+            let epi_temp: Episode = Episode::new();
+            while row_iter <= end {
+                match epi_temp.count_episodes_archive(pods[row_iter as usize].id) {
+                    Ok(count) => {
+                        println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, count);
+                        row_iter += 1;
+                    },
+                    Err(e) => {
+                        error!("{}",e)
+                    }
+    
+                }
+            }
+            let mut line = String::new();
+            print!("Choice: ");
+            io::stdout().flush().unwrap();
+            match std::io::stdin().read_line(&mut line) {
+                Ok(_) => {
+                    match line.trim_end_matches('\n') {
+                        "q" => return Err(Error::QueryReturnedNoRows),
+                        "n" => {
+                            if page_iter < (pages -1) {
+                                page_iter += 1;
+                            } else {
+                                // do nothing bitches
+                            }
+                            continue
+                        },
+                        "p" => {
+                            if page_iter > 0 {
+                                page_iter -= 1;
+                            } else {
+                                // do nothing bitches
+                            }
+                            continue
+                        },
+                        _ => {
+                            // info!("display_pods not q, n, or p");
+                            match line.trim().parse::<i16>() {
+                                Ok(line_parsed) => {
+                                    return Ok(pods[(line_parsed as usize)-1].clone())
+                                },
+                                Err(_) => {
+                                    error_message(format!("{} is not a valid number.", line.trim()).as_str());
+                                    return Err(Error::QueryReturnedNoRows)
+                                }
+            
+                            }
+                        }
+                    }
+                },
+                Err(e) => {
+                    error!("{}",e);
+                }
+            }
+    
+        }
+    }
+    pub fn archive() {
+        match Podcast::read_all_podcasts2(None) {
+            Ok(pods) =>{
+                loop {
+                    match Podcast::display_pods_to_choose_episodes_archive2(&pods) {
+                        Ok(chosen) => {
+                            match Episode::new().read_all_episodes_by_podcast_id(chosen.id, Some(1 as i64)) {
+                                Ok(all_episodes) =>{
+                                    match Episode::display_episodes_epi(&all_episodes) {
+                                        Ok(chosen_episodes) =>{
+                                            for episode in chosen_episodes {
+                                                match episode.add_to_download_queue() {
+                                                    Ok(_) =>{
+                                                        info!("{} added to download queue", episode.title)
+                                                    },
+                                                    Err(e) =>{
+                                                        error!("{}", e);
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        Err(e) =>{
+                                            error!("{}", e);
+                                        }
+                                    }
+                                },
+                                Err(e) =>{
+                                    error!("{}", e);
+                                }
+                            }
+                        },
+                        Err(e) => {
+                            error!("{}", e);
+                            break
+                        }
+                    }
+                }
+            },
+            Err(e) => {
+                error!("{}", e)
+            }
+    
+        }
+    }
+
     #[tokio::main]
     pub async fn retreive_episodes(&self) -> Result<Vec<Episode>, Box<dyn std::error::Error>> {
         let content = reqwest::get(self.url.clone()).await?.bytes().await?;

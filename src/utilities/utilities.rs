@@ -1,7 +1,8 @@
-use log::{error};
+use log::{info,error};
 use rustyline::{DefaultEditor};
 use rustyline::error::ReadlineError;
 use std::io::{self, Write};
+use std::process;
 
 pub fn enter_info_util(message: &str, default: &str) -> Result<String, ReadlineError> {
     match DefaultEditor::new() {
@@ -44,4 +45,17 @@ pub fn error_message(message: &str) {
     let mut line = String::new();
     io::stdout().flush().unwrap();
     std::io::stdin().read_line(&mut line).unwrap();
+}
+pub fn enter_search_terms() -> std::string::String {
+    println!("\x1B[2J\x1B[1;1H");
+    let mut line = String::new();
+    print!("Enter search terms: ");
+    io::stdout().flush().unwrap();
+    std::io::stdin().read_line(&mut line).unwrap();
+    line.pop();
+    return line;
+}
+pub fn util_quit() {
+    info!("quitting");
+    process::exit(1);
 }
