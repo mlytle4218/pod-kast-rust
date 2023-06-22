@@ -21,6 +21,10 @@ mod config {
     pub mod config;
 }
 
+mod utilities {
+    pub mod utilities;
+}
+
 use std::cmp::min;
 use std::fs::File;
 
@@ -41,13 +45,15 @@ use menu::simple_menu::SimpleMenu;
 use std::process;
 
 use log::{info, error};
-use rustyline::{DefaultEditor};
+// use rustyline::{DefaultEditor};
 use rusqlite::{Error};
-use rustyline::error::ReadlineError;
+// use rustyline::error::ReadlineError;
 
 use reqwest::Client;
 
 use std::path::Path;
+
+// use utilities::utilities::enter_info_util;
 
 fn main() {
     // systemd_journal_logger::init().unwrap();
@@ -59,34 +65,41 @@ fn main() {
     
     let mut entries: Vec<MenuEntry> = Vec::new();
 
+    // let cat = Category::new();
+
     entries.push(MenuEntry {
         description: String::from("Add new category"),
         reference: (entries.len() + 1).to_string(),
-        f: create_category,
+        f:  Category::create_category_cat,
+        // f: create_category,
         show: true
     });
     entries.push(MenuEntry {
         description: String::from("Edit category"),
-        reference: (entries.len() + 1).to_string(),
-        f: edit_category,
+        reference: (entries.len() + 1).to_string(), 
+        f: Category::edit_category_cat,
+        // f: edit_category,
         show: true
     });
     entries.push(MenuEntry {
         description: String::from("Delete category"),
         reference: (entries.len() + 1).to_string(),
-        f: delete_category,
+        f: Category::delete_category_cat,
+        // f: delete_category,
         show: true
     });
     entries.push(MenuEntry {
         description: String::from("Add new podcast"),
         reference: (entries.len() + 1).to_string(),
-        f: create_podcast,
+        f: Podcast::create_podcast_pod,
+        // f: create_podcast,
         show: true
     });
     entries.push(MenuEntry {
         description: String::from("Edit podcast"),
         reference: (entries.len() + 1).to_string(),
-        f: edit_podcast,
+        f: Podcast::edit_podcast_pod,
+        // f: edit_podcast,
         show: true
     });
     entries.push(MenuEntry {
@@ -145,171 +158,172 @@ fn main() {
 
 
 
-fn enter_info(message: &str, default: &str) -> Result<String, ReadlineError> {
-    match DefaultEditor::new() {
-        Ok(mut rl) =>{
-            loop {
-                match rl.readline_with_initial(&message, (default, "")) {
-                    Ok(res) => {
-                        if res.len() > 0 {
-                            break Ok(res)
-                        } else {
-                            continue
-                        }
-                    },
-                    Err(ReadlineError::Interrupted) => {
-                        println!("CTRL-C");
-                        break Err(ReadlineError::Interrupted)
-                    },
-                    Err(ReadlineError::Eof) => {
-                        println!("CTRL-D");
-                        break Err(ReadlineError::Eof)
-                    },
-                    Err(err) => {
-                        error!("Error: {:?}", err);
-                        break Err(err)
-                    }
-                }
-            }
-        },
-        Err(e) =>{
-            Err(e)
-        }
-    }
-}
-fn create_category() {
-    println!("\x1B[2J\x1B[1;1H");
-    let mut cat = Category::new();
-    match enter_info("Enter Category name ","") {
-        Ok(result) =>{ 
-            cat.name = result;
-            match cat.create_exisitng() {
-                Ok(_) =>{
-                    info!("Category {} created", cat.name);
-                },
-                Err(e) => {
-                    error!("{}", e);
-                }
-            }
-        },
-        Err(e) => {
-            error!("{}", e);
-        }
-    }
-}
-fn edit_category() {
-    let cat = Category::new();
-    match cat.read_all_categories() {
-        Ok(cats) =>{
-            match display_cats(cats) {
-                Ok(mut chosen_cat) =>{
-                    // convert this later to return error if they enter nothing and circumvent this check
-                    let res_name = enter_info("Existing Category name: ",&chosen_cat.name).unwrap();
-                    if res_name.len() > 0 {
-                        chosen_cat.name = res_name.to_string();
-                        match chosen_cat.update_existing() {
-                            Ok(_) => {
-                                info!("{} updated", chosen_cat.name);
-                            },
-                            Err(_) => {
-                                error!("{} could not be updated", chosen_cat.name);
-                                error_message("Could not update the Category.");
-                            }
-                        }
-                    } else {
-                        // nothing was entered - don't update
-                    }
-                },
-                Err(e) =>{
-                    error!("{}", e);
-                }
-            }
-        },
-        Err(e) =>{
-            error!("{}", e);
-        }
-    }
-}
-fn delete_category() {
-    let cat = Category::new();
-    match cat.read_all_categories() {
-        Ok(cats) =>{
-            match display_cats(cats) {
-                Ok(chosen_cat) =>{
-                    match chosen_cat.delete_existing() {
-                        Ok(_) => {
-                            info!("{} deleted", chosen_cat.name);
-                        },
-                        Err(_) => {
-                            error!("{} could not be deleted", chosen_cat.name);
-                            error_message("Could not delete the Category.");
-                        }
-                    }
-                },
-                Err(e) =>{
-                    error!("{}", e);
-                }
-            }
-        },
-        Err(e) =>{
-            error!("{}", e);
-        }
-    }
-}
-fn create_podcast() {
-    println!("\x1B[2J\x1B[1;1H");
-    match edit_podcast_details(Podcast::new()) {
-        Ok(mut podcast) =>{
-            match podcast.save_existing() {
-                Ok(_) =>{
-                    info!("Podcast {} created", podcast.name);
-                },
-                Err(e) =>{
-                    error!("{}", e)
-                }
-            }
-        },
-        Err(e) =>{
-            error!("{}", e)
-        }
-    }
-}
-fn edit_podcast() {
-    println!("\x1B[2J\x1B[1;1H");
-    match Podcast::new().read_all_podcasts2(None) {
-        Ok(res) =>{
-            match display_pods_single_result(&res) {   
-                Ok(chosen) =>{
-                    match edit_podcast_details(res[(chosen as usize)-1].clone()) {
-                        Ok(mut podcast) =>{
-                            match podcast.update_existing() {
-                                Ok(_) => {
-                                    info!("{} updated", podcast.name)
-                                },
-                                Err(e) =>{
-                                    error!("{}", e);
-                                }
-                            }
-                        },
-                        Err(e) =>{
-                            error!("{}", e);
-                            error_message("Coudl not save Podcast details");
-                        }
-                    }
-                },
-                Err(e) => {
-                    error!("{}",e);
-                }
-            }
-        },
-        Err(e) => {
-            error!("{}",e);
-        }
-    }
 
-}
+// fn enter_info(message: &str, default: &str) -> Result<String, ReadlineError> {
+//     match DefaultEditor::new() {
+//         Ok(mut rl) =>{
+//             loop {
+//                 match rl.readline_with_initial(&message, (default, "")) {
+//                     Ok(res) => {
+//                         if res.len() > 0 {
+//                             break Ok(res)
+//                         } else {
+//                             continue
+//                         }
+//                     },
+//                     Err(ReadlineError::Interrupted) => {
+//                         println!("CTRL-C");
+//                         break Err(ReadlineError::Interrupted)
+//                     },
+//                     Err(ReadlineError::Eof) => {
+//                         println!("CTRL-D");
+//                         break Err(ReadlineError::Eof)
+//                     },
+//                     Err(err) => {
+//                         error!("Error: {:?}", err);
+//                         break Err(err)
+//                     }
+//                 }
+//             }
+//         },
+//         Err(e) =>{
+//             Err(e)
+//         }
+//     }
+// }
+// fn create_category() {
+//     println!("\x1B[2J\x1B[1;1H");
+//     let mut cat = Category::new();
+//     match enter_info_util("Enter Category name ","") {
+//         Ok(result) =>{ 
+//             cat.name = result;
+//             match cat.create_exisitng() {
+//                 Ok(_) =>{
+//                     info!("Category {} created", cat.name);
+//                 },
+//                 Err(e) => {
+//                     error!("{}", e);
+//                 }
+//             }
+//         },
+//         Err(e) => {
+//             error!("{}", e);
+//         }
+//     }
+// }
+// fn edit_category() {
+//     let cat = Category::new();
+//     match cat.read_all_categories() {
+//         Ok(cats) =>{
+//             match display_cats(cats) {
+//                 Ok(mut chosen_cat) =>{
+//                     // convert this later to return error if they enter nothing and circumvent this check
+//                     let res_name = enter_info("Existing Category name: ",&chosen_cat.name).unwrap();
+//                     if res_name.len() > 0 {
+//                         chosen_cat.name = res_name.to_string();
+//                         match chosen_cat.update_existing() {
+//                             Ok(_) => {
+//                                 info!("{} updated", chosen_cat.name);
+//                             },
+//                             Err(_) => {
+//                                 error!("{} could not be updated", chosen_cat.name);
+//                                 error_message("Could not update the Category.");
+//                             }
+//                         }
+//                     } else {
+//                         // nothing was entered - don't update
+//                     }
+//                 },
+//                 Err(e) =>{
+//                     error!("{}", e);
+//                 }
+//             }
+//         },
+//         Err(e) =>{
+//             error!("{}", e);
+//         }
+//     }
+// }
+// fn delete_category() {
+//     let cat = Category::new();
+//     match cat.read_all_categories() {
+//         Ok(cats) =>{
+//             match display_cats(cats) {
+//                 Ok(chosen_cat) =>{
+//                     match chosen_cat.delete_existing() {
+//                         Ok(_) => {
+//                             info!("{} deleted", chosen_cat.name);
+//                         },
+//                         Err(_) => {
+//                             error!("{} could not be deleted", chosen_cat.name);
+//                             error_message("Could not delete the Category.");
+//                         }
+//                     }
+//                 },
+//                 Err(e) =>{
+//                     error!("{}", e);
+//                 }
+//             }
+//         },
+//         Err(e) =>{
+//             error!("{}", e);
+//         }
+//     }
+// }
+// fn create_podcast() {
+//     println!("\x1B[2J\x1B[1;1H");
+//     match edit_podcast_details(Podcast::new()) {
+//         Ok(mut podcast) =>{
+//             match podcast.save_existing() {
+//                 Ok(_) =>{
+//                     info!("Podcast {} created", podcast.name);
+//                 },
+//                 Err(e) =>{
+//                     error!("{}", e)
+//                 }
+//             }
+//         },
+//         Err(e) =>{
+//             error!("{}", e)
+//         }
+//     }
+// }
+// fn edit_podcast() {
+//     println!("\x1B[2J\x1B[1;1H");
+//     match Podcast::new().read_all_podcasts2(None) {
+//         Ok(res) =>{
+//             match display_pods_single_result(&res) {   
+//                 Ok(chosen) =>{
+//                     match edit_podcast_details(res[(chosen as usize)-1].clone()) {
+//                         Ok(mut podcast) =>{
+//                             match podcast.update_existing() {
+//                                 Ok(_) => {
+//                                     info!("{} updated", podcast.name)
+//                                 },
+//                                 Err(e) =>{
+//                                     error!("{}", e);
+//                                 }
+//                             }
+//                         },
+//                         Err(e) =>{
+//                             error!("{}", e);
+//                             error_message("Coudl not save Podcast details");
+//                         }
+//                     }
+//                 },
+//                 Err(e) => {
+//                     error!("{}",e);
+//                 }
+//             }
+//         },
+//         Err(e) => {
+//             error!("{}",e);
+//         }
+//     }
+
+// }
 fn delete_podcast() {
-    match Podcast::new().read_all_podcasts2(None) {
+    match Podcast::read_all_podcasts2(None) {
         Ok(pods ) => {
             match display_pods2(&pods) {
                 Ok(chosen) => {
@@ -339,7 +353,7 @@ fn choose_episodes() {
         Ok(cats) => {
             match display_cats(cats) {
                 Ok(c) => {
-                    match Podcast::new().read_all_podcasts2(Some(c.id.to_string())) {
+                    match Podcast::read_all_podcasts2(Some(c.id.to_string())) {
                         Ok(pods) =>{
                             loop {
                                 match display_pods_single_result2(&pods, Some("".to_string())) {
@@ -497,7 +511,7 @@ fn delete_from_download_queue() {
     }
 }
 fn download_latest_episode_data_for_podcast() {
-    match Podcast::new().read_all_podcasts2(None) {
+    match Podcast::read_all_podcasts2(None) {
         Ok(pods)=>{
             for pod in pods {
                 println!("Checking episodes for {}", pod.name);
@@ -530,7 +544,7 @@ fn download_latest_episode_data_for_podcast() {
 
 }
 fn archive() {
-    match Podcast::new().read_all_podcasts2(None) {
+    match Podcast::read_all_podcasts2(None) {
         Ok(pods) =>{
             loop {
                 match display_pods_to_choose_episodes_archive2(&pods) {
@@ -917,83 +931,83 @@ fn display_pods_to_choose_episodes_archive2(pods: &Vec<Podcast>) -> Result<Podca
 
     }
 }
-fn display_pods_single_result(pods: &Vec<Podcast>) -> Result<u16, Error> {
-    let screen = Screen::new();
-    let pods_len = pods.len(); 
-    // let mut results: u16;
-    if pods.len() == 0 {
-        error_message(format!("No Podcasts to display.").as_str());
-        return Err(Error::InvalidColumnName("".to_string()))
-    }
-    let display_size: u16 = screen.row_size -1;
-    let mut pages: u16 = 0;
-    let mut page_iter = 0;
-    let mut row_iter; // = 0;
-    if (pods_len as u16).rem_euclid(display_size) > 0 {
-        pages += 1;
-        pages += (pods_len as u16)/(display_size);
-    }
+// fn display_pods_single_result(pods: &Vec<Podcast>) -> Result<u16, Error> {
+//     let screen = Screen::new();
+//     let pods_len = pods.len(); 
+//     // let mut results: u16;
+//     if pods.len() == 0 {
+//         error_message(format!("No Podcasts to display.").as_str());
+//         return Err(Error::InvalidColumnName("".to_string()))
+//     }
+//     let display_size: u16 = screen.row_size -1;
+//     let mut pages: u16 = 0;
+//     let mut page_iter = 0;
+//     let mut row_iter; // = 0;
+//     if (pods_len as u16).rem_euclid(display_size) > 0 {
+//         pages += 1;
+//         pages += (pods_len as u16)/(display_size);
+//     }
     
-    loop {
-        println!("\x1B[2J\x1B[1;1H");
-        info!("Display pods");
-        let start = page_iter*display_size;
-        let end; // = 0;
+//     loop {
+//         println!("\x1B[2J\x1B[1;1H");
+//         info!("Display pods");
+//         let start = page_iter*display_size;
+//         let end; // = 0;
 
-        if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
-            end = ((page_iter+1)*display_size)-1;
-        } else {
-            end = (pods_len as u16) - 1;
-        }
+//         if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+//             end = ((page_iter+1)*display_size)-1;
+//         } else {
+//             end = (pods_len as u16) - 1;
+//         }
 
-        row_iter = start;
-        while row_iter <= end {
-            println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
-            row_iter += 1;
-        }
-        let mut line = String::new();
-        print!("Choice: ");
-        io::stdout().flush().unwrap();
-        match std::io::stdin().read_line(&mut line) {
-            Ok(_) =>{
-                match line.trim_end_matches('\n') {
-                    "q" => return Err(Error::InvalidColumnName("".to_string())),
-                    "n" => {
-                        if page_iter < (pages -1) {
-                            page_iter += 1;
-                        } else {
-                            // do nothing bitches
-                        }
-                        continue
-                    },
-                    "p" => {
-                        if page_iter > 0 {
-                            page_iter -= 1;
-                        } else {
-                            // do nothing bitches
-                        }
-                        continue
-                    },
-                    _ => {
-                        info!("display_pods not q, n, or p");
-                        match line.trim_end_matches('\n').parse::<u16>() {
-                            Ok(val) => {
-                                return Ok(val)
-                            },
-                            Err(_) => {
-                                error_message(format!("{} is not a valid number.", line.trim()).as_str())
-                            }
-                        }
-                    }
-                }
-            },
-            Err(e) =>{
-                error!("{}",e);
-            }
-        }
+//         row_iter = start;
+//         while row_iter <= end {
+//             println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+//             row_iter += 1;
+//         }
+//         let mut line = String::new();
+//         print!("Choice: ");
+//         io::stdout().flush().unwrap();
+//         match std::io::stdin().read_line(&mut line) {
+//             Ok(_) =>{
+//                 match line.trim_end_matches('\n') {
+//                     "q" => return Err(Error::InvalidColumnName("".to_string())),
+//                     "n" => {
+//                         if page_iter < (pages -1) {
+//                             page_iter += 1;
+//                         } else {
+//                             // do nothing bitches
+//                         }
+//                         continue
+//                     },
+//                     "p" => {
+//                         if page_iter > 0 {
+//                             page_iter -= 1;
+//                         } else {
+//                             // do nothing bitches
+//                         }
+//                         continue
+//                     },
+//                     _ => {
+//                         info!("display_pods not q, n, or p");
+//                         match line.trim_end_matches('\n').parse::<u16>() {
+//                             Ok(val) => {
+//                                 return Ok(val)
+//                             },
+//                             Err(_) => {
+//                                 error_message(format!("{} is not a valid number.", line.trim()).as_str())
+//                             }
+//                         }
+//                     }
+//                 }
+//             },
+//             Err(e) =>{
+//                 error!("{}",e);
+//             }
+//         }
 
-    }
-}
+//     }
+// }
 fn display_episodes(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
     info!("{}", epis.len());
     let screen = Screen::new();
@@ -1127,48 +1141,48 @@ fn enter_search_terms() -> std::string::String {
     line.pop();
     return line;
 }
-fn edit_podcast_details(mut pod: Podcast) -> Result<Podcast, ReadlineError> {
-    match enter_info("Podcast name: ", &pod.name) {
-        Ok(name) => {
-            pod.name = name;
-            info!("New Podcast name: {}", pod.name);
-            match enter_info("Podcast URL: ", &pod.url) {
-                Ok(url) => {
-                    pod.url = url;
-                    info!("New Podcast URL: {}", pod.url);
-                    match enter_info("Default Audio Save location : ", &pod.audio) {
-                        Ok(audio) =>{
-                            pod.audio = audio;
-                            info!("New Podcast default audio location: {}", pod.audio);
-                            match enter_info("Default Audio Save location : ", &pod.video) {
-                                Ok(video) => {
-                                    pod.video = video;
-                                    info!("New Podcast default audio location: {}", pod.video);
-                                    return Ok(pod)
-                                }, Err(e) =>{
-                                    error!("create_podcast-video: {}", e);
-                                    return Err(e)
-                                }
-                            }
-                        }, Err(e) =>{
-                            error!("create_podcast-audio: {}", e);
-                            return Err(e)
-                        }
-                    }
-                },
-                Err(e) =>{
-                    error!("create_podcast-url: {}", e);
-                    return Err(e)
-                }
-            }
-        },
-        Err(e) => {
-            error!("create_podcast-name: {}", e);
-            return Err(e)
-        }
-    }
+// fn edit_podcast_details(mut pod: Podcast) -> Result<Podcast, ReadlineError> {
+//     match enter_info("Podcast name: ", &pod.name) {
+//         Ok(name) => {
+//             pod.name = name;
+//             info!("New Podcast name: {}", pod.name);
+//             match enter_info("Podcast URL: ", &pod.url) {
+//                 Ok(url) => {
+//                     pod.url = url;
+//                     info!("New Podcast URL: {}", pod.url);
+//                     match enter_info("Default Audio Save location : ", &pod.audio) {
+//                         Ok(audio) =>{
+//                             pod.audio = audio;
+//                             info!("New Podcast default audio location: {}", pod.audio);
+//                             match enter_info("Default Audio Save location : ", &pod.video) {
+//                                 Ok(video) => {
+//                                     pod.video = video;
+//                                     info!("New Podcast default audio location: {}", pod.video);
+//                                     return Ok(pod)
+//                                 }, Err(e) =>{
+//                                     error!("create_podcast-video: {}", e);
+//                                     return Err(e)
+//                                 }
+//                             }
+//                         }, Err(e) =>{
+//                             error!("create_podcast-audio: {}", e);
+//                             return Err(e)
+//                         }
+//                     }
+//                 },
+//                 Err(e) =>{
+//                     error!("create_podcast-url: {}", e);
+//                     return Err(e)
+//                 }
+//             }
+//         },
+//         Err(e) => {
+//             error!("create_podcast-name: {}", e);
+//             return Err(e)
+//         }
+//     }
 
-}
+// }
 
 
 async fn download_file(client: &Client, url: &str, path: &str) -> Result<(), String> {

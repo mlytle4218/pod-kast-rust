@@ -1,9 +1,13 @@
 use rusqlite::{params, Connection, Error, Result};
 
-use log::info;
+use log::{info,error};
 
 use super::super::config::config::Config;
 use super::data::DB;
+
+use std::io::{self, Write};
+
+use super::super::utilities::utilities::{enter_info_util, error_message};
 
 #[derive(Debug)]
 pub struct Category {
@@ -120,8 +124,117 @@ impl Category {
     //     Ok(result)
     // }
 
-
+    pub fn create_category_cat() {
+        println!("\x1B[2J\x1B[1;1H");
+        let mut cat = Category::new();
+        match enter_info_util("Enter Category name ","") {
+            Ok(result) =>{ 
+                cat.name = result;
+                match cat.create_exisitng() {
+                    Ok(_) =>{
+                        info!("Category {} created", cat.name);
+                    },
+                    Err(e) => {
+                        error!("{}", e);
+                    }
+                }
+            },
+            Err(e) => {
+                error!("{}", e);
+            }
+        }
+    }
+    pub fn edit_category_cat() {
+        let cat = Category::new();
+        match cat.read_all_categories() {
+            Ok(cats) =>{
+                match Category::display_cats_cat(cats) {
+                    Ok(mut chosen_cat) =>{
+                        // convert this later to return error if they enter nothing and circumvent this check
+                        let res_name = enter_info_util("Existing Category name: ",&chosen_cat.name).unwrap();
+                        if res_name.len() > 0 {
+                            chosen_cat.name = res_name.to_string();
+                            match chosen_cat.update_existing() {
+                                Ok(_) => {
+                                    info!("{} updated", chosen_cat.name);
+                                },
+                                Err(_) => {
+                                    error!("{} could not be updated", chosen_cat.name);
+                                    error_message("Could not update the Category.");
+                                }
+                            }
+                        } else {
+                            // nothing was entered - don't update
+                        }
+                    },
+                    Err(e) =>{
+                        error!("{}", e);
+                    }
+                }
+            },
+            Err(e) =>{
+                error!("{}", e);
+            }
+        }
+    }
+    pub fn delete_category_cat() {
+        let cat = Category::new();
+        match cat.read_all_categories() {
+            Ok(cats) =>{
+                match Category::display_cats_cat(cats) {
+                    Ok(chosen_cat) =>{
+                        match chosen_cat.delete_existing() {
+                            Ok(_) => {
+                                info!("{} deleted", chosen_cat.name);
+                            },
+                            Err(_) => {
+                                error!("{} could not be deleted", chosen_cat.name);
+                                error_message("Could not delete the Category.");
+                            }
+                        }
+                    },
+                    Err(e) =>{
+                        error!("{}", e);
+                    }
+                }
+            },
+            Err(e) =>{
+                error!("{}", e);
+            }
+        }
+    }
+    fn display_cats_cat(cats: Vec<Category>) -> Result<Category, Error> {
+        let cats_len = cats.len(); 
+        loop {      
+            println!("\x1B[2J\x1B[1;1H");
+            for (i, ct) in cats.iter().enumerate() {
+                println!("{}. {}",(i+1),ct.name);
+            }
+            let mut line = String::new();
+            print!("Choose number or press enter for all: ");
+            io::stdout().flush().unwrap();
+            std::io::stdin().read_line(&mut line).unwrap();
+            match line.trim().parse::<usize>() {
+                Ok(val) => {
+                    if val <= cats_len  && val > 0 {
+                        return Ok(cats[val -1].clone())
+                    }
+                }
+                Err(_) => {
+                    match line.trim() {
+                        "" => return Err(Error::InvalidColumnName("".to_string())),
+                        // "" => return Ok("".to_string()),
+                        "q" => return Err(Error::InvalidColumnName("".to_string())),
+                        _err => return  Err(Error::InvalidColumnName("".to_string()))
+                        // _err => {}
+                    }
+                }
+            }
+        }
+    }
 }
+
+
 
 impl Clone for Category {
     fn clone(&self) -> Category {

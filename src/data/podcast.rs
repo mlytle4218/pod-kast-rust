@@ -12,6 +12,10 @@ use rss::Channel;
 
 use crate::data::episode::Episode;
 
+use super::super::utilities::utilities::{enter_info_util, error_message};
+use rustyline::error::ReadlineError;
+
+use super::super::menu::screen::Screen;
 
 
 #[derive(Debug)]
@@ -111,7 +115,7 @@ impl Podcast {
         )?;
         Ok(result)
     }
-    pub fn read_all_podcasts2(&self, cat: Option<String>) ->Result<Vec<Podcast>, Error>  {
+    pub fn read_all_podcasts2(cat: Option<String>) ->Result<Vec<Podcast>, Error>  {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
         let mut results: Vec<Podcast> = Vec::new();
@@ -151,6 +155,177 @@ impl Podcast {
             },
             Err(e) => return Err(e)
         };
+    }
+    pub fn create_podcast_pod() {
+        println!("\x1B[2J\x1B[1;1H");
+        match Podcast::edit_podcast_details_pod(Podcast::new()) {
+            Ok(mut podcast) =>{
+                match podcast.save_existing() {
+                    Ok(_) =>{
+                        info!("Podcast {} created", podcast.name);
+                    },
+                    Err(e) =>{
+                        error!("{}", e)
+                    }
+                }
+            },
+            Err(e) =>{
+                error!("{}", e)
+            }
+        }
+    }
+    fn edit_podcast_details_pod(mut pod: Podcast) -> Result<Podcast, ReadlineError> {
+        match enter_info_util("Podcast name: ", &pod.name) {
+            Ok(name) => {
+                pod.name = name;
+                info!("New Podcast name: {}", pod.name);
+                match enter_info_util("Podcast URL: ", &pod.url) {
+                    Ok(url) => {
+                        pod.url = url;
+                        info!("New Podcast URL: {}", pod.url);
+                        match enter_info_util("Default Audio Save location : ", &pod.audio) {
+                            Ok(audio) =>{
+                                pod.audio = audio;
+                                info!("New Podcast default audio location: {}", pod.audio);
+                                match enter_info_util("Default Audio Save location : ", &pod.video) {
+                                    Ok(video) => {
+                                        pod.video = video;
+                                        info!("New Podcast default audio location: {}", pod.video);
+                                        return Ok(pod)
+                                    }, Err(e) =>{
+                                        error!("create_podcast-video: {}", e);
+                                        return Err(e)
+                                    }
+                                }
+                            }, Err(e) =>{
+                                error!("create_podcast-audio: {}", e);
+                                return Err(e)
+                            }
+                        }
+                    },
+                    Err(e) =>{
+                        error!("create_podcast-url: {}", e);
+                        return Err(e)
+                    }
+                }
+            },
+            Err(e) => {
+                error!("create_podcast-name: {}", e);
+                return Err(e)
+            }
+        }
+    
+    }
+    pub fn edit_podcast_pod() {
+        println!("\x1B[2J\x1B[1;1H");
+        match Podcast::read_all_podcasts2(None) {
+            Ok(res) =>{
+                match Self::display_pods_single_result_pod(&res) {   
+                    Ok(chosen) =>{
+                        match Podcast::edit_podcast_details_pod(res[(chosen as usize)-1].clone()) {
+                            Ok(mut podcast) =>{
+                                match podcast.update_existing() {
+                                    Ok(_) => {
+                                        info!("{} updated", podcast.name)
+                                    },
+                                    Err(e) =>{
+                                        error!("{}", e);
+                                    }
+                                }
+                            },
+                            Err(e) =>{
+                                error!("{}", e);
+                                error_message("Coudl not save Podcast details");
+                            }
+                        }
+                    },
+                    Err(e) => {
+                        error!("{}",e);
+                    }
+                }
+            },
+            Err(e) => {
+                error!("{}",e);
+            }
+        }
+    
+    }
+    fn display_pods_single_result_pod(pods: &Vec<Podcast>) -> Result<u16, Error> {
+        let screen = Screen::new();
+        let pods_len = pods.len(); 
+        // let mut results: u16;
+        if pods.len() == 0 {
+            error_message(format!("No Podcasts to display.").as_str());
+            return Err(Error::InvalidColumnName("".to_string()))
+        }
+        let display_size: u16 = screen.row_size -1;
+        let mut pages: u16 = 0;
+        let mut page_iter = 0;
+        let mut row_iter; // = 0;
+        if (pods_len as u16).rem_euclid(display_size) > 0 {
+            pages += 1;
+            pages += (pods_len as u16)/(display_size);
+        }
+        
+        loop {
+            println!("\x1B[2J\x1B[1;1H");
+            info!("Display pods");
+            let start = page_iter*display_size;
+            let end; // = 0;
+    
+            if ((page_iter+1)*display_size)-1 < (pods_len as u16) - 1 {
+                end = ((page_iter+1)*display_size)-1;
+            } else {
+                end = (pods_len as u16) - 1;
+            }
+    
+            row_iter = start;
+            while row_iter <= end {
+                println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+                row_iter += 1;
+            }
+            let mut line = String::new();
+            print!("Choice: ");
+            io::stdout().flush().unwrap();
+            match std::io::stdin().read_line(&mut line) {
+                Ok(_) =>{
+                    match line.trim_end_matches('\n') {
+                        "q" => return Err(Error::InvalidColumnName("".to_string())),
+                        "n" => {
+                            if page_iter < (pages -1) {
+                                page_iter += 1;
+                            } else {
+                                // do nothing bitches
+                            }
+                            continue
+                        },
+                        "p" => {
+                            if page_iter > 0 {
+                                page_iter -= 1;
+                            } else {
+                                // do nothing bitches
+                            }
+                            continue
+                        },
+                        _ => {
+                            info!("display_pods not q, n, or p");
+                            match line.trim_end_matches('\n').parse::<u16>() {
+                                Ok(val) => {
+                                    return Ok(val)
+                                },
+                                Err(_) => {
+                                    error_message(format!("{} is not a valid number.", line.trim()).as_str())
+                                }
+                            }
+                        }
+                    }
+                },
+                Err(e) =>{
+                    error!("{}",e);
+                }
+            }
+    
+        }
     }
     #[tokio::main]
     pub async fn retreive_episodes(&self) -> Result<Vec<Episode>, Box<dyn std::error::Error>> {
