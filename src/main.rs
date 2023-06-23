@@ -25,7 +25,7 @@ mod utilities {
     pub mod utilities;
 }
 
-use utilities::utilities::util_quit;
+use utilities::utilities::{util_quit, has_flag};
 
 use data::category::Category;
 use data::podcast::Podcast;
@@ -129,5 +129,20 @@ fn main() {
 
     let _config = config::config::Config::new();
     let simple_menu = SimpleMenu::new(Screen::new(), entries);
-    simple_menu.show();
+    
+    match has_flag() {
+        Some(flag) =>{
+            match flag.as_str() {
+                "update" => Episode::download_episodes_for_all_podcasts(),
+                "download" => Episode::start_downloads_epi(),
+                "help" => println!("help flag"),
+                _ =>  { simple_menu.show(); }
+            }
+        },
+        None =>{
+            simple_menu.show();
+        }
+    }
 }
+
+

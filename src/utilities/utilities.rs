@@ -3,6 +3,7 @@ use rustyline::{DefaultEditor};
 use rustyline::error::ReadlineError;
 use std::io::{self, Write};
 use std::process;
+use std::env;
 
 pub fn enter_info_util(message: &str, default: &str) -> Result<String, ReadlineError> {
     match DefaultEditor::new() {
@@ -36,7 +37,6 @@ pub fn enter_info_util(message: &str, default: &str) -> Result<String, ReadlineE
         }
     }
 }
-
 pub fn error_message(message: &str) {
     println!("\x1B[2J\x1B[1;1H");
     error!("{}", message);
@@ -58,4 +58,18 @@ pub fn enter_search_terms() -> std::string::String {
 pub fn util_quit() {
     info!("quitting");
     process::exit(1);
+}
+pub fn has_flag() -> Option<String>  {
+    let args: Vec<String> = env::args().collect();
+    match args.len() {
+        2 => {
+            match args[1].as_str() {
+                "-u" | "--update" => return Some("update".to_string()),
+                "-d" | "--download" => return Some("download".to_string()),
+                "-h" | "--help" => return Some("help".to_string()),
+                _ => return None
+            }
+        },
+        _ => return None
+    }
 }
