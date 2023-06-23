@@ -111,7 +111,7 @@ fn main() {
     entries.push(MenuEntry {
         description: String::from("update all podcasts"),
         reference: (entries.len() + 1).to_string(),
-        f: Episode::download_episodes_for_all_podcasts
+        f: Episode::download_episodes_for_all_podcasts,
         show: true
     });
     entries.push(MenuEntry {

@@ -3,7 +3,7 @@ use std::fs;
 use whoami;
 use toml;
 
-use log::error;
+use log::{info,error};
 
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -24,60 +24,70 @@ pub struct Category {
     pub name: String,
 }
 impl Config {
-
     pub fn new() -> Config {
         let db = Database {
             sqlite_file: String::from("pod-kast.db")
         };
-        let mut con = Config {
+        let con = Config {
             asset_location: format!("/home/{}/.pod-kast/", whoami::username()),
             config_file: String::from("pod-kast-config"),
             database: db,
             def_audio_loc: format!("/home/{}/audio/", whoami::username()),
             def_video_loc: format!("/home/{}/video/", whoami::username())
         };
-        if con.config_exists() {
-            con = con.load_config();
-        } else {
-            match fs::create_dir_all(&con.asset_location){
-                Ok(_)  =>{Config::save_config(&con).unwrap();},
-                Err(_) => {}
-            }            
-        };
+        match con.load_config() {
+            Ok(result) =>{
+                return result
+            },
+            Err(_) =>{
+                match fs::create_dir_all(&con.asset_location){
+                    Ok(_)  =>{
+                        // Config::save_config(&con).unwrap();
+                        match Config::save_config(&con) {
+                            Ok(_) =>{
+                                info!("{} saved", con.config_file);
+                            },
+                            Err(e) => {error!("load_config error: {}",e);}
+                        }
+                    },
+                    Err(e) => {error!("load_config error: {}",e);}
+                }
+            }
+        }
         con
     }
-    fn config_exists(&self) -> bool {
-        // let user: String = whoami::username();
-        let res = format!("{}/{}", self.asset_location, self.config_file);
-        fs::metadata(res).is_ok()
-    }
-    pub fn save_config(&self) -> std::io::Result<()> {
+    fn save_config(&self) -> Result<(), Box<dyn std::error::Error>> {
         let res = format!("{}/{}", self.asset_location, self.config_file);
         match toml::to_string(self) {
             Ok(toml) => {
                 match fs::write(res, toml) {
-                    Ok(()) => {
+                    Ok(_) => {
                         return Ok(())
                     }, Err(e) =>{
-                        error!("save_config-fs:write: {}",e)
+                        error!("save_config-fs:write: {}",e);
+                        return Err(Box::new(e))
                     }
                 }
 
             }, Err(e) => {
                 error!("save_config-toml::to_string: {}", e);
+                return Err(Box::new(e))
             }
         }
-        // let toml = toml::to_string(self).unwrap();
-        // let res = format!("{}/{}", self.asset_location, self.config_file);
-        // fs::write(res, toml)?;
-        Ok(())
     }
-
-
-    fn load_config(&self) -> Config {
+    fn load_config(&self) -> Result<Config, Box<dyn std::error::Error> > {
         let res = format!("{}/{}", self.asset_location, self.config_file);
-        let data = fs::read_to_string(res).unwrap();
-        let config: Config = toml::from_str(&data).unwrap();
-        config
+        match fs::read_to_string(res) {
+            Ok(data) =>{
+                match toml::from_str(&data) {
+                    Ok(config) =>{
+                        return Ok(config)
+                    },
+                    Err(e) => return Err(Box::new(e))
+                }
+
+            },
+            Err(e) => return Err(Box::new(e))
+        }
     }
 }
