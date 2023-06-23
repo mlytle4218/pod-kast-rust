@@ -642,11 +642,21 @@ impl Episode {
             }
         }
     }
-    pub fn download_episodes_for_all_podcasts() {
+    pub fn command_line_episode_download() {
+        Episode::download_helper(None);
+    }
+    fn download_helper(flag: Option<usize>) {
         match Podcast::read_all_podcasts2(None) {
             Ok(pods)=>{
                 for pod in pods {
-                    println!("Checking episodes for {}", pod.name);
+                    match flag {
+                        Some(_) =>{
+                            println!("Checking episodes for {}", pod.name);
+                        },
+                        None => {
+                            info!("Checking episodes for {}", pod.name);
+                        }
+                    }
                     match  pod.retreive_episodes() {
                         Ok(episodes) =>{
                             for mut episode in episodes {
@@ -671,6 +681,10 @@ impl Episode {
                 error!("{}", e)
             }
         }
+
+    }
+    pub fn download_episodes_for_all_podcasts() {
+        Episode::download_helper(Some(1));
     }
 }
 

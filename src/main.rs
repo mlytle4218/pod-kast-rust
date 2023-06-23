@@ -133,7 +133,7 @@ fn main() {
     match has_flag() {
         Some(flag) =>{
             match flag.as_str() {
-                "update" => Episode::download_episodes_for_all_podcasts(),
+                "update" => Episode::command_line_episode_download(),
                 "download" => Episode::start_downloads_epi(),
                 "help" => println!("help flag"),
                 _ =>  { simple_menu.show(); }
