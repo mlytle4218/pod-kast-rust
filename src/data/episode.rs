@@ -532,7 +532,7 @@ impl Episode {
     
         }
     }
-    pub fn start_downloads_epi() {
+    fn download_helper(print: Option<usize>) {
         match Episode::read_all_in_download_queue() {
             Ok(episodes) => {
                 for episode in episodes {
@@ -552,7 +552,7 @@ impl Episode {
                                 .unwrap();
     
                             
-                            rt.block_on(async { match Episode::download_file_epi(&client, &episode.url, &filename).await {
+                            rt.block_on(async { match Episode::download_file_epi(&client, &episode.url, &filename, print).await {
                                 Ok(_) =>{
                                     match episode.mark_downloaded() {
                                         Ok(_) => {
@@ -579,7 +579,14 @@ impl Episode {
             }
         }
     }
-    async fn download_file_epi(client: &Client, url: &str, path: &str) -> Result<(), String> {
+    pub fn start_downloads_epi() {
+        Episode::download_helper(Some(1));
+    }
+    pub fn command_line_start_downloads(){
+        Episode::download_helper(None);
+    }
+    async fn download_file_epi(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), String> {
+        println!("{:?}", print);
         // Reqwest setup
         let res = client
             .get(url)
@@ -601,7 +608,6 @@ impl Episode {
         let mut downloaded: u64 = 0;
         let mut stream = res.bytes_stream();
 
-        // pb.with_message(&format!("Downloading {}", url));
     
         while let Some(item) = stream.next().await {
             let chunk = item.or(Err(format!("Error while downloading file")))?;
@@ -609,11 +615,14 @@ impl Episode {
                 .or(Err(format!("Error while writing to file")))?;
             let new = min(downloaded + (chunk.len() as u64), total_size);
             downloaded = new;
-            pb.set_position(new);
+            match print {
+                Some(_) => { pb.set_position(new);},
+                None => {}
+            }
+           
         }
     
         pb.finish_with_message(&format!("Downloaded {}", url));
-        // pb.finish_with_message(&format!("Downloaded {} to {}", url, path));
         return Ok(());
     }
     pub fn delete_episodes_from_download_queue() {
@@ -644,44 +653,6 @@ impl Episode {
     }
     pub fn command_line_episode_download() {
         Episode::download_helper(None);
-    }
-    fn download_helper(flag: Option<usize>) {
-        match Podcast::read_all_podcasts2(None) {
-            Ok(pods)=>{
-                for pod in pods {
-                    match flag {
-                        Some(_) =>{
-                            println!("Checking episodes for {}", pod.name);
-                        },
-                        None => {
-                            info!("Checking episodes for {}", pod.name);
-                        }
-                    }
-                    match  pod.retreive_episodes() {
-                        Ok(episodes) =>{
-                            for mut episode in episodes {
-                                info!("Episode {} ", episode.title);
-                                match episode.save_existing() {
-                                    Ok(_res) => {
-                                        info!("Episode {} added", episode.title);
-                                    },
-                                    Err(e) =>{
-                                        error!("{}", e);
-                                    }
-                                }
-                            }
-                        },
-                        Err(e) => {
-                            error!("{}",e)
-                        }
-                    }
-                }
-            },
-            Err(e) =>{
-                error!("{}", e)
-            }
-        }
-
     }
     pub fn download_episodes_for_all_podcasts() {
         Episode::download_helper(Some(1));

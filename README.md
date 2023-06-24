@@ -47,7 +47,7 @@ Options
 
 :   Downloads all podcast episodes currently in the download queue
 
--h, --help
+-h, --help *********not working yet
 
 :   Prints help file.
 

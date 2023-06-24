@@ -134,7 +134,7 @@ fn main() {
         Some(flag) =>{
             match flag.as_str() {
                 "update" => Episode::command_line_episode_download(),
-                "download" => Episode::start_downloads_epi(),
+                "download" => Episode::command_line_start_downloads(),
                 "help" => println!("help flag"),
                 _ =>  { simple_menu.show(); }
             }
