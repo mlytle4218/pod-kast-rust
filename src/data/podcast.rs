@@ -50,7 +50,7 @@ impl Podcast {
                 println!("\x1B[2J\x1B[1;1H");
                 println!("Set Category for {}", self.name);
                 for (i, ct) in cats.iter().enumerate() {
-                    println!("{}. {}",(i+1),ct.name);
+                    println!("number {}. {}",(i+1),ct.name);
                 }
                 
                 info!("update new podcast category id");
@@ -282,7 +282,7 @@ impl Podcast {
     
             row_iter = start;
             while row_iter <= end {
-                println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+                println!("number {}. {}", (row_iter + 1), pods[row_iter as usize].name);
                 row_iter += 1;
             }
             let mut line = String::new();
@@ -385,7 +385,7 @@ impl Podcast {
     
             row_iter = start;
             while row_iter <= end {
-                println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+                println!("number {}. {}", (row_iter + 1), pods[row_iter as usize].name);
                 row_iter += 1;
             }
             let mut line = String::new();
@@ -531,7 +531,7 @@ impl Podcast {
             while row_iter <= end {
                 match epi_temp.count_episodes_archive(pods[row_iter as usize].id) {
                     Ok(count) => {
-                        println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, count);
+                        println!("number {}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, count);
                         row_iter += 1;
                     },
                     Err(e) => {

@@ -293,16 +293,16 @@ impl Episode {
                         // let cnt: usize = Episode::new().count_episodes(pods[row_iter as usize].id);
                         match Episode::new().count_episodes(pods[row_iter as usize].id) {
                             Ok(cnt) =>{
-                                println!("{}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, cnt);
+                                println!("number {}. {} - {}", (row_iter + 1), pods[row_iter as usize].name, cnt);
                             },
                             Err(_) =>{
-                                println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+                                println!("number {}. {}", (row_iter + 1), pods[row_iter as usize].name);
                             }
                         }
                        
                     },
                     None =>{
-                        println!("{}. {}", (row_iter + 1), pods[row_iter as usize].name);
+                        println!("number {}. {}", (row_iter + 1), pods[row_iter as usize].name);
     
                     }
                 }
@@ -444,7 +444,7 @@ impl Episode {
             while row_iter <= end {
                 match epis[row_iter as usize].mark_viewed() {
                     Ok(_) =>{
-                        println!("{}. {}", (row_iter + 1), epis[row_iter as usize].title);
+                        println!("number {}. {}", (row_iter + 1), epis[row_iter as usize].title);
                         row_iter += 1;
                     },
                     Err(e) => {
