@@ -208,7 +208,7 @@ impl Category {
         loop {      
             println!("\x1B[2J\x1B[1;1H");
             for (i, ct) in cats.iter().enumerate() {
-                println!("{}. {}",(i+1),ct.name);
+                println!("number {}. {}",(i+1),ct.name);
             }
             let mut line = String::new();
             print!("Choose number or press enter for all: ");
