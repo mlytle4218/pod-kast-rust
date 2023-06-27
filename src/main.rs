@@ -35,14 +35,14 @@ use menu::menu_entry::MenuEntry;
 use menu::screen::Screen;
 use menu::simple_menu::SimpleMenu;
 
-use log::info;
+use log::{info, LevelFilter};
 
 fn main() {
-    // systemd_journal_logger::init().unwrap();
-    // log::set_max_level(LevelFilter::Info);
-    
-    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
-    info!("logging started");
+    let _config = config::config::Config::new();
+    systemd_journal_logger::init().unwrap();
+    log::set_max_level(LevelFilter::Info);
+    // log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    // info!("logging started");
 
     
     let mut entries: Vec<MenuEntry> = Vec::new();
@@ -127,7 +127,6 @@ fn main() {
         show: false
     });
 
-    let _config = config::config::Config::new();
     let simple_menu = SimpleMenu::new(Screen::new(), entries);
     
     match has_flag() {
