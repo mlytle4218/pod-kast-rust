@@ -39,10 +39,10 @@ use log::{info, LevelFilter};
 
 fn main() {
     let _config = config::config::Config::new();
-    systemd_journal_logger::init().unwrap();
-    log::set_max_level(LevelFilter::Info);
-    // log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
-    // info!("logging started");
+    // systemd_journal_logger::init().unwrap();
+    // log::set_max_level(LevelFilter::Info);
+    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    info!("logging started");
 
     
     let mut entries: Vec<MenuEntry> = Vec::new();
@@ -111,7 +111,7 @@ fn main() {
     entries.push(MenuEntry {
         description: String::from("update all podcasts"),
         reference: (entries.len() + 1).to_string(),
-        f: Episode::download_episodes_for_all_podcasts,
+        f: Episode::update_episodes_for_all_podcasts,
         show: true
     });
     entries.push(MenuEntry {
@@ -132,7 +132,7 @@ fn main() {
     match has_flag() {
         Some(flag) =>{
             match flag.as_str() {
-                "update" => Episode::command_line_episode_download(),
+                "update" => Episode::command_line_update_episodes(),
                 "download" => Episode::command_line_start_downloads(),
                 "help" => println!("help flag"),
                 _ =>  { simple_menu.show(); }

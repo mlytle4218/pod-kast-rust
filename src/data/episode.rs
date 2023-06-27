@@ -651,12 +651,68 @@ impl Episode {
             }
         }
     }
-    pub fn command_line_episode_download() {
-        Episode::download_helper(None);
+    pub fn command_line_update_episodes() {
+        match Podcast::read_all_podcasts2(None) {
+            Ok(pods)=>{
+                for pod in pods {
+                    // println!("Checking episodes for {}", pod.name);
+                    match  pod.retreive_episodes() {
+                        Ok(episodes) =>{
+                            for mut episode in episodes {
+                                info!("Episode {} ", episode.title);
+                                match episode.save_existing() {
+                                    Ok(_res) => {
+                                        info!("Episode {} added", episode.title);
+                                    },
+                                    Err(e) =>{
+                                        error!("{}", e);
+                                    }
+                                }
+                            }
+                        },
+                        Err(e) => {
+                            error!("{}",e)
+                        }
+                    }
+                }
+            },
+            Err(e) =>{
+                error!("{}", e)
+            }
+        }
     }
-    pub fn download_episodes_for_all_podcasts() {
-        Episode::download_helper(Some(1));
+    pub fn update_episodes_for_all_podcasts() {
+        match Podcast::read_all_podcasts2(None) {
+            Ok(pods)=>{
+                for pod in pods {
+                    println!("Checking episodes for {}", pod.name);
+                    match  pod.retreive_episodes() {
+                        Ok(episodes) =>{
+                            for mut episode in episodes {
+                                info!("Episode {} ", episode.title);
+                                match episode.save_existing() {
+                                    Ok(_res) => {
+                                        info!("Episode {} added", episode.title);
+                                    },
+                                    Err(e) =>{
+                                        error!("{}", e);
+                                    }
+                                }
+                            }
+                        },
+                        Err(e) => {
+                            error!("{}",e)
+                        }
+                    }
+                }
+            },
+            Err(e) =>{
+                error!("{}", e)
+            }
+        }
     }
+
+
 }
 
 
