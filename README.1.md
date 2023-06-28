@@ -18,7 +18,7 @@ Welcome to Pod-kast 0.8.0 written by Marc Lytle and conceived by myself, Chime H
 
 Over many years almost all podcast klients seemed to be lacking an interface which made sense, as well as features I was hoping for. The only one I understood was hpodder, but it is no-longer available. In Pod-kast, since I am totally blind and listen with Speakup, a Linux screen-reader, we took great care to make all functions really obvious by having numbered menus-and-yes having the word "number" before each digit removing any ambiguity.
 
-Here are some conventions for operating the porogram. Presssing 'q' and pressing enter will quit any menu. If the number of results to be listed exceeds more than one screen, press 'n' and enter for the next page. Press 'p' and enter to move back pages. When listing episodes for download or removal from the download queue, multiple episdoes can be chosen. To choose episodes 1 through 5, episode 9, and episode 13 through 16, you can enter 1-5,9,13-16 and press enter and they will all be processed. Press 'q' and hit enter to process the request.
+Here are some conventions for operating the program. Presssing 'q' and pressing enter will quit any menu. If the number of results to be listed exceeds more than one screen, press 'n' and enter for the next page. Press 'p' and enter to move back pages. When listing episodes for download or removal from the download queue, multiple episdoes can be chosen. To choose episodes 1 through 5, episode 9, and episode 13 through 16, you can enter 1-5,9,13-16 and press enter and they will all be processed. Press 'q' and hit enter to process the request.
 
 Just before we begin downloading our favorite podcasts, let's go over in detail each of our menu options. 
 
@@ -58,14 +58,22 @@ FILES
 
 :   Program configuration file.
 
-*/.pod-kast/pod-kast.db*
+*~/.pod-kast/pod-kast.db*
 
 :   Sqlite database file.
+
+*~/.pod-kast/logs/pod-kast.log*
+
+:   Log files if not configured for syslog
 
 BUGS
 ====
 
-See GitHub Issues: <https://github.com/[owner]/[repo]/issues>
+See GitHub Issues: <https://github.com/mlytle4218/pod-kast-rust/issues>
+
+For technical questions email the author. 
+
+For operational questions email chime @ <chime@huber-humphrey.com>
 
 AUTHOR
 ======
