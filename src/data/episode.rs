@@ -597,46 +597,37 @@ impl Episode {
     pub fn command_line_start_downloads(){
         Episode::download_helper(None);
     }
-    async fn download_file_epi2(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), Box<dyn std::error::Error>> {
-        let mut downloaded: u64 = 0;
-        match File::create(path) {
-            Ok(file) =>{
-                match client.get(url).send().await {
-                    Ok(res) =>{
-                        match res.content_length() {
-                            Some(total_size) =>{
-                                let mut stream = res.bytes_stream();
-                                return Ok(())
-                            },
-                            None =>{
-                                error!("no content length found");
-                                return Err("no content length found".into())
-                            }
-                        }
-                    },
-                    Err(e) =>{
-                        error!("{}", e);
-                        return Err(Box::new(e))
-                    }
-                }
+    // async fn download_file_epi2(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), Box<dyn std::error::Error>> {
+    //     let mut downloaded: u64 = 0;
+    //     match File::create(path) {
+    //         Ok(file) =>{
+    //             match client.get(url).send().await {
+    //                 Ok(res) =>{
+    //                     match res.content_length() {
+    //                         Some(total_size) =>{
+    //                             let mut stream = res.bytes_stream();
+    //                             return Ok(())
+    //                         },
+    //                         None =>{
+    //                             error!("no content length found");
+    //                             return Err("no content length found".into())
+    //                         }
+    //                     }
+    //                 },
+    //                 Err(e) =>{
+    //                     error!("{}", e);
+    //                     return Err(Box::new(e))
+    //                 }
+    //             }
 
-            },
-            Err(e) =>{
-                error!("{}", e);
-                return Err(Box::new(e))
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-    }
+    //         },
+    //         Err(e) =>{
+    //             error!("{}", e);
+    //             return Err(Box::new(e))
+    //         }
+    //     }
+    // }
+    
     async fn download_file_epi(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), String> {
         // Reqwest setup
         let res = client
