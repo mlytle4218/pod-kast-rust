@@ -1,11 +1,6 @@
-// extern crate byte_unit;
-
 use byte_unit;
 
 use log::LevelFilter;
-// use log::SetLoggerError;
-
-// use log4rs::append::console::ConsoleAppender;
 use log4rs::append::rolling_file::policy::compound::CompoundPolicy;
 use log4rs::append::rolling_file::policy::compound::{
     roll::fixed_window::FixedWindowRoller, trigger::size::SizeTrigger,
@@ -17,7 +12,6 @@ use log4rs::encode::pattern::PatternEncoder;
 use log4rs::filter::threshold::ThresholdFilter;
 
 use log4rs::config::{Appender, Root};
-// use log4rs::config::{Appender, Logger, Root};
 use log4rs::Config;
 use log4rs::Handle;
 
@@ -26,8 +20,7 @@ use core::fmt::Error;
 
 use whoami;
 
-// pub fn init()  {
-    pub fn init() -> Result<Handle, Box<dyn std::error::Error>> {
+pub fn init() -> Result<Handle, Box<dyn std::error::Error>> {
     let log_line_pattern = "{d(%Y-%m-%d %H:%M:%S)} | {({l}):5.5} | {f}:{L} — {m}{n}";
 
     let trigger_size = byte_unit::n_mb_bytes!(30) as u64;
