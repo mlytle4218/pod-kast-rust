@@ -3,7 +3,7 @@ name = "pod-kast"
 version = "0.8.0"
 edition = "2021"
 description = "This is an intended to be a podcast retrieval program specifically written for blind users that entirely rely on a command line screen reader and interface."
-license = ""
+license = "GPLv3.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

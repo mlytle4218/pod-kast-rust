@@ -6,24 +6,51 @@ use super::super::config::config::Config;
 use log::info;
 
 #[derive(Deserialize)]
+/// holder to bundle up all the podcast results
 pub struct ItuneResult {
+	/// a vector fo PodcastResults
 	results: Vec<PodcastResult>,
 }
 #[derive(Deserialize)]
 #[allow(non_snake_case)]
+// the neede information from the apple search - used to convert to objects
 struct PodcastResult {
+	/// name of the podcase
 	collectionName: String,
+	/// the rss feed fo the podcast
 	feedUrl: String,
+	/// a distinct number represening the podcast
 	collectionId: i32
 }
 
+/// represents searching with Apple rest API
 pub struct AppleSearch {
+	/// the url that will be the same for every Apple API call
 	base_url: String,
+	/// the terms that the user will be searching  - when it gets here is a a 
+	/// list of terms separated by a space
 	terms: String,
+	/// limit the number of responses back from Apple search
 	limit: u8,
 }
 
 impl AppleSearch {
+	/// Returns an ApplseSearch object.
+    ///
+    /// # Arguments
+    ///
+    /// * `base_url` - A string that holds apples search url before the terms
+    /// * `terms` - A string that holds the search terms
+    /// * `lmit` - An unsigned number that is the upper limit of responses
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// // You can have rust code between fences inside the comments
+    /// // If you pass --test to `rustdoc`, it will even test it for you!
+    /// use doc::Person;
+    /// let person = Person::new("name");
+    /// ```
 	pub fn new(base_url: String, terms: String, limit: u8) -> AppleSearch {
 		let re = Regex::new(r"\s+").unwrap();
 		let terms_prepped = String::from(re.replace_all(&terms[..], "+"));
