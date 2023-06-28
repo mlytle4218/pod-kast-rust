@@ -8,44 +8,76 @@ use log::{info,error};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Config {
-    pub asset_location: String,
-    config_file: String,
-    pub def_audio_loc: String,
-    pub def_video_loc: String,
-    pub database: Database
+    pub database: Database,
+    pub pi: PathInfo,
+    pub log_info: LogInfo
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Database {
     pub sqlite_file: String
 }
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Category {
-    pub id: i32,
-    pub name: String,
+pub struct LogInfo {
+    pub logging_file_path: String,
+    pub logging_type: String
+}
+impl Clone for LogInfo {
+    fn clone(&self) ->  LogInfo {
+        LogInfo {
+            logging_file_path: self.logging_file_path.clone(),
+            logging_type: self.logging_type.clone()
+        }
+    }
+}
+#[derive(Serialize, Deserialize, Debug)]
+pub struct PathInfo {
+    pub asset_location: String,
+    pub config_file: String,
+    pub def_audio_loc: String,
+    pub def_video_loc: String,
+}
+impl Clone for PathInfo {
+    fn clone(&self) -> PathInfo {
+        PathInfo {
+            asset_location: self.asset_location.clone(),
+            config_file: self.config_file.clone(),
+            def_audio_loc: self.def_audio_loc.clone(),
+            def_video_loc: self.def_video_loc.clone(),
+        }
+    }
 }
 impl Config {
     pub fn new() -> Config {
         let db = Database {
             sqlite_file: String::from("pod-kast.db")
         };
-        let con = Config {
+        let p_i = PathInfo {
             asset_location: format!("/home/{}/.pod-kast/", whoami::username()),
             config_file: String::from("pod-kast-config"),
-            database: db,
             def_audio_loc: format!("/home/{}/audio/", whoami::username()),
-            def_video_loc: format!("/home/{}/video/", whoami::username())
+            def_video_loc: format!("/home/{}/video/", whoami::username()),
+        };
+        let l_i = LogInfo {
+            logging_file_path: format!("/home/{}/logging_config.yaml", whoami::username()),
+            logging_type: format!("syslog")
+        };
+        let con = Config {
+            database: db,
+            pi: p_i,
+            log_info: l_i
+
         };
         match con.load_config() {
             Ok(result) =>{
                 return result
             },
             Err(_) =>{
-                match fs::create_dir_all(&con.asset_location){
+                match fs::create_dir_all(&con.pi.asset_location){
                     Ok(_)  =>{
                         // Config::save_config(&con).unwrap();
                         match Config::save_config(&con) {
                             Ok(_) =>{
-                                info!("{} saved", con.config_file);
+                                info!("{} saved", con.pi.config_file);
                             },
                             Err(e) => {error!("load_config error: {}",e);}
                         }
@@ -57,7 +89,7 @@ impl Config {
         con
     }
     fn save_config(&self) -> Result<(), Box<dyn std::error::Error>> {
-        let res = format!("{}/{}", self.asset_location, self.config_file);
+        let res = format!("{}/{}", self.pi.asset_location, self.pi.config_file);
         match toml::to_string(self) {
             Ok(toml) => {
                 match fs::write(res, toml) {
@@ -76,7 +108,7 @@ impl Config {
         }
     }
     fn load_config(&self) -> Result<Config, Box<dyn std::error::Error> > {
-        let res = format!("{}/{}", self.asset_location, self.config_file);
+        let res = format!("{}/{}", self.pi.asset_location, self.pi.config_file);
         match fs::read_to_string(res) {
             Ok(data) =>{
                 match toml::from_str(&data) {

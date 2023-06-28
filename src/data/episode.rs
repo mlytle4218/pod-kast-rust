@@ -276,7 +276,7 @@ impl Episode {
         
         loop {
             println!("\x1B[2J\x1B[1;1H");
-            info!("Display pods");
+            // info!("Display pods");
             let start = page_iter*display_size;
             let end; // = 0;
     
@@ -332,7 +332,7 @@ impl Episode {
                             continue
                         },
                         _ => {
-                            info!("display_pods not q, n, or p");
+                            // info!("display_pods not q, n, or p");
                             match line.trim_end_matches('\n').parse::<u16>() {
                                 Ok(val) => {
                                     return Ok(pods[(val as usize)-1].clone())
@@ -411,7 +411,7 @@ impl Episode {
         }
     }
     pub fn display_episodes_epi(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
-        info!("{}", epis.len());
+        // info!("{}", epis.len());
         let screen = Screen::new();
         let epis_len = epis.len(); 
         let mut results: Vec<Episode> = Vec::new();
@@ -430,7 +430,7 @@ impl Episode {
         
         loop {
             println!("\x1B[2J\x1B[1;1H");
-            info!("Display epis");
+            // info!("Display epis");
             let start = page_iter*display_size;
             let end; // = 0;
     
@@ -476,11 +476,11 @@ impl Episode {
                             continue
                         },
                         _ => {
-                            info!("display_epis not q, n, or p");
+                            // info!("display_epis not q, n, or p");
                             let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
                             for each in all {
                                 if each.contains("-") {
-                                    info!("has a dash" );
+                                    // info!("has a dash" );
                                     let dash: Vec<&str> = each.split("-").collect();
                                     if dash.len() > 2 {
                                         error_message(format!("{each} is formatted incorrectly").as_str());
@@ -492,7 +492,7 @@ impl Episode {
                                                     Ok(val2) =>{
                                                         if val >= (start + 1) && val2 <= (end + 1) {
                                                             for v in val..=val2 {
-                                                                info!("{}", v);
+                                                                // info!("{}", v);
                                                                 results.push(epis[(v as usize)-1].clone());
                                                             }
                                                         }
@@ -651,11 +651,18 @@ impl Episode {
             }
         }
     }
-    pub fn command_line_update_episodes() {
+    fn update_helper(print: Option<usize>) {
         match Podcast::read_all_podcasts2(None) {
             Ok(pods)=>{
                 for pod in pods {
-                    // println!("Checking episodes for {}", pod.name);
+                    match print {
+                        Some(_) => {
+                            println!("Checking episodes for {}", pod.name);
+                        },
+                        None => {
+                            //do nothing
+                        }
+                    }
                     match  pod.retreive_episodes() {
                         Ok(episodes) =>{
                             for mut episode in episodes {
@@ -680,36 +687,13 @@ impl Episode {
                 error!("{}", e)
             }
         }
+
+    }
+    pub fn command_line_update_episodes() {
+        Episode::update_helper(None);
     }
     pub fn update_episodes_for_all_podcasts() {
-        match Podcast::read_all_podcasts2(None) {
-            Ok(pods)=>{
-                for pod in pods {
-                    println!("Checking episodes for {}", pod.name);
-                    match  pod.retreive_episodes() {
-                        Ok(episodes) =>{
-                            for mut episode in episodes {
-                                info!("Episode {} ", episode.title);
-                                match episode.save_existing() {
-                                    Ok(_res) => {
-                                        info!("Episode {} added", episode.title);
-                                    },
-                                    Err(e) =>{
-                                        error!("{}", e);
-                                    }
-                                }
-                            }
-                        },
-                        Err(e) => {
-                            error!("{}",e)
-                        }
-                    }
-                }
-            },
-            Err(e) =>{
-                error!("{}", e)
-            }
-        }
+        Episode::update_helper(Some(1));
     }
 
 

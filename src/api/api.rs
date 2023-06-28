@@ -56,8 +56,8 @@ impl AppleSearch {
 				id: 0,
 				name: itune_result.collectionName,
 				url: itune_result.feedUrl,
-				audio: config.def_audio_loc.clone(),
-				video: config.def_video_loc.clone(),
+				audio: config.pi.def_audio_loc.clone(),
+				video: config.pi.def_video_loc.clone(),
 				category_id: -1,
 				collection_id: itune_result.collectionId
 			};

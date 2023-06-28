@@ -9,7 +9,7 @@ use super::super::config::config::Config;
 
 impl DB {
     pub fn new(config: Config) -> DB {
-        let url = format!("{}/{}", config.asset_location, config.database.sqlite_file);
+        let url = format!("{}/{}", config.pi.asset_location, config.database.sqlite_file);
         DB {
             sqlite_file_location: url 
         }

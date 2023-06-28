@@ -37,8 +37,8 @@ impl Podcast {
             id: 0,
             name: String::from(""),
             url: String::from(""),
-            audio: config.def_audio_loc.clone(),
-            video: config.def_video_loc.clone(),
+            audio: config.pi.def_audio_loc.clone(),
+            video: config.pi.def_video_loc.clone(),
             category_id: -1,
             collection_id: 1
         }

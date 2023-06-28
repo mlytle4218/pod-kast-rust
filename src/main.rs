@@ -19,6 +19,7 @@ mod data {
 }
 mod config {
     pub mod config;
+    pub mod log_info;
 }
 
 mod utilities {
@@ -35,17 +36,34 @@ use menu::menu_entry::MenuEntry;
 use menu::screen::Screen;
 use menu::simple_menu::SimpleMenu;
 
+use config::config::Config;
+
 use log::{info, LevelFilter};
 
 fn main() {
-    let _config = config::config::Config::new();
-    // systemd_journal_logger::init().unwrap();
-    // log::set_max_level(LevelFilter::Info);
-    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    let config = Config::new();
+    match config.log_info.logging_type.as_str() {
+        "syslog" =>{
+            systemd_journal_logger::init().unwrap();
+            log::set_max_level(LevelFilter::Info);
+        },
+        _ => {
+            match config::log_info::init() {
+                Ok(_) =>{
+                    // nada
+                },
+                Err(e) =>{
+                    println!("{}", e);
+                }
+            }
+
+        }
+    }
     info!("logging started");
 
     
     let mut entries: Vec<MenuEntry> = Vec::new();
+
 
 
     entries.push(MenuEntry {
