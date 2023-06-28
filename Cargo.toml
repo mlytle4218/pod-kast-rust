@@ -39,7 +39,7 @@ maintainer = "Marc Lytle <mlytle@gmail.com>"
 copyright = "2023, 2023 <mlytle@gmail.com>"
 assets = [
     ["target/release/pod-kast", "usr/bin/", "755"],
-    ["README.md", "usr/share/doc/cargo-deb/README", "644"],
+    ["README.1.md", "usr/share/doc/cargo-deb/README", "644"],
     ["pod-kast.1", "usr/local/share/man/man1/", "644"]
 ]
 

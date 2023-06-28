@@ -586,7 +586,7 @@ impl Episode {
         Episode::download_helper(None);
     }
     async fn download_file_epi(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), String> {
-        println!("{:?}", print);
+        // println!("{:?}", print);
         // Reqwest setup
         let res = client
             .get(url)
