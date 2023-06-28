@@ -539,34 +539,46 @@ impl Episode {
                     info!("Attempting to download {}", episode.title);
                     match episode.get_podcast_download_location() {
                         Ok(download) =>{
-                            let path = Path::new(&episode.url);
-                            let mut filename: String = "".to_string(); 
-                            filename.push_str(&download);
-                            let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
-                            filename.push_str(&path_temp);
-    
-                            let client = reqwest::Client::new();
-                            let rt = tokio::runtime::Builder::new_current_thread()
-                                .enable_all()
-                                .build()
-                                .unwrap();
-    
-                            
-                            rt.block_on(async { match Episode::download_file_epi(&client, &episode.url, &filename, print).await {
+                            match std::fs::create_dir_all(download.clone()) {
                                 Ok(_) =>{
-                                    match episode.mark_downloaded() {
-                                        Ok(_) => {
-                                            info!("{} marked as downloaded", episode.title);
+                                    let path = Path::new(&episode.url);
+                                    let mut filename: String = "".to_string(); 
+                                    filename.push_str(&download);
+                                    let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
+                                    filename.push_str(&path_temp);
+            
+                                    let client = reqwest::Client::new();
+                                    let rt = tokio::runtime::Builder::new_current_thread()
+                                        .enable_all()
+                                        .build()
+                                        .unwrap();
+            
+                                    
+                                    rt.block_on(async { match Episode::download_file_epi(&client, &episode.url, &filename, print).await {
+                                        Ok(_) =>{
+                                            match episode.mark_downloaded() {
+                                                Ok(_) => {
+                                                    info!("{} marked as downloaded", episode.title);
+                                                },
+                                                Err(e) => {
+                                                    error!("{}",e);
+                                                }
+                                            }
                                         },
-                                        Err(e) => {
-                                            error!("{}",e);
+                                        Err(e) =>{
+                                            error!("{}",e)
                                         }
-                                    }
+                                    } 
+                                }
+                            )
+                                    
                                 },
-                                Err(e) =>{
+                                Err(e) => {
                                     error!("{}",e)
                                 }
-                            } })
+
+                            }
+
                         },
                         Err(e) => {
                             error!("{}",e)
@@ -585,8 +597,47 @@ impl Episode {
     pub fn command_line_start_downloads(){
         Episode::download_helper(None);
     }
+    async fn download_file_epi2(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), Box<dyn std::error::Error>> {
+        let mut downloaded: u64 = 0;
+        match File::create(path) {
+            Ok(file) =>{
+                match client.get(url).send().await {
+                    Ok(res) =>{
+                        match res.content_length() {
+                            Some(total_size) =>{
+                                let mut stream = res.bytes_stream();
+                                return Ok(())
+                            },
+                            None =>{
+                                error!("no content length found");
+                                return Err("no content length found".into())
+                            }
+                        }
+                    },
+                    Err(e) =>{
+                        error!("{}", e);
+                        return Err(Box::new(e))
+                    }
+                }
+
+            },
+            Err(e) =>{
+                error!("{}", e);
+                return Err(Box::new(e))
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+    }
     async fn download_file_epi(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), String> {
-        // println!("{:?}", print);
         // Reqwest setup
         let res = client
             .get(url)
@@ -602,6 +653,7 @@ impl Episode {
         pb.set_style(ProgressStyle::default_bar()
             .template("{msg}\n{spinner:.green} [{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({bytes_per_sec}, {eta})")
             .progress_chars("#>-"));
+
     
         // download chunks
         let mut file = File::create(path).or(Err(format!("Failed to create file '{}'", path)))?;
