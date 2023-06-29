@@ -17,6 +17,7 @@ use rustyline::error::ReadlineError;
 
 use super::super::menu::screen::Screen;
 use super::super::api::api::AppleSearch;
+use super::super::data;
 
 
 #[derive(Debug)]
@@ -77,18 +78,74 @@ impl Podcast {
         }
 
     }
+    fn choose_download_for_podcast(&mut self) -> Result<usize, Box<dyn std::error::Error>> {
+        match enter_info_util("Audio Download Location: ", self.audio.as_str()) {
+            Ok(mut audio_dnld_loc) =>{
+                match audio_dnld_loc.chars().last() {
+                    Some(result) =>{
+                        match result {
+                            '/' =>{
+                                // nada
+                            },
+                            _ => {
+                                audio_dnld_loc.push('/');
+                            }
+                        }
+                    },
+                    None => {
+                        error!("last char was not found");
+                    }
+                }
+                self.audio = audio_dnld_loc;
+                match enter_info_util("Video Download Location: ", self.video.as_str())  {
+                    Ok(mut video_dnlod_loc) => {
+                        match video_dnlod_loc.chars().last() {
+                            Some(result) =>{
+                                match result {
+                                    '/' =>{
+                                        // nada
+                                    },
+                                    _ => {
+                                        video_dnlod_loc.push('/');
+                                    }
+                                }
+                            },
+                            None => {
+                                error!("last char was not found");
+                            }
+                           
+                        }
+                        self.video = video_dnlod_loc;
+                        return Ok(1)
+                    },
+                    Err(e) => return Err(Box::new(e))
+                }
+
+            },
+            Err(e) => return Err(Box::new(e))
+        }
+    }
     pub fn save_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        info!("self.category_id: {}", self.category_id);
+        // info!("self.category_id: {}", self.category_id);
         if self.category_id == -1 {
-            info!("self.category_id == -1");
+            // info!("self.category_id == -1");
 
             match self.choose_category_for_podcast() {
                 Ok(category) =>{
                     self.category_id = category
                 },
                 Err(e) => return Err(e)
+            }
+            match self.choose_download_for_podcast() {
+                Ok(_) =>{
+                    info!("podcast download options updated");
+                },
+                Err(e) => {
+                    error!("{}",e);
+                    return Err(data::podcast::Error::InvalidQuery)
+                }
             }
         }
         let result: usize = conn.execute(
