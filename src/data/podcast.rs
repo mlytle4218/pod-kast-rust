@@ -128,10 +128,7 @@ impl Podcast {
     pub fn save_existing(&mut self) -> Result<usize, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        // info!("self.category_id: {}", self.category_id);
         if self.category_id == -1 {
-            // info!("self.category_id == -1");
-
             match self.choose_category_for_podcast() {
                 Ok(category) =>{
                     self.category_id = category
@@ -153,6 +150,33 @@ impl Podcast {
             params![self.name, self.url, self.audio, self.video, self.category_id, self.collection_id, 0],
         )?;
         self.id  = conn.last_insert_rowid();
+        
+
+
+
+        match  self.retreive_episodes() {
+            Ok(episodes) =>{
+                println!("downloading episodes for {}.", self.name);
+                for mut episode in episodes {
+                    info!("Episode {} ", episode.title);
+                    match episode.save_existing() {
+                        Ok(_res) => {
+                            info!("Episode {} added", episode.title);
+                        },
+                        Err(e) =>{
+                            error!("{}", e);
+                        }
+                    }
+                }
+            },
+            Err(e) => {
+                error!("{}",e)
+            }
+        }
+
+
+
+
         Ok(result)
     }
     pub fn delete_existing(&mut self) -> Result<(), Error> {
@@ -430,7 +454,7 @@ impl Podcast {
         
         loop {
             println!("\x1B[2J\x1B[1;1H");
-            info!("Display pods");
+            // info!("Display pods");
             let start = page_iter*display_size;
             let end; // = 0;
     
