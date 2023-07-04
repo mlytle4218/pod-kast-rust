@@ -436,6 +436,7 @@ impl Podcast {
         }
     }
     fn display_pods2(pods: &Vec<Podcast>) -> Result<Vec<Podcast>, Error> {
+        let config: Config = Config::new();
         let screen = Screen::new();
         let pods_len = pods.len(); 
         let mut results: Vec<Podcast> = Vec::new();
@@ -493,7 +494,7 @@ impl Podcast {
                             continue
                         },
                         _ => {
-                            let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
+                            let all: Vec<&str> = line.trim_end_matches('\n').split(&config.specs.separator).collect();
                             for each in all {
                                 // info!("{}",each);
                                 if each.contains("-") {

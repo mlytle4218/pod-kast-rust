@@ -412,6 +412,7 @@ impl Episode {
     }
     pub fn display_episodes_epi(epis: &Vec<Episode>) -> Result<Vec<Episode>, Error> {
         // info!("{}", epis.len());
+        let config: Config = Config::new();
         let screen = Screen::new();
         let epis_len = epis.len(); 
         let mut results: Vec<Episode> = Vec::new();
@@ -477,7 +478,7 @@ impl Episode {
                         },
                         _ => {
                             // info!("display_epis not q, n, or p");
-                            let all: Vec<&str> = line.trim_end_matches('\n').split(",").collect();
+                            let all: Vec<&str> = line.trim_end_matches('\n').split(&config.specs.separator).collect();
                             for each in all {
                                 if each.contains("-") {
                                     // info!("has a dash" );

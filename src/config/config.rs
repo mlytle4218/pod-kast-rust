@@ -6,12 +6,7 @@ use toml;
 use log::{info,error};
 
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Config {
-    pub database: Database,
-    pub pi: PathInfo,
-    pub log_info: LogInfo
-}
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Database {
     pub sqlite_file: String
@@ -46,6 +41,17 @@ impl Clone for PathInfo {
         }
     }
 }
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Specs {
+    pub separator: String
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Config {
+    pub database: Database,
+    pub pi: PathInfo,
+    pub log_info: LogInfo,
+    pub specs: Specs
+}
 impl Config {
     pub fn new() -> Config {
         let db = Database {
@@ -61,10 +67,14 @@ impl Config {
             logging_file_path: format!("/home/{}/logging_config.yaml", whoami::username()),
             logging_type: format!("syslog")
         };
+        let specs = Specs {
+            separator: " ".to_string()
+        };
         let con = Config {
             database: db,
             pi: p_i,
-            log_info: l_i
+            log_info: l_i,
+            specs: specs
 
         };
         match con.load_config() {
