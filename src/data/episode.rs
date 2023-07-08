@@ -19,6 +19,34 @@ use std::path::Path;
 use reqwest::Client;
 use std::cmp::min;
 
+use std::fmt;
+
+use std::error::Error as StdError;
+
+#[derive(Debug, Clone)]
+struct ReqwestError;
+impl fmt::Display for ReqwestError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "invalid first item to double")
+    }
+}
+
+#[derive(Debug)]
+pub enum MyErrors {
+    SomeError,
+    StdError
+}
+impl fmt::Display for MyErrors {
+    fn fmt(&self, f: &mut fmt::Formatter) ->  fmt::Result {
+        match self {
+            MyErrors::SomeError => write!(f, "MyErrors"),
+            MyErrors::StdError =>  write!(f, "stdnard error")
+        }
+    }
+
+}
+
+
 #[derive(Debug)]
 pub struct Count {
     pub result: usize
@@ -43,6 +71,8 @@ pub struct Episode {
     pub podcast_id: i16,
     pub queue: i8
 }
+
+
 
 
 impl Episode {
@@ -545,6 +575,14 @@ impl Episode {
                                     let path = Path::new(&episode.url);
                                     let mut filename: String = "".to_string(); 
                                     filename.push_str(&download);
+                                    match path.extension() {
+                                        Some(what) =>{
+                                            let result1:  String = what.to_str().unwrap().to_string();
+                                            let result2: Vec<&str> = result1.split("?").collect();
+                                            info!("********{:?}", result2[0]);
+                                        },
+                                        None => {}
+                                    }
                                     let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
                                     filename.push_str(&path_temp);
             
@@ -555,7 +593,7 @@ impl Episode {
                                         .unwrap();
             
                                     
-                                    rt.block_on(async { match Episode::download_file_epi(&client, &episode.url, &filename, print).await {
+                                    rt.block_on(async { match Episode::download_file(&client, &episode.url, &filename, print).await {
                                         Ok(_) =>{
                                             match episode.mark_downloaded() {
                                                 Ok(_) => {
@@ -598,36 +636,57 @@ impl Episode {
     pub fn command_line_start_downloads(){
         Episode::download_helper(None);
     }
-    // async fn download_file_epi2(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), Box<dyn std::error::Error>> {
-    //     let mut downloaded: u64 = 0;
-    //     match File::create(path) {
-    //         Ok(file) =>{
-    //             match client.get(url).send().await {
-    //                 Ok(res) =>{
-    //                     match res.content_length() {
-    //                         Some(total_size) =>{
-    //                             let mut stream = res.bytes_stream();
-    //                             return Ok(())
-    //                         },
-    //                         None =>{
-    //                             error!("no content length found");
-    //                             return Err("no content length found".into())
-    //                         }
-    //                     }
-    //                 },
-    //                 Err(e) =>{
-    //                     error!("{}", e);
-    //                     return Err(Box::new(e))
-    //                 }
-    //             }
+    async fn download_file(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), MyErrors> {
+        match reqwest::get(url).await {
+            Ok(res) =>{
+                match res.content_length() {
+                   Some(total_size) =>{
+                        match File::create(path) {
+                            Ok(mut file) =>{
+                                match print {
+                                    Some(_) =>{
+                                        println!("downloading: {}", url);
+                                    },
+                                    None => {}
+                                }
+                                let mut downloaded: u64 = 0;
+                                let mut stream = res.bytes_stream();
+                                while let Some(item) = stream.next().await {
+                                    match item {
+                                        Ok(chunk) =>{
+                                            match file.write_all(&chunk) {
+                                                Ok(_) =>{
+                                                    // nada
+                                                },
+                                                Err(e) =>{
+                                                    return Err(MyErrors::StdError)
+                                                }
+        
+                                            }
 
-    //         },
-    //         Err(e) =>{
-    //             error!("{}", e);
-    //             return Err(Box::new(e))
-    //         }
-    //     }
-    // }
+                                        },
+                                        Err(e) =>{
+                                            return Err(MyErrors::SomeError)
+                                        }
+                                    }
+                                }
+                                Ok(())
+                                
+                            },
+                            Err(e) =>{
+                                return Err(MyErrors::SomeError)
+                            }
+                        }
+                    },
+                    None => return Err(MyErrors::SomeError)
+                }
+            },
+            Err(e) =>{
+                return Err(MyErrors::SomeError)
+            }
+        }
+
+    }
     
     async fn download_file_epi(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), String> {
         // Reqwest setup
