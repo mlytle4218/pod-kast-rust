@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use rusqlite::{params, Connection, Error, Result};
 use log::{error,info};
-use indicatif::{ProgressBar, ProgressStyle};
+// use indicatif::{ProgressBar, ProgressStyle};
 
 use super::super::config::config::Config;
 use super::super::menu::screen::Screen;
@@ -16,12 +16,12 @@ use super::super::utilities::utilities::{error_message};
 
 use std::clone::Clone;
 use std::path::Path;
-use reqwest::Client;
-use std::cmp::min;
+// use reqwest::Client;
+// use std::cmp::min;
 
 use std::fmt;
 
-use std::error::Error as StdError;
+// use std::error::Error as StdError;
 
 #[derive(Debug, Clone)]
 struct ReqwestError;
@@ -208,49 +208,89 @@ impl Episode {
         }
         Ok(results)
     }
-    pub fn get_podcast_download_location(&self) -> Result<String, Error> {
+    pub fn get_podcast(&self) -> Result<Podcast, Error> {
         let db: DB = DB::new(Config::new());
         let conn: Connection = db.connect_to_database();
-        let mut statement: String =format!("Select audio from podcasts where podcast_id={};", self.podcast_id);
-        if self.audio.contains("video") {
-            statement = format!("Select audio from podcasts where podcast_id={};", self.podcast_id);
-        } 
+        let statement: String = format!("Select * from podcasts where podcast_id={};", self.podcast_id);
 
         let _x = match conn.prepare(&statement.clone()) {
-            Ok(mut prepared_statement) =>{
+            Ok(mut prepared_statement) => {
                 match prepared_statement.query_map([],|row| {
-                    Ok(Download {
-                        result: row.get(0)?
+                    Ok(Podcast {
+                        id: row.get(0)?,
+                        name: row.get(1)?,
+                        url: row.get(2)?,
+                        audio: row.get(3)?,
+                        video: row.get(4)?,
+                        category_id: row.get(5)?,
+                        collection_id: row.get(6)?,
                     })
                 }) {
-                    Ok( mut epi_itr) => {
-                        match epi_itr.next() {
-                            Some(download) =>{
-                                match download {
-                                    Ok(result) =>{
-                                        return Ok(result.result)
-                                    },
-                                    Err(e) =>{
-                                        return Err(e)
-                                    }
-                                }
+                    Ok(mut pod_itr) =>{
+                        match pod_itr.next() {
+                            Some(podcast) => {
+                                return podcast
                             },
                             None => {
                                 return Err(Error::QueryReturnedNoRows)
                             }
                         }
+
                     },
                     Err(e) => {
                         return Err(e)
                     }
                 }
-
             },
             Err(e) => {
                 return Err(e)
             }
-        }; 
+        };
+
     }
+    // pub fn get_podcast_download_location(&self) -> Result<String, Error> {
+    //     let db: DB = DB::new(Config::new());
+    //     let conn: Connection = db.connect_to_database();
+    //     let mut statement: String =format!("Select audio from podcasts where podcast_id={};", self.podcast_id);
+    //     if self.audio.contains("video") {
+    //         statement = format!("Select audio from podcasts where podcast_id={};", self.podcast_id);
+    //     } 
+
+    //     let _x = match conn.prepare(&statement.clone()) {
+    //         Ok(mut prepared_statement) =>{
+    //             match prepared_statement.query_map([],|row| {
+    //                 Ok(Download {
+    //                     result: row.get(0)?
+    //                 })
+    //             }) {
+    //                 Ok( mut epi_itr) => {
+    //                     match epi_itr.next() {
+    //                         Some(download) =>{
+    //                             match download {
+    //                                 Ok(result) =>{
+    //                                     return Ok(result.result)
+    //                                 },
+    //                                 Err(e) =>{
+    //                                     return Err(e)
+    //                                 }
+    //                             }
+    //                         },
+    //                         None => {
+    //                             return Err(Error::QueryReturnedNoRows)
+    //                         }
+    //                     }
+    //                 },
+    //                 Err(e) => {
+    //                     return Err(e)
+    //                 }
+    //             }
+
+    //         },
+    //         Err(e) => {
+    //             return Err(e)
+    //         }
+    //     }; 
+    // }
     pub fn read_all_in_download_queue() -> Result<Vec<Episode>, Error> {
         let mut results: Vec<Episode> = Vec::new();
         let db: DB = DB::new(Config::new());
@@ -567,33 +607,45 @@ impl Episode {
         match Episode::read_all_in_download_queue() {
             Ok(episodes) => {
                 for episode in episodes {
-                    info!("Attempting to download {}", episode.title);
-                    match episode.get_podcast_download_location() {
-                        Ok(download) =>{
+                    info!("Attempting to download {}", episode.title); 
+                    match episode.get_podcast() {
+                        Ok(podcast) =>{
+                            let download: String; // = "".to_string();
+                            if episode.audio.contains("video") {
+                                download = podcast.video.clone();
+                            } else {
+                                download = podcast.audio.clone();
+                            }
                             match std::fs::create_dir_all(download.clone()) {
                                 Ok(_) =>{
                                     let path = Path::new(&episode.url);
                                     let mut filename: String = "".to_string(); 
                                     filename.push_str(&download);
+                                    let mut ext: String = "".to_string();
                                     match path.extension() {
                                         Some(what) =>{
                                             let result1:  String = what.to_str().unwrap().to_string();
+                                            info!("*********{}", result1);
                                             let result2: Vec<&str> = result1.split("?").collect();
-                                            info!("********{:?}", result2[0]);
+                                            info!("********{}", result2[0]);
+                                            ext = result2[0].to_string();
                                         },
                                         None => {}
                                     }
                                     let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
                                     filename.push_str(&path_temp);
+                                    info!("{}", filename);
+                                    let final_file: String = format!("{}{}-{}.{}", download,podcast.name,episode.title,ext);
+                                    info!("{}", final_file);
             
-                                    let client = reqwest::Client::new();
+                                    // let client = reqwest::Client::new();
                                     let rt = tokio::runtime::Builder::new_current_thread()
                                         .enable_all()
                                         .build()
                                         .unwrap();
             
                                     
-                                    rt.block_on(async { match Episode::download_file(&client, &episode.url, &filename, print).await {
+                                    rt.block_on(async { match Episode::download_file(&episode.url, &final_file, print).await {
                                         Ok(_) =>{
                                             match episode.mark_downloaded() {
                                                 Ok(_) => {
@@ -630,104 +682,166 @@ impl Episode {
             }
         }
     }
+    // fn download_helper2(print: Option<usize>) {
+    //     match Episode::read_all_in_download_queue() {
+    //         Ok(episodes) => {
+    //             for episode in episodes {
+    //                 info!("Attempting to download {}", episode.title);
+    //                 match episode.get_podcast_download_location() {
+    //                     Ok(download) =>{
+    //                         match std::fs::create_dir_all(download.clone()) {
+    //                             Ok(_) =>{
+    //                                 let path = Path::new(&episode.url);
+    //                                 let mut filename: String = "".to_string(); 
+    //                                 filename.push_str(&download);
+    //                                 match path.extension() {
+    //                                     Some(what) =>{
+    //                                         let result1:  String = what.to_str().unwrap().to_string();
+    //                                         let result2: Vec<&str> = result1.split("?").collect();
+    //                                         info!("********{:?}", result2[0]);
+    //                                     },
+    //                                     None => {}
+    //                                 }
+    //                                 let path_temp: String = path.file_name().unwrap().to_str().unwrap().to_string();
+    //                                 filename.push_str(&path_temp);
+            
+    //                                 // let client = reqwest::Client::new();
+    //                                 let rt = tokio::runtime::Builder::new_current_thread()
+    //                                     .enable_all()
+    //                                     .build()
+    //                                     .unwrap();
+            
+                                    
+    //                                 rt.block_on(async { match Episode::download_file(&episode.url, &filename, print).await {
+    //                                     Ok(_) =>{
+    //                                         match episode.mark_downloaded() {
+    //                                             Ok(_) => {
+    //                                                 info!("{} marked as downloaded", episode.title);
+    //                                             },
+    //                                             Err(e) => {
+    //                                                 error!("{}",e);
+    //                                             }
+    //                                         }
+    //                                     },
+    //                                     Err(e) =>{
+    //                                         error!("{}",e)
+    //                                     }
+    //                                 } 
+    //                             }
+    //                         )
+                                    
+    //                             },
+    //                             Err(e) => {
+    //                                 error!("{}",e)
+    //                             }
+
+    //                         }
+
+    //                     },
+    //                     Err(e) => {
+    //                         error!("{}",e)
+    //                     }
+    //                 }
+    //             }
+    //         },
+    //         Err(e) => {
+    //             error!("{}",e)
+    //         }
+    //     }
+    // }
     pub fn start_downloads_epi() {
         Episode::download_helper(Some(1));
     }
     pub fn command_line_start_downloads(){
         Episode::download_helper(None);
     }
-    async fn download_file(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), MyErrors> {
-        match reqwest::get(url).await {
+    async fn download_file(download_url: &str, full_file_path: &str, print: Option<usize>) -> Result<(), MyErrors> {
+    // async fn download_file(client: &Client, download_url: &str, full_file_path: &str, print: Option<usize>) -> Result<(), MyErrors> {
+        match reqwest::get(download_url).await {
             Ok(res) =>{
-                match res.content_length() {
-                   Some(total_size) =>{
-                        match File::create(path) {
-                            Ok(mut file) =>{
-                                match print {
-                                    Some(_) =>{
-                                        println!("downloading: {}", url);
-                                    },
-                                    None => {}
-                                }
-                                let mut downloaded: u64 = 0;
-                                let mut stream = res.bytes_stream();
-                                while let Some(item) = stream.next().await {
-                                    match item {
-                                        Ok(chunk) =>{
-                                            match file.write_all(&chunk) {
-                                                Ok(_) =>{
-                                                    // nada
-                                                },
-                                                Err(e) =>{
-                                                    return Err(MyErrors::StdError)
-                                                }
-        
-                                            }
-
-                                        },
-                                        Err(e) =>{
-                                            return Err(MyErrors::SomeError)
-                                        }
-                                    }
-                                }
-                                Ok(())
-                                
+                match File::create(full_file_path) {
+                    Ok(mut file) =>{
+                        match print {
+                            Some(_) =>{
+                                println!("downloading: {}", full_file_path);
                             },
-                            Err(e) =>{
-                                return Err(MyErrors::SomeError)
+                            None => {}
+                        }
+                        let mut stream = res.bytes_stream();
+                        while let Some(item) = stream.next().await {
+                            match item {
+                                Ok(chunk) =>{
+                                    match file.write_all(&chunk) {
+                                        Ok(_) =>{
+                                            // nada
+                                        },
+                                        Err(_) =>{
+                                            return Err(MyErrors::StdError)
+                                        }
+
+                                    }
+
+                                },
+                                Err(_) =>{
+                                    return Err(MyErrors::SomeError)
+                                }
                             }
                         }
+                        Ok(())
+                        
                     },
-                    None => return Err(MyErrors::SomeError)
+                    Err(_) =>{
+                        return Err(MyErrors::SomeError)
+                    }
                 }
             },
-            Err(e) =>{
+            Err(_) =>{
                 return Err(MyErrors::SomeError)
             }
         }
 
     }
     
-    async fn download_file_epi(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), String> {
-        // Reqwest setup
-        let res = client
-            .get(url)
-            .send()
-            .await
-            .or(Err(format!("Failed to GET from '{}'", &url)))?;
-        let total_size = res
-            .content_length()
-            .ok_or(format!("Failed to get content length from '{}'", &url))?;
+    // async fn download_file_epi(client: &Client, url: &str, path: &str, print: Option<usize>) -> Result<(), String> {
+    //     // Reqwest setup
+    //     let res = client
+    //         .get(url)
+    //         .send()
+    //         .await
+    //         .or(Err(format!("Failed to GET from '{}'", &url)))?;
+    //     let total_size = res
+    //         .content_length()
+    //         .ok_or(format!("Failed to get content length from '{}'", &url))?;
         
-        // Indicatif setup
-        let pb = ProgressBar::new(total_size);
-        pb.set_style(ProgressStyle::default_bar()
-            .template("{msg}\n{spinner:.green} [{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({bytes_per_sec}, {eta})")
-            .progress_chars("#>-"));
+    //     // Indicatif setup
+    //     let pb = ProgressBar::new(total_size);
+    //     pb.set_style(ProgressStyle::default_bar()
+    //         .template("{msg}\n{spinner:.green} [{elapsed_precise}] [{wide_bar:.cyan/blue}] {bytes}/{total_bytes} ({bytes_per_sec}, {eta})")
+    //         .progress_chars("#>-"));
 
     
-        // download chunks
-        let mut file = File::create(path).or(Err(format!("Failed to create file '{}'", path)))?;
-        let mut downloaded: u64 = 0;
-        let mut stream = res.bytes_stream();
+    //     // download chunks
+    //     let mut file = File::create(path).or(Err(format!("Failed to create file '{}'", path)))?;
+    //     let mut downloaded: u64 = 0;
+    //     let mut stream = res.bytes_stream();
 
     
-        while let Some(item) = stream.next().await {
-            let chunk = item.or(Err(format!("Error while downloading file")))?;
-            file.write_all(&chunk)
-                .or(Err(format!("Error while writing to file")))?;
-            let new = min(downloaded + (chunk.len() as u64), total_size);
-            downloaded = new;
-            match print {
-                Some(_) => { pb.set_position(new);},
-                None => {}
-            }
+    //     while let Some(item) = stream.next().await {
+    //         let chunk = item.or(Err(format!("Error while downloading file")))?;
+    //         file.write_all(&chunk)
+    //             .or(Err(format!("Error while writing to file")))?;
+    //         let new = min(downloaded + (chunk.len() as u64), total_size);
+    //         downloaded = new;
+    //         match print {
+    //             Some(_) => { pb.set_position(new);},
+    //             None => {}
+    //         }
            
-        }
+    //     }
     
-        pb.finish_with_message(&format!("Downloaded {}", url));
-        return Ok(());
-    }
+    //     pb.finish_with_message(&format!("Downloaded {}", url));
+    //     return Ok(());
+    // }
     pub fn delete_episodes_from_download_queue() {
         match Self::read_all_in_download_queue() {
             Ok(episodes) =>{
