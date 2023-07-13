@@ -1,1 +1,1 @@
-pandoc --standalone --to man README.1.md -o pod-kast.1 
+pandoc --standalone --to man README.md -o pod-kast.1 

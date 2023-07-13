@@ -65,7 +65,7 @@ impl Config {
         };
         let l_i = LogInfo {
             logging_file_path: format!("/home/{}/logging_config.yaml", whoami::username()),
-            logging_type: format!("syslog")
+            logging_type: format!("")
         };
         let specs = Specs {
             separator: " ".to_string()
