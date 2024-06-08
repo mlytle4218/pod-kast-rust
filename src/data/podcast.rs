@@ -1,5 +1,6 @@
 use rusqlite::{params, Connection, Error, Result};
 use log::{error,info};
+use serde::de::DeserializeOwned;
 
 use super::category::Category;
 use super::super::config::config::Config;
@@ -723,11 +724,21 @@ impl Podcast {
                 Some(en) =>{
                     match String::from(&en.length).parse::<i32>() {
                         Ok(temp_length) =>{
+                            let temp_title:&str= match it.title.as_ref(){
+                                Some(title) => {title},
+                                None => {"Title not found"}
+                            };
+                            let temp_des: &str = match it.description.as_ref() {
+                                Some(des) => {des},
+                                None => {"Description not found"}
+                            };
                             episode_vec.push(Episode {
                                 id: 0,
-                                title: String::from(it.title.as_ref().unwrap()),
+                                title: String::from(temp_title),
+                                // title: String::from(it.title.as_ref().unwrap()),
                                 published: Utc::now(),
-                                summary: String::from(it.description.as_ref().unwrap()),
+                                summary: String::from(temp_des),
+                                // summary: String::from(it.description.as_ref().unwrap()),
                                 length: temp_length,
                                 audio: String::from(&en.mime_type),
                                 url: String::from(&en.url),
