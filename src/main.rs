@@ -145,7 +145,7 @@ fn main() {
         show: false
     });
 
-    let simple_menu = SimpleMenu::new(Screen::new(), entries);
+    let simple_menu: SimpleMenu = SimpleMenu::new(Screen::new(), entries);
     
     match has_flag() {
         Some(flag) =>{
