@@ -579,6 +579,7 @@ impl Episode {
                 Ok(_) =>{
                     match line.trim_end_matches('\n') {
                         "q" => break Ok(results),
+                        "a" => break Ok(epis.to_vec()),
                         "n" => {
                             if page_iter < (pages -1) {
                                 page_iter += 1;
