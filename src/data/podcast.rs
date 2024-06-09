@@ -446,7 +446,7 @@ impl Podcast {
                                     info!("display_pods not q, n, or p");
                                     match line.trim_end_matches('\n').parse::<u16>() {
                                         Ok(val) => {
-                                            return Ok(val)
+                                            return Ok((pods[(val as usize) -1].id) as u16)
                                         },
                                         Err(_) => {
                                             error_message(format!("{} is not a valid number.", line.trim()).as_str())
