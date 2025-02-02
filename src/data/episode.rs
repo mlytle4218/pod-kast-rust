@@ -210,6 +210,7 @@ impl Episode {
 
         let _x = match conn.prepare(&statement.clone()) {
             Ok(mut prepared_statement) => {
+                info!("test");
                 match prepared_statement.query_map([],|row| {
                     Ok(Podcast {
                         id: row.get(0)?,
@@ -219,7 +220,7 @@ impl Episode {
                         video: row.get(4)?,
                         category_id: row.get(5)?,
                         collection_id: row.get(6)?,
-                        notviewed: row.get(19)?
+                        notviewed: row.get(7)?
                     })
                 }) {
                     Ok(mut pod_itr) =>{
@@ -656,6 +657,8 @@ impl Episode {
     fn download_helper(print: Option<usize>) {
         match Episode::read_all_in_download_queue() {
             Ok(episodes) => {
+                let number_of_episodes: usize = episodes.len();
+                let mut download_count: usize = 1;
                 for episode in episodes {
                     info!("Attempting to download {}", episode.title); 
                     match episode.get_podcast() {
@@ -695,11 +698,12 @@ impl Episode {
                                         .unwrap();
             
                                     
-                                    rt.block_on(async { match Episode::download_file(&episode.url, &final_file, print).await {
+                                    rt.block_on(async { match Episode::download_file(&episode.url, &final_file, print, number_of_episodes.clone(), download_count).await {
                                         Ok(_) =>{
                                             match episode.mark_downloaded() {
                                                 Ok(_) => {
                                                     info!("{} marked as downloaded", episode.title);
+                                                    download_count = download_count +1;
                                                 },
                                                 Err(e) => {
                                                     error!("{}",e);
@@ -738,14 +742,14 @@ impl Episode {
     pub fn command_line_start_downloads(){
         Episode::download_helper(None);
     }
-    async fn download_file(download_url: &str, full_file_path: &str, print: Option<usize>) -> Result<(), MyErrors> {
+    async fn download_file(download_url: &str, full_file_path: &str, print: Option<usize>, num_episodes: usize, download_c: usize) -> Result<(), MyErrors> {
         match reqwest::get(download_url).await {
             Ok(res) =>{
                 match File::create(full_file_path) {
                     Ok(mut file) =>{
                         match print {
                             Some(_) =>{
-                                println!("downloading: {}", full_file_path);
+                                println!("downloading: {} {} of {}", full_file_path, download_c, num_episodes);
                             },
                             None => {}
                         }
