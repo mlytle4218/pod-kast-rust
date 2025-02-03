@@ -817,6 +817,7 @@ impl Episode {
         match Podcast::read_all_podcasts2(None) {
             Ok(pods)=>{
                 for pod in pods {
+                    info!("checking {}", pod.name);
                     match print {
                         Some(_) => {
                             println!("Checking episodes for {}", pod.name);

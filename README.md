@@ -73,7 +73,7 @@ See GitHub Issues: <https://github.com/mlytle4218/pod-kast-rust/issues>
 
 For technical questions email the author. 
 
-For operational questions email chime @ <chime@huber-humphrey.com>
+For operational questions email chime @ <chime@hubert-humphrey.com>
 
 AUTHOR
 ======
